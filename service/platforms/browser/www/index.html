@@ -46,45 +46,73 @@
     <div class="app">
         <h1>PhoneGap</h1>
         <div>
-            <input type="button" value="Call Web Service" onclick="CallService();" />
+            <input type="button" value="Call Web Service" onclick="AjaxCall();" />
         </div>
     </div>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script type = "text/javascript" src = "http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript">
-        var webServiceURL = 'http://localhost/descartes/service/server.php';
-        var soapMessage = '<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope"><soap12:Body><GetAllCategoryFamilies xmlns="http://tempuri.org/" /></soap12:Body></soap12:Envelope';
-
-        function CallService()
+        function invokeService(type)
         {
-            $.ajax({
-                url: webServiceURL, 
-                type: "POST",
-                dataType: "xml", 
-                data: soapMessage, 
-                processData: false,
-                contentType: "text/xml; charset=\"utf-8\"",
-                success: OnSuccess, 
-                error: OnError
-            });
+            soapMessage = '<?xml version="1.0" encoding="ISO-8859-1"?>';
+            soapMessage+='<SOAP-ENV:Envelope SOAP-ENV:encodingStyle=""';
+            soapMessage+=' xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"';
+            soapMessage+=' xmlns:xsd="http://www.w3.org/2001/XMLSchema"';
+            soapMessage+=' xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/">';
+            soapMessage+=' <SOAP-ENV:Body> <ns1:empresa.login xmlns:ns1="http://fishinhole.com">';
+            soapMessage+=' <type xsi:type="xsd:string">' + type + '</type>';
+            soapMessage+=' </ns1:empresa.login> </SOAP-ENV:Body> </SOAP-ENV:Envelope>';
 
-            return false;
+            if(window.XMLHttpRequest) {
+            httpRequest=new XMLHttpRequest();
+            } else if (window.ActiveXObject) { 
+            httpRequest=new ActiveXObject("Microsoft.XMLHTTP"); 
+            }
+                          
+            httpRequest.open("POST",url,true);
+            if (httpRequest.overrideMimeType) { 
+            httpRequest.overrideMimeType("text/xml"); 
+            }
+            httpRequest.onreadystatechange=populateDiv;
+              
+            httpRequest.setRequestHeader("Man", url + " HTTP/1.1")
+            httpRequest.setRequestHeader("MessageType", "CALL");
+            httpRequest.setRequestHeader("Content-Type", "text/xml");
+
+            httpRequest.send(soapMessage);
+            valTimeout=setTimeout("timeout(httpRequest);",120000);
         }
-
-        function OnSuccess(data, status)
+        function populateDiv()
         {
-            alert(data.d);
-        }
+        try {
+          if(httpRequest.readyState==4) {
+             if(httpRequest.status==200) {
+                clearTimeout(valTimeout);
+                var text = httpRequest.responseText;
+            if (window.DOMParser) {
+            parser=new DOMParser();
+            xmlDoc=parser.parseFromString(text,"text/xml");
+            } else {
+                xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+            xmlDoc.async="false";
+            xmlDoc.loadXML(text); 
+            } 
 
-        function OnError(request, status, error)
-        {
-            alert('error');
-        }
+                var html = "";
+            for (i=0;i<xmlDoc.getElementsByTagName("item").length;i++) {
+             html += "<br/>" + 
+                 xmlDoc.getElementsByTagName("item")[i].childNodes[0].nodeValue;
+            }
 
-        $(document).ready(function() {
-            jQuery.support.cors = true;
-        });
+            var resultDiv=document.getElementById("resultDiv");
+            resultDiv.innerHTML = html;                 
+             }
+          } 
+        } catch(e) { 
+         alert("Error!"+e.description); 
+        }      
+        }
     </script>
 </body>
 
