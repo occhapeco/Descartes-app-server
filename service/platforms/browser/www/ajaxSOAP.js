@@ -18,13 +18,35 @@ var soapMessage ='<?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope SOAP-
    if (httpRequest.overrideMimeType) { 
       httpRequest.overrideMimeType("text/xml"); 
    }
-   httpRequest.onreadystatechange=callbackAjax;
+   httpRequest.onreadystatechange = call_back;
 
-   httpRequest.setRequestHeader("Man","POST http://localhost/animego/server.php HTTP/1.1")       
+   httpRequest.setRequestHeader("Man","POST "+url+" HTTP/1.1")       
 
    httpRequest.setRequestHeader("MessageType", "CALL");
 
    httpRequest.setRequestHeader("Content-Type", "text/xml");
 
    httpRequest.send(soapMessage);
+}
+
+function call_back()
+{
+    try
+    {
+      if(httpRequest.readyState==4)
+      {
+        if(httpRequest.status==200)
+        {
+          clearTimeout(xhrTimeout);                                                             
+          resultDiv=document.getElementById("resultDiv");            
+          resultDiv.style.display='inline';                                          
+          resultDiv.innerHTML='<font size="4">'+httpRequest.responseText+'</font>';
+          alert(httpRequest.responseText);
+        }
+      } 
+    } 
+    catch(e) 
+    { 
+      alert("Error!"+e); 
+    }      
 }
