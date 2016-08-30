@@ -1,0 +1,43 @@
+<div data-page="inicial" class="page">
+  <!-- Scrollable page content-->
+  <div class="page-content pull-to-refresh-content">
+      <div class="pull-to-refresh-layer">
+        <div class="preloader"></div>
+        <div class="pull-to-refresh-arrow"></div>
+      </div>
+    <div class="list-block media-list">
+      <ul>
+        <li>
+          <div class="item-content">
+            <div class="item-inner"> 
+              <div class="item-input">
+                <input type="number" id="altura" placeholder="Altura" oninput="myAjax('math.RectangleArea')"/>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content">
+            <div class="item-inner"> 
+              <div class="item-input">
+                <input type="number" id="largura" placeholder="Largura" oninput="myAjax('math.RectangleArea')"/>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content">
+            <div class="item-inner"> 
+              <div class="item-input">
+                <button class="button button-round active">Calcular</button>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+            <div class="item-content" id="resultDiv"></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
