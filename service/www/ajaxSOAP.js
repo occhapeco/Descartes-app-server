@@ -1,12 +1,22 @@
 var xhrTimeout=100;
 var url='http://localhost/animego/server.php';
 
-function myAjax(method)
+var user = NULL;
+if (localStorage.getItem("user") == NULL)
 {
-var l_var = document.getElementById("l_id").value;
-var L_var = document.getElementById("L_id").value;
+  // Redirecionar para página de login
+}
+else
+{
+  user = JSON.parse(localStorage.getItem("user"));
+}
 
-var soapMessage ='<?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn:mathwsdl"> <SOAP-ENV:Body><tns:'+method+' xmlns:tns="urn:mathwsdl"><p xsi:type="xsd:int">'+L_var+'</p><l xsi:type="xsd:int">'+l_var+'</l></tns:'+method+'></SOAP-ENV:Body></SOAP-ENV:Envelope>';
+function login_ajax()
+{
+var email = document.getElementById("email").value;
+var senha = document.getElementById("senha").value;
+
+var soapMessage ='<?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn:mathwsdl"> <SOAP-ENV:Body><tns:empresa.login xmlns:tns="urn:mathwsdl"><p xsi:type="xsd:string">'+email+'</p><l xsi:type="xsd:string">'+senha+'</l></tns:empresa.login></SOAP-ENV:Body></SOAP-ENV:Envelope>';
 
  if(window.XMLHttpRequest) {
       httpRequest=new XMLHttpRequest();
@@ -18,7 +28,23 @@ var soapMessage ='<?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope SOAP-
    if (httpRequest.overrideMimeType) { 
       httpRequest.overrideMimeType("text/xml"); 
    }
-   httpRequest.onreadystatechange = call_back;
+   httpRequest.onreadystatechange = function {
+     if(httpRequest.readyState==4)
+      {
+        clearTimeout(xhrTimeout);                                                             
+        var resposta = eval(httpRequest.responseText);
+        if (resposta == NULL)
+        {
+          //  Deu bosta
+        }
+        else
+        {
+          // Ajeitar ainda
+          localStorage.setItem("user",JSON.stringify(user));
+        }
+      }
+      return httpRequest.readyState;  
+   }
 
    httpRequest.setRequestHeader("Man","POST "+url+" HTTP/1.1")       
 
@@ -27,26 +53,4 @@ var soapMessage ='<?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope SOAP-
    httpRequest.setRequestHeader("Content-Type", "text/xml");
 
    httpRequest.send(soapMessage);
-}
-
-function call_back()
-{
-    try
-    {
-      if(httpRequest.readyState==4)
-      {
-        if(httpRequest.status==200)
-        {
-          clearTimeout(xhrTimeout);                                                             
-          resultDiv=document.getElementById("resultDiv");            
-          resultDiv.style.display='inline';                                          
-          resultDiv.innerHTML='<font size="4">'+httpRequest.responseText+'</font>';
-          alert(httpRequest.responseText);
-        }
-      } 
-    } 
-    catch(e) 
-    { 
-      alert("Error!"+e); 
-    }      
 }
