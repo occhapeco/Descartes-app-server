@@ -26,6 +26,12 @@
     <div class="panel panel-left panel-cover">
       <div class="list-block">
         <ul>
+          <li><a href="index.html" class="item-link">
+              <div class="item-content">
+                <div class="item-inner"> 
+                  <div class="item-title">Index</div>
+                </div>
+              </div></a></li>
           <li><a href="about.html" class="item-link">
               <div class="item-content">
                 <div class="item-inner"> 
@@ -42,6 +48,12 @@
               <div class="item-content"> 
                 <div class="item-inner">
                   <div class="item-title">Form</div>
+                </div>
+              </div></a></li>
+          <li><a href="#" class="item-link" onclick="logout()">
+              <div class="item-content"> 
+                <div class="item-inner">
+                  <div class="item-title">Logout</div>
                 </div>
               </div></a></li>
         </ul>
@@ -68,22 +80,16 @@
             <div class="page-content" style="padding-top:40px;">
               <div class="list-block">
                 <ul>
-                  <li><a href="#" class="open-login-screen">
+                  <li><a href="#" class="item-link list-button open-login-screen">
                       <div class="item-content"> 
                         <div class="item-inner">
                           <div class="item-title">Abrir tela de Login</div>
                         </div>
                       </div></a></li>
-                  <li><a href="#" onclick="mostrar_storage();">
+                  <li><a href="#" onclick="mostrar_storage();" class="item-link list-button">
                       <div class="item-content"> 
                         <div class="item-inner">
                           <div class="item-title">Ver dados de login</div>
-                        </div>
-                      </div></a></li>
-                  <li><a href="#" onclick="logout();">
-                      <div class="item-content">
-                        <div class="item-inner"> 
-                          <div class="item-title">Logout</div>
                         </div>
                       </div></a></li>
                 </ul>
@@ -119,7 +125,7 @@
                     </div>
                     <div class="list-block">
                       <ul>
-                        <li><a type="submit" onclick="login()" class="item-link list-button">Entrar</a></li>
+                        <li><a onclick="login()" class="item-link list-button">Entrar</a></li>
                       </ul>
                       <div class="list-block-label">
                         <p><a class="close-login-screen button">Não possui cadastro? Clique aqui!</a></p>
