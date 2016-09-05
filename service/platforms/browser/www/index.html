@@ -87,7 +87,7 @@
                           <div class="item-inner">
                             <div class="item-title label">Email</div>
                             <div class="item-input">
-                              <input type="email" name="login_email" id="login_email" placeholder="ex: joão@batata.com">
+                              <input type="email" name="login_email" id="login_email" placeholder="ex: joão@batata.com" required>
                             </div>
                           </div>
                         </li>
@@ -95,7 +95,7 @@
                           <div class="item-inner">
                             <div class="item-title label">Senha</div>
                             <div class="item-input">
-                              <input type="password" name="login_senha" id="login_senha" placeholder="ex: *******">
+                              <input type="password" name="login_senha" id="login_senha" placeholder="ex: *******" required>
                             </div>
                           </div>
                         </li>
@@ -103,11 +103,10 @@
                     </div>
                     <div class="list-block">
                       <ul>
-                        <li><a onclick="login()" class="item-link list-button">Entrar</a></li>
+                        <li><a type="submit" onclick="login()" class="item-link list-button">Entrar</a></li>
                       </ul>
                       <div class="list-block-label">
-                        <p>Não possui cadastro?</p>
-                        <p><a class="close-login-screen button">Clique aqui!</a></p>
+                        <p><a class="close-login-screen button">Não possui cadastro? Clique aqui!</a></p>
                       </div>
                     </div>
                   </form>

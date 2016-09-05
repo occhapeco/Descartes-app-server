@@ -2,13 +2,10 @@ var xhrTimeout=1000;
 var url='http://descartes.esy.es/';
 var urn = 'urn:descartes';
 
-//if (localStorage.getItem("login_id") == null)
-  //alert(localStorage.getItem("login_id"));
-  //app.loginScreen(loginScreen);
+if (localStorage.getItem("login_id") == 'null')
+  myApp.loginScreen()
 
-//document.getElementById("login_info").innerHTML = "Id: "+localStorage.getItem("login_id")+" Type: "+localStorage.getItem("login_type"); 
-
-function motrar_storage()
+function mostrar_storage()
 {
   var login_id = localStorage.getItem("login_id");
   var login_type = localStorage.getItem("login_type");
@@ -24,6 +21,7 @@ function logout()
 {
   localStorage.setItem("login_id",null);
   localStorage.setItem("login_type",null);
+  myApp.alert('','Logoff efetuado com sucesso.');
 }
 
 function empresa_login_ajax()
@@ -32,7 +30,10 @@ function empresa_login_ajax()
   var senha = document.getElementById("login_senha").value;
   var method = 'empresa.login';
 
-  var soapMessage ='<?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="'+urn+'"> <SOAP-ENV:Body><tns:'+method+' xmlns:tns="'+urn+'"><email xsi:type="xsd:string">'+email+'</email><senha xsi:type="xsd:string">'+senha+'</senha></tns:'+method+'></SOAP-ENV:Body></SOAP-ENV:Envelope>';
+  var soapMessage ='<?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="'+urn+'"> <SOAP-ENV:Body><tns:'+method+' xmlns:tns="'+urn+'">'+
+  '<email xsi:type="xsd:string">'+email+'</email>'+
+  '<senha xsi:type="xsd:string">'+senha+'</senha>'+
+  '</tns:'+method+'></SOAP-ENV:Body></SOAP-ENV:Envelope>';
 
   if(window.XMLHttpRequest) {
       httpRequest=new XMLHttpRequest();
