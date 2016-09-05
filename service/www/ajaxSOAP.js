@@ -6,7 +6,7 @@ var urn = 'urn:descartes';
   //alert(localStorage.getItem("login_id"));
   //app.loginScreen(loginScreen);
 
-//document.getElementById("login_info").innerHTML = "Id: "+localStorage.getItem("login_id")+" Type: "+localStorage.getItem("login_type");
+//document.getElementById("login_info").innerHTML = "Id: "+localStorage.getItem("login_id")+" Type: "+localStorage.getItem("login_type"); 
 
 function login()
 {
