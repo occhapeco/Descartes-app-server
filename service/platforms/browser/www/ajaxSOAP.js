@@ -3,7 +3,9 @@ var url='http://descartes.esy.es/';
 var urn = 'urn:descartes';
 
 if (localStorage.getItem("login_id") == 'null')
-  myApp.loginScreen()
+  myApp.loginScreen();
+else if (localStorage.getItem("login_id") == null)
+  myApp.loginScreen();
 
 function mostrar_storage()
 {
