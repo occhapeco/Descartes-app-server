@@ -2,10 +2,8 @@ var xhrTimeout=1000;
 var url='http://descartes.esy.es/';
 var urn = 'urn:descartes';
 
-if (localStorage.getItem("login_id") == 'null')
-  myApp.loginScreen();
-else if (localStorage.getItem("login_id") == null)
-  myApp.loginScreen();
+if ((localStorage.getItem("login_id") == 'null') || (localStorage.getItem("login_id") == null))
+  mainView.router.loadPage('login.html');
 
 function mostrar_storage()
 {

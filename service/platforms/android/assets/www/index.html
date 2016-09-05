@@ -63,24 +63,24 @@
     <div class="views">
       <!-- Your main view, should have "view-main" class-->
       <div class="view view-main">
-        <!-- Top Navbar-->
-        <div class="navbar">
-          <div class="navbar-inner">
-            <div class="left">
-            <a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a>
-            </div>
-            <div style="margin-left:20px" class="left sliding">Descartes Lab</div>
-          </div>
-        </div>        
         <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
-        <div class="pages navbar-through toolbar-through">
+        <div class="pages navbar-through">
+          <!-- Top Navbar-->
+            <div class="navbar">
+              <div class="navbar-inner">
+                <div class="left">
+                <a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a>
+                </div>
+                <div style="margin-left:20px" class="left sliding">Descartes Lab</div>
+              </div>
+            </div>
           <!-- Page, data-page contains page name-->
-          <div data-page="index" class="page">
+          <div data-page="home" class="page navbar-fixed">
             <!-- Scrollable page content-->
             <div class="page-content" style="padding-top:40px;">
               <div class="list-block">
                 <ul>
-                  <li><a href="#" class="item-link list-button open-login-screen">
+                  <li><a href="login.html" class="item-link list-button open-login-screen">
                       <div class="item-content"> 
                         <div class="item-inner">
                           <div class="item-title">Abrir tela de Login</div>
@@ -97,45 +97,6 @@
             </div>
           </div>
         </div>
-        <div class="login-screen">
-            <div class="view">
-              <div class="page">
-                <div class="page-content login-screen-content">
-                  <div class="login-screen-title">DescartesLab</div>
-                  <form>
-                    <div class="list-block">
-                      <ul>
-                        <li class="item-content">
-                          <div class="item-inner">
-                            <div class="item-title label">Email</div>
-                            <div class="item-input">
-                              <input type="email" name="login_email" id="login_email" placeholder="ex: joão@batata.com" required>
-                            </div>
-                          </div>
-                        </li>
-                        <li class="item-content">
-                          <div class="item-inner">
-                            <div class="item-title label">Senha</div>
-                            <div class="item-input">
-                              <input type="password" name="login_senha" id="login_senha" placeholder="ex: *******" required>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="list-block">
-                      <ul>
-                        <li><a onclick="login()" class="item-link list-button">Entrar</a></li>
-                      </ul>
-                      <div class="list-block-label">
-                        <p><a class="close-login-screen button">Não possui cadastro? Clique aqui!</a></p>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
       </div>
     </div>
 
