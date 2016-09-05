@@ -16,8 +16,8 @@
     <title>Descartes</title>
     
 </head>
- s
-<body>
+
+<body class="layout-dark theme-green">
     <!-- Status bar overlay for fullscreen mode-->
     <div class="statusbar-overlay"></div>
     <!-- Panels overlay-->
@@ -70,6 +70,7 @@
                 <p><a href="#" class="open-login-screen">Abrir tela de Login</a></p>
                 <p id="login_info"></p>
                 <p><a href="#" onclick="logout();">Logout</a></p>
+                <p><a href="#" onclick="mostrar_storage();">Ver localStorage</a></p>
               </div>
             </div>
           </div>
@@ -86,7 +87,7 @@
                           <div class="item-inner">
                             <div class="item-title label">Email</div>
                             <div class="item-input">
-                              <input type="email" name="login_email" id="login_email" placeholder="Seu email">
+                              <input type="email" name="login_email" id="login_email" placeholder="ex: joão@batata.com">
                             </div>
                           </div>
                         </li>
@@ -94,7 +95,7 @@
                           <div class="item-inner">
                             <div class="item-title label">Senha</div>
                             <div class="item-input">
-                              <input type="password" name="login_senha" id="login_senha" placeholder="Sua senha">
+                              <input type="password" name="login_senha" id="login_senha" placeholder="ex: *******">
                             </div>
                           </div>
                         </li>

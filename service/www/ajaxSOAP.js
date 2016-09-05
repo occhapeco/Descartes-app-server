@@ -1,5 +1,5 @@
-var xhrTimeout=100;
-var url='http://localhost/descartes/service/server.php';
+var xhrTimeout=1000;
+var url='http://descartes.esy.es/';
 var urn = 'urn:descartes';
 
 //if (localStorage.getItem("login_id") == null)
@@ -7,6 +7,13 @@ var urn = 'urn:descartes';
   //app.loginScreen(loginScreen);
 
 //document.getElementById("login_info").innerHTML = "Id: "+localStorage.getItem("login_id")+" Type: "+localStorage.getItem("login_type"); 
+
+function motrar_storage()
+{
+  var login_id = localStorage.getItem("login_id");
+  var login_type = localStorage.getItem("login_type");
+  myApp.alert(login_type+": "+login_id,'Informações de Login');
+}
 
 function login()
 {
@@ -49,7 +56,8 @@ function empresa_login_ajax()
         var id = responseDoc.getElementsByTagName("return")[0].childNodes[0].nodeValue;
         if (id != 0)
         {
-          alert("Login de empresa! Id : "+id);
+          myApp.hidePreloader();
+          myApp.alert('Id de empresa: '+id,'Login realizado com sucesso!');
           localStorage.setItem("login_id",id);
           localStorage.setItem("login_type","empresa");
         }
@@ -67,6 +75,7 @@ function empresa_login_ajax()
 
   httpRequest.send(soapMessage);
 
+  myApp.showPreloader('Carregando...');
 }
 
 function usuario_login_ajax()
@@ -100,12 +109,14 @@ function usuario_login_ajax()
           var id = responseDoc.getElementsByTagName("return")[0].childNodes[0].nodeValue;
           if (id != 0)
           {
-            alert("Login de usuário! Id : "+id);
+            myApp.hidePreloader();
+            myApp.alert('Id de usuário: '+id,'Login realizado com sucesso!');
             localStorage.setItem("login_id",id);
             localStorage.setItem("login_type","usuario");
           }
           else
-            alert("Email ou senha não comrrespondem!");
+            myApp.hidePreloader();
+            myApp.alert('','Email ou senha não correspondem!');
         }
       }
   };
