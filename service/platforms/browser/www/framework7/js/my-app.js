@@ -4,6 +4,10 @@ var myApp = new Framework7({
     pushState: true,
     animatePages: true,
     swipePanel: "left",
+    swipePanelActiveArea: 20,
+    modalTitle: "Descartes Lab",
+    modalButtonCancel: "Cancelar",
+    modalPreloaderTitle: "Carregando...",
 });
 
 // Export selectors engine
