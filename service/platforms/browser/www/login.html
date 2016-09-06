@@ -1,7 +1,7 @@
 <div data-page="login-screen" class="page no-navbar no-toolbar no-swipeback">
   <div class="page-content login-screen-content">
     <div class="login-screen-title">Descartes Lab</div>
-      <form>
+      <form onsubmit="empresa_login_ajax();">
         <div class="list-block">
           <ul>
             <li class="item-content">
@@ -24,10 +24,11 @@
         </div>
         <div class="list-block">
           <ul>
-            <li><a onclick="login()" class="item-link list-button">Entrar</a></li>
+            <li><a class="item-link button active" onclick="submit_login();">Entrar</a>
+            <input type="submit" style="display: none;" id="login_form"/></li>
           </ul>
           <div class="list-block-label">
-            <p><a class="back button">Não possui cadastro? Clique aqui!</a></p>
+            <p><a href="#" class="back button">Não possui cadastro? Clique aqui!</a></p>
           </div>
         </div>
       </form>

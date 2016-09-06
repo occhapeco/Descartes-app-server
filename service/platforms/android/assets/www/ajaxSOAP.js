@@ -12,9 +12,9 @@ function mostrar_storage()
   myApp.alert(login_type+": "+login_id,'Informações de Login');
 }
 
-function login()
+function submit_login()
 {
-  empresa_login_ajax();
+  $$("#login_form").click();
 }
 
 function logout()
