@@ -18,8 +18,7 @@ function submit_login()
 
 function logout()
 {
-  localStorage.removeItem("login_id");
-  localStorage.removeItem("login_type");
+  localStorage.removeItem("login_id");  
   myApp.alert('Logout efetuado com sucesso.');
 }
 
@@ -78,7 +77,7 @@ function login_ajax()
 
 function select_pontos_ajax()
 {
-  var method = 'pontos.select';
+  var method = 'ponto.select';
 
   var soapMessage ='<?xml version="1.0" encoding="UTF-8"?><SOAP-ENV:Envelope SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="'+urn+'"> <SOAP-ENV:Body><tns:'+method+' xmlns:tns="'+urn+'">'+
   '<condicoes xsi:type="xsd:string"></condicoes>'+
@@ -105,7 +104,7 @@ function select_pontos_ajax()
       var responseDoc = parser.parseFromString(httpRequest.responseText, "text/html");
       var json_dados = responseDoc.getElementsByTagName("return")[0].childNodes[0].nodeValue;
       var ponto = JSON.parse(json_dados);
-      myApp.alert(ponto);
+      myApp.alert("Id: "+ponto[0].id+" Obs: "+ponto[0].observacao);
     }
   };
 
