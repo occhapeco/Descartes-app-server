@@ -3,16 +3,67 @@
 <html>
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui" />
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
-    <link rel="stylesheet" href="framework7/css/framework7.material.min.css">
-    <link rel="stylesheet" href="framework7/css/framework7.material.colors.min.css">
-    <link rel="stylesheet" href="framework7/css/my-app.css">    
+  <link rel="stylesheet" href="framework7/css/framework7.material.min.css">
+  <link rel="stylesheet" href="framework7/css/framework7.material.colors.min.css">
+  <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="framework7/css/my-app.css">
 
-    <title>Descartes</title>
+  <script type="text/javascript" src="mapa/js/markerclusterer.js"></script>
+
+  <title>Descartes</title>
+
+  <style type="text/css">
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    #map {
+      height: 100% ;
+    }
+
+    .pac-container {
+      font-family: Roboto;
+      z-index: 1000000 !important;
+    }
+
+    .pac-item-query {
+      font-size: 16px;
+    }
+    .pac-item{
+      font-size: 16px;
+    }
+
+    #type-selector {
+      color: #fff;
+      background-color: #4d90fe;
+      padding: 5px 11px 0px 11px;
+    }
+
+    #type-selector label {
+      font-family: Roboto;
+      font-size: 25px;
+      font-weight: 300;
+    }
+
+    #pac-input {
+        width: 100%;
+        font-size: 18px;
+    }
+
+    .hi{
+      display: none !important;
+    }
+
+  </style>
     
 </head>
 
@@ -81,36 +132,97 @@
       <!-- Your main view, should have "view-main" class-->
       <div class="view view-main">
         <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
-        <div class="pages navbar-through">
-          <!-- Top Navbar-->
-            <div class="navbar">
-              <div class="navbar-inner">
-                <div class="left">
-                <a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a>
-                </div>
-                <div style="margin-left:20px" class="left sliding">Descartes Lab</div>
+        <!-- Top Navbar-->
+        <div class="navbar" id="ba">
+          <div class="navbar-inner">
+            <div class="left">
+              <a href="#" class="link icon-only open-panel" id="bc"> <i class="icon icon-bars"></i></a>
+              <div id="hd">
+                DescartesLab
               </div>
             </div>
+            <!-- We have home navbar without left link-->
+            <div id="hc" class="right hi">
+              <form data-search-list=".list-block-search" data-search-in=".item-title" class="searchbar searchbar-init">
+                <div class="searchbar-input">
+                  <input id="pac-input" class="controls" type="search" placeholder="Localidade" data-tap-disabled='true'>
+                </div>
+              </form>
+            </div>
+            <div class="right">
+              <a href="#" id="searche" class="link icon-only" style="color:#FFFFFF !important; width:56px !important;">
+                <i class="fa fa-search " id="loc"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="pages navbar-through">
           <!-- Page, data-page contains page name-->
-          <div data-page="home" class="page navbar-fixed">
+          <div data-page="index" class="page navbar-fixed">
             <!-- Scrollable page content-->
-            <div class="page-content" style="padding-top:40px;">
-              <div class="list-block">
-
-              </div>
+            <div class="page-content">
+              <a href="#" class="floating-button open-popover">
+                <i class="fa fa-filter"></i>
+              </a>
+              <form action="#" method="post" id="submete">        
+                <input type="hidden" name="lat" id="lat" value="e">
+                <input type="hidden" name="long" id="long" value="e">
+                <input type="hidden" name="estado" id="estado" value="">
+                <input type="hidden" name="cidade" id="cidade" value="">
+                <input type="hidden" name="pais" id="pais" value="">
+                <input type="hidden" name="endereco" id="endereco" value="">
+                <input type="hidden" name="cep" id="cep" value="">
+              </form>
+              <div id="map"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <script type = "text/javascript" src = "js/jquery.min.js"></script>
-    <script type = "text/javascript" src = "js/jquery-ui.min.js"></script>
+    <!--FILTROS-->
+    <div class="popover demo-popover" style="z-index:1333330 !important;">
+      <div class="popover-inner">
+        <div class="list-block">
+          <ul>
+            <!-- Single chekbox item -->
+            <li>
+              <label class="label-checkbox item-content">
+                <!-- Checked by default -->
+                <input type="checkbox" name="my-checkbox" value="Books" checked="checked">
+                <div class="item-media">
+                  <i class="icon icon-form-checkbox"></i>
+                </div>
+                <div class="item-inner">
+                  <div class="item-title">Books</div>
+                </div>
+              </label>
+            </li>
+            <li>
+              <label class="label-checkbox item-content">
+                <!-- Checked by default -->
+                <input type="checkbox" name="my-checkbox" value="Books" checked="checked">
+                <div class="item-media">
+                  <i class="icon icon-form-checkbox"></i>
+                </div>
+                <div class="item-inner">
+                  <div class="item-title">Books</div>
+                </div>
+              </label>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript" src="framework7/js/framework7.min.js"></script>
     <script type="text/javascript" src="framework7/js/my-app.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmWPAIE9_AASg6Ijgoh0lVOZZ_VWvw6fg&libraries=places"></script>
+    <script type="text/javascript" src="js/mapa.js"></script>
     <script type="text/javascript" src="ajaxSOAP.js"></script>
+    
 
 </body>
 

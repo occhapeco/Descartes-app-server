@@ -19,10 +19,27 @@ var mainView = myApp.addView('.view-main', {
     dynamicNavbar: true
 });
 
-// Callbacks to run specific code for specific pages, for example for About page:
-myApp.onPageInit('about', function (page) {
-    // run createContentPage func after link was clicked
-    $$('.create-page').on('click', function () {
-        
-    });
+var o = true;
+
+var swidth = $$("#ba").width() - $$("#searche").width() - $$("#bc").width() - 16;
+swidth+='px';
+$$("#hc").css('width',swidth);
+
+$$('#searche').on('click', function (e){
+    if (o) 
+    {
+        $$("#hc").css('width',swidth );
+        $$("#hc").toggleClass('hi');
+        $$("#hd").toggleClass('hi');
+        $$("#loc").toggleClass('fa-search, fa-remove');
+        o = false;
+    }else
+    {
+        $$("#hc").css('width',swidth);
+        $$("#hd").toggleClass('hi');
+        $$("#hc").toggleClass('hi');
+        $$("#loc").toggleClass('fa-search, fa-remove');
+        o = true;
+    }
+    
 });
