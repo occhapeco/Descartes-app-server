@@ -5,6 +5,13 @@ var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 2,
         center: new google.maps.LatLng(0.234035, -24.178513),
         mapTypeId: google.maps.MapTypeId.ROADMAP,
+        mapTypeControl : false,
+        streetViewControlOptions: {
+            position: google.maps.ControlPosition.LEFT_BOTTOM
+        },
+        zoomControlOptions: {
+            position: google.maps.ControlPosition.LEFT_BOTTOM
+        },
         styles: [
           {
             "stylers": [
@@ -121,5 +128,38 @@ var options = {
           imagePath: 'mapa/images/m'
 };
 
-         // cria cluster
+function calculateAndDisplayRoute(lati,longi) {
+
+  var directionsService = new google.maps.DirectionsService;
+  var directionsDisplay = new google.maps.DirectionsRenderer; 
+
+  directionsDisplay.setMap(map);
+
+  directionsDisplay.setPanel(document.getElementById("rightpanel"));
+
+  document.getElementById("rightpanel").style.height = 'calc(40% - 56px)';
+  document.getElementById("rightpanel").style.zIndex = '9999999999999';
+  document.getElementById("rightpanel").style.overflow = 'auto';
+  document.getElementById("map").style.height = '60%';
+
+  setMapOnAll(null);
+
+  directionsService.route({
+    origin: new google.maps.LatLng(-27.090416, -52.622415),
+    destination: new google.maps.LatLng(lati,longi),
+    travelMode: google.maps.TravelMode.DRIVING
+  }, function(response, status) {
+    if (status === google.maps.DirectionsStatus.OK) {
+      directionsDisplay.setDirections(response);
+    } else {
+      myApp.alert('Não foi possível criar a rota que você requisitou.');
+    }
+  });
+}
+
+function setMapOnAll(mapi) {
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].setMap(mapi);
+  }
+}
 
