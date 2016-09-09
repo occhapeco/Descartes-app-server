@@ -2,8 +2,8 @@
         var infowindow = new google.maps.InfoWindow();
         var poder = true; // somente utilizada quando a empresa for criar um ponto para selecionar o local
         var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 11,
-                center: new google.maps.LatLng(-23.5833158, -46.6339829),
+                zoom: 2,
+                center: new google.maps.LatLng(0.234035, -24.178513),
                 mapTypeId: google.maps.MapTypeId.ROADMAP,
                 styles: [
                   {
@@ -36,25 +36,6 @@
            var center = map.getCenter();
            google.maps.event.trigger(map, "resize");
            map.setCenter(center);
-        });
-
-        //usuário clica e cria marcador - evento de clique
-        google.maps.event.addListener(map, 'click', function(event) {
-          if(poder)
-          {
-            var temp =[
-              {
-                position: event.latLng,
-                type: 'mark1',
-                info: contentString,
-                draggable:true
-              }
-            ];
-            addMarker(temp[0]);
-            poder = false;
-          }else{
-            alert("ponto já adicionado!");
-          }
         });
 
         //cria o input para pesquisar no mapa
@@ -135,89 +116,12 @@
           markers.push(marker);
         }
 
-        //variáveis de conteudo, substituir depois pela info no features
-        var contentString = '<div id="content">'+
-          '<div id="siteNotice">'+
-          '</div>'+
-          '<h1 id="firstHeading" class="firstHeading">NOME DO PONTO '+1+'</h1>'+
-          '<div id="bodyContent" class="col-sm-12">'+
-          '<p class="col-sm-6"> OLHA O CONTEÚDO DO PONTO MAHOE</p>'+
-          '<p class="col-sm-6"> OEIOEIOEIOEOEIOEIEOIEOEI </p><p>'+
-          '<p>'+
-          '<button class="btn btn-primary" onclick="submeter();">SUCESSO!</button>'+
-          ''+
-          '</p>'+'</p>'+
-          '</div>'+
-          '</div>';
-
-          var contentString1 = '<div id="content">'+
-            '<div id="siteNotice">'+
-            '</div>'+
-            '<h1 id="firstHeading" class="firstHeading">NOME DO PONTO '+2+'</h1>'+
-            '<div id="bodyContent" class="col-sm-12">'+
-            '<p class="col-sm-6"> OLHA O CONTEÚDO DO PONTO MAHOE</p>'+
-            '<p class="col-sm-6"> OEIOEIOEIOEOEIOEIEOIEOEI </p><p><a href="index.php"><button class="btn btn-primary">SUCÉSSO!</button></a></p>'+
-            '</div>'+
-            '</div>';
-
         //cluster de marcadores
         var options = {
                   imagePath: 'mapa/images/m'
         };
 
-        var markerCluster = new MarkerClusterer(map, markers, options); // cria cluster
-
-      function submeter()
-      {
-        var geocoder = new google.maps.Geocoder;
-        var lati = document.getElementById('lat').value;
-        var long = document.getElementById('long').value;
-        var latlng = {lat: parseFloat(lati), lng: parseFloat(long)};
-
-        geocoder.geocode({'location': latlng}, function(results, status) {
-          if (status === google.maps.GeocoderStatus.OK) {
-            if (results[1]) {
-              alert(results[1].formatted_address);
-              var address = "", city = "", state = "", zip = "", country = "", formattedAddress = "";
-              for (var i = 0; i < results[0].address_components.length; i++) {
-                          var addr = results[0].address_components[i];
-                          // check if this entry in address_components has a type of country
-                          if (addr.types[0] == 'country')
-                              country = addr.long_name;
-                          else if (addr.types[0] == 'street_address') // address 1
-                              address = address + addr.long_name;
-                          else if (addr.types[0] == 'establishment')
-                              address = address + addr.long_name;
-                          else if (addr.types[0] == 'route')  // address 2
-                              address = address + addr.long_name;
-                          else if (addr.types[0] == 'postal_code')       // Zip
-                              zip = addr.short_name;
-                          else if (addr.types[0] == ['administrative_area_level_1'])       // State
-                              state = addr.long_name;
-                          else if (addr.types[0] == ['locality'])       // City
-                              city = addr.long_name;
-              }
-              alert(country);
-              alert(address);
-              alert(zip);
-              alert(state);
-              alert(city);
-              document.getElementById('estado').value = state;
-              document.getElementById('endereco').value = address;
-              document.getElementById('cep').value = zip;
-              document.getElementById('pais').value = country;
-              document.getElementById('cidade').value = city;
-            } else {
-             //window.alert('No results found');
-            }
-          } else {
-            //window.alert('Geocoder failed due to: ' + status);
-          }
-        });
-       //document.getElementById("submete").submit();
-      }
-
-
+         // cria cluster
 
 //-------AJAX-------//
 
@@ -226,6 +130,8 @@ var xhrTimeout=1000;
 var url='http://descartes.esy.es/';
 var urn = 'urn:descartes';
 var ajax_control = false;
+
+select_pontos();
 
 if(localStorage.getItem("login_id") == null)
   mainView.router.loadPage('login.html');
@@ -294,7 +200,8 @@ function select_pontos()
                           '</div>';
       features["draggable"] = false;
       addMarker(features);
-    } 
+    }
+    var markerCluster = new MarkerClusterer(map, markers, options); 
     myApp.hidePreloader();
   },100);
  
@@ -350,6 +257,6 @@ function ajax_method()
   httpRequest.send(soapMessage);
 
   myApp.hidePreloader();
-  return retorno;
 
+  return retorno;
 }

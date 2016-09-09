@@ -32,6 +32,7 @@ $$('#searche').on('click', function (e){
         $$("#hc").toggleClass('hi');
         $$("#hd").toggleClass('hi');
         $$("#loc").toggleClass('fa-search, fa-remove');
+        $$("#pac-input").focus();
         o = false;
     }else
     {
@@ -43,3 +44,4 @@ $$('#searche').on('click', function (e){
     }
     
 });
+
