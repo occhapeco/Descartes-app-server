@@ -67,7 +67,7 @@
     
 </head>
 
-<body class="theme-bluegray">
+<body class="theme-bluegray" onload="tutorial();">
     <!-- Status bar overlay for fullscreen mode-->
     <div class="statusbar-overlay"></div>
     <!-- Panels overlay-->
@@ -155,7 +155,7 @@
           <div data-page="index" class="page navbar-fixed">
             <!-- Scrollable page content-->
             <div class="page-content">
-              <a href="#" class="floating-button open-popover">
+              <a href="#" class="floating-button open-popover" id="popover-btn">
                 <i class="fa fa-filter"></i>
               </a>
               <form action="#" method="post" id="submete">        
@@ -175,7 +175,7 @@
     </div>
 
     <!--FILTROS-->
-    <div class="popover demo-popover" style="z-index:1333330 !important;">
+    <div class="popover demo-popover" style="z-index:1333330 !important;" id="filter-popover">
       <div class="popover-inner">
         <div id="popover-list" class="list-block">
           <!-- Conteúdo do popover (óbvio) -->

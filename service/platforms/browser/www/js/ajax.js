@@ -10,12 +10,73 @@ function inicializar()
   myApp.showPreloader();
 
   setTimeout(function () {
-    select_pontos();
-    criar_popover();
     if(localStorage.getItem("login_id") == null)
       mainView.router.loadPage('login.html');
+    else
+    {
+      select_pontos();
+      criar_popover();
+    }
     myApp.hidePreloader();
   },100);
+  localStorage.removeItem("tutorial");
+}
+
+function tutorial()
+{
+  if(localStorage.getItem("tutorial") != 3)
+  {
+    if(localStorage.getItem("tutorial") == null)
+      localStorage.setItem("tutorial",0);
+
+    var popoverHTML = "";
+    var component = null;
+    
+    if(localStorage.getItem("tutorial") == 0)
+    {
+      component = document.getElementById("map");
+      popoverHTML = '<div class="popover" onclose="tutorial();" style="margin-top:50px;z-index:1333331 !important;">'+
+                      '<div class="popover-angle"></div>'+
+                      '<div class="popover-inner">'+
+                        '<div class="content-block">'+
+                          '<p style="font-size:18px;">Bem-vindo ao Descartes Lab! Aqui você pode encontrar pontos de coleta de lixo próximos de você.</p>'+
+                          '<p style="font-size:12px;">Toque em qualquer lugar para continuar.</p>'+
+                        '</div>'+
+                      '</div>'+
+                    '</div>';
+    }
+    else if(localStorage.getItem("tutorial") == 1)
+    {
+      $$('#searche').click();
+      component = document.getElementById("searche");
+      popoverHTML = '<div class="popover" onclose="tutorial();" style="margin-top:50px;z-index:1333331 !important;">'+
+                      '<div class="popover-angle"></div>'+
+                      '<div class="popover-inner">'+
+                        '<div class="content-block">'+
+                          '<p style="font-size:18px;">Pesquise qualquer localização aqui.</p>'+
+                          '<p style="font-size:12px;">Toque em qualquer lugar para continuar.</p>'+
+                        '</div>'+
+                      '</div>'+
+                    '</div>';
+    }
+    else if(localStorage.getItem("tutorial") == 2)
+    {
+      $$('#searche').click();
+      component = document.getElementById("popover-btn");
+      popoverHTML = '<div class="popover" onclose="tutorial();" style="z-index:1333331 !important;">'+
+                      '<div class="popover-angle"></div>'+
+                      '<div class="popover-inner">'+
+                        '<div class="content-block">'+
+                          '<p style="font-size:18px;">Selecione aqui os tipos de lixo que você precisa descartar.</p>'+
+                          '<p style="font-size:12px;">Toque em qualquer lugar para continuar.</p>'+
+                        '</div>'+
+                      '</div>'+
+                    '</div>';
+    }
+
+    localStorage.setItem("tutorial",localStorage.getItem("tutorial") + 1);
+    myApp.popover(popoverHTML,component);
+  }
 }
 
 function mostrar_storage()
