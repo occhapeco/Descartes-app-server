@@ -62,24 +62,24 @@
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
     </feature>
-    <icon density="ldpi" src="www/img/hip.png" />
-    <icon density="mdpi" src="www/img/hip.png" />
-    <icon density="hdpi" src="www/img/hip.png" />
-    <icon density="xhdpi" src="www/img/hip.png" />
-    <icon density="xxhdpi" src="www/img/hip.png" />
-    <icon density="xxxhdpi" src="www/img/hip.png" />
-    <splash density="land-ldpi" src="www/img/hip.png" />
-    <splash density="land-mdpi" src="www/img/hip.png" />
-    <splash density="land-hdpi" src="www/img/hip.png" />
-    <splash density="land-xhdpi" src="www/img/hip.png" />
-    <splash density="land-xxhdpi" src="www/img/hip.png" />
-    <splash density="land-xxxhdpi" src="www/img/hip.png" />
-    <splash density="port-ldpi" src="www/img/hip.png" />
-    <splash density="port-mdpi" src="www/img/hip.png" />
-    <splash density="port-hdpi" src="www/img/hip.png" />
-    <splash density="port-xhdpi" src="www/img/hip.png" />
-    <splash density="port-xxhdpi" src="www/img/hip.png" />
-    <splash density="port-xxxhdpi" src="www/img/hip.png" />
+    <icon density="ldpi" src="www/img/logo.png" />
+    <icon density="mdpi" src="www/img/logo.png" />
+    <icon density="hdpi" src="www/img/logo.png" />
+    <icon density="xhdpi" src="www/img/logo.png" />
+    <icon density="xxhdpi" src="www/img/logo.png" />
+    <icon density="xxxhdpi" src="www/img/logo.png" />
+    <splash density="land-ldpi" src="www/img/logo.png" />
+    <splash density="land-mdpi" src="www/img/logo.png" />
+    <splash density="land-hdpi" src="www/img/logo.png" />
+    <splash density="land-xhdpi" src="www/img/logo.png" />
+    <splash density="land-xxhdpi" src="www/img/logo.png" />
+    <splash density="land-xxxhdpi" src="www/img/logo.png" />
+    <splash density="port-ldpi" src="www/img/logo.png" />
+    <splash density="port-mdpi" src="www/img/logo.png" />
+    <splash density="port-hdpi" src="www/img/logo.png" />
+    <splash density="port-xhdpi" src="www/img/logo.png" />
+    <splash density="port-xxhdpi" src="www/img/logo.png" />
+    <splash density="port-xxxhdpi" src="www/img/logo.png" />
     <allow-intent href="market:*" />
     <name>Descartes</name>
     <description>
