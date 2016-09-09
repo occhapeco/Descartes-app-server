@@ -94,12 +94,6 @@
                   <div class="item-title">Abrir tela de Login</div>
                 </div>
               </div></a></li>
-          <li><a href="#" class="item-link" onclick="select_pontos()">
-              <div class="item-content"> 
-                <div class="item-inner">
-                  <div class="item-title">Select Pontos</div>
-                </div>
-              </div></a></li>
           <li><a href="about.html" class="item-link">
               <div class="item-content">
                 <div class="item-inner"> 
@@ -118,7 +112,7 @@
                   <div class="item-title">Form</div>
                 </div>
               </div></a></li>
-          <li><a href="#" class="item-link" onclick="logout()">
+          <li><a href="#" class="item-link" onclick="logout();">
               <div class="item-content"> 
                 <div class="item-inner">
                   <div class="item-title">Logout</div>
@@ -183,34 +177,8 @@
     <!--FILTROS-->
     <div class="popover demo-popover" style="z-index:1333330 !important;">
       <div class="popover-inner">
-        <div class="list-block">
-          <ul>
-            <!-- Single chekbox item -->
-            <li>
-              <label class="label-checkbox item-content">
-                <!-- Checked by default -->
-                <input type="checkbox" name="my-checkbox" value="Books" checked="checked">
-                <div class="item-media">
-                  <i class="icon icon-form-checkbox"></i>
-                </div>
-                <div class="item-inner">
-                  <div class="item-title">Books</div>
-                </div>
-              </label>
-            </li>
-            <li>
-              <label class="label-checkbox item-content">
-                <!-- Checked by default -->
-                <input type="checkbox" name="my-checkbox" value="Books" checked="checked">
-                <div class="item-media">
-                  <i class="icon icon-form-checkbox"></i>
-                </div>
-                <div class="item-inner">
-                  <div class="item-title">Books</div>
-                </div>
-              </label>
-            </li>
-          </ul>
+        <div id="popover-list" class="list-block">
+          <!-- Conteúdo do popover (óbvio) -->
         </div>
       </div>
     </div>
