@@ -130,6 +130,8 @@ function select_pontos()
     features["info"] = '<div id="content">'+
                           '<div id="siteNotice"></div>'+
                             '<h1 id="firstHeading" class="firstHeading">ponto</h1>'+
+                            '<button class="button" onclick ="calculateAndDisplayRoute('+endereco[0].latitude+','+
+                            endereco[0].longitude+')"'+
                             '<div id="bodyContent" class="col-sm-12">'+
                               '<p class="col-sm-6"></p>'+
                               '<p class="col-sm-6"></p>'+

@@ -1,5 +1,6 @@
 //criação da infowindow
 var infowindow = new google.maps.InfoWindow();
+var markers = [];
 var poder = true; // somente utilizada quando a empresa for criar um ponto para selecionar o local
 var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 2,
@@ -55,7 +56,6 @@ map.addListener('bounds_changed', function() {
   searchBox.setBounds(map.getBounds());
 });
 
-var markers = [];
 searchBox.addListener('places_changed', function() {
   var places = searchBox.getPlaces();
 
