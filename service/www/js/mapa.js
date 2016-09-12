@@ -8,7 +8,7 @@ var map = new google.maps.Map(document.getElementById('map'), {
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         mapTypeControl : false,
         streetViewControlOptions: {
-            position: google.maps.ControlPosition.LEFT_BOTTOM
+            position: google.maps.ControlPosition.BOTTOM_CENTER
         },
         zoomControlOptions: {
             position: google.maps.ControlPosition.LEFT_BOTTOM
