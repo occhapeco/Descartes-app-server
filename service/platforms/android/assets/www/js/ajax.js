@@ -1,20 +1,34 @@
 var xhrTimeout=1000;
 var url='http://descartes.esy.es/';
 var urn = 'urn:descartes';
-var ajax_control = false;
 
 inicializar();
+
+$$(document).on('pageInit', function (e) {
+    var page = e.detail.page;
+
+    if (page.name === 'mapa')
+    {
+        myApp.showPreloader();
+        setTimeout(function () {
+            inicializar_map();
+            criar_popover();
+            select_pontos();
+            myApp.hidePreloader();
+        },1000);
+    }
+});
 
 function inicializar()
 {
   if(localStorage.getItem("login_id") == null)
   {
-    myApp.swipePanel = false;
+    //myApp.swipePanel = false;
     mainView.router.loadPage('login.html');
   }
   else
   {
-    myApp.swipePanel = 'left';
+    //myApp.swipePanel = 'left';
     mainView.router.loadPage('mapa.html');
   }
   //localStorage.removeItem("tutorial");
@@ -101,6 +115,7 @@ function login()
     myApp.alert('Login realizado com sucesso!');
     localStorage.setItem("login_id",id);
     myApp.swipePanel = 'left';
+    mainView.router.loadPage('index.html');
   }
   else
     myApp.alert('Email ou senha não correspondem!');
@@ -114,28 +129,37 @@ function logout()
 
 function select_pontos()
 {
-  
+  console.log("//----ponto_select----//");
   var json_dados = ajax_method(false,'ponto.select','');
+  console.log(json_dados);
 
   var ponto = JSON.parse(json_dados);
 
   for(var i=0;i<ponto.length;i++)
   {
     json_dados = ajax_method(false,'endereco.select_by_id',ponto[i].endereco_id);
+    console.log(json_dados);
     var endereco = JSON.parse(json_dados);
     var features = [];
     features["type"] = "mark1";
     features["position"] = new google.maps.LatLng(endereco[0].latitude,endereco[0].longitude);
-    features["info"] = '<div id="content">'+
-                          '<div id="siteNotice"></div>'+
-                            '<h1 id="firstHeading" class="firstHeading">ponto</h1>'+
-                            '<button class="button" onclick ="calculateAndDisplayRoute('+endereco[0].latitude+','+
-                            endereco[0].longitude+')"'+
-                            '<div id="bodyContent" class="col-sm-12">'+
-                              '<p class="col-sm-6"></p>'+
-                              '<p class="col-sm-6"></p>'+
-                          '</div>'+
-                        '</div>';
+    features["info"] = '<div class="list-block cards-list">'+
+                         '<ul>'+
+                           '<li class="card">'+
+                             '<div class="card-header">Nome do ponto</div>'+
+                             '<div class="card-content">'+
+                               '<div class="card-content-inner">Descrição do ponto</div>'+
+                             '</div>'+
+                             '<div class="card-footer">'+
+                             '<div class="content-block"><div class="buttons-row">'+
+                               '<a href="#" style="width:auto" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
+                             ''+
+                               '<a href="#" style="width:auto" class="button button-raised button-fill color-blue" onclick ="calculateAndDisplayRoute'+
+                               '('+endereco[0].latitude+','+endereco[0].longitude+')">Rotas até aqui</a>'+
+                             '</div></div></div>'+
+                           '</li>'+
+                         '</ul>'+
+                       '</div>';
     features["draggable"] = false;
     addMarker(features);
   }
@@ -144,6 +168,7 @@ function select_pontos()
 
 function criar_popover()
 {
+  console.log("//----criar_popover----//");
   var component = document.getElementById("popover-list");
   var html = '<ul>'+
                 '<li>'+
@@ -155,6 +180,7 @@ function criar_popover()
                   '</li>';
 
   var json_dados = ajax_method(false,'tipo_lixo.select','');
+  console.log(json_dados);
   var tipo_lixo = JSON.parse(json_dados);
 
   for(var i=0;i<tipo_lixo.length;i++)
