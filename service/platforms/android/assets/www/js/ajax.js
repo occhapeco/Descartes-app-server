@@ -7,24 +7,22 @@ inicializar();
 
 function inicializar()
 {
-  myApp.showPreloader();
-
-  setTimeout(function () {
-    if(localStorage.getItem("login_id") == null)
-      mainView.router.loadPage('login.html');
-    else
-    {
-      select_pontos();
-      criar_popover();
-    }
-    myApp.hidePreloader();
-  },100);
-  localStorage.removeItem("tutorial");
+  if(localStorage.getItem("login_id") == null)
+  {
+    myApp.swipePanel = false;
+    mainView.router.loadPage('login.html');
+  }
+  else
+  {
+    myApp.swipePanel = 'left';
+    mainView.router.loadPage('mapa.html');
+  }
+  //localStorage.removeItem("tutorial");
 }
 
 function tutorial()
 {
-  if(localStorage.getItem("tutorial") != 3)
+  /*if(localStorage.getItem("tutorial") != 3)
   {
     if(localStorage.getItem("tutorial") == null)
       localStorage.setItem("tutorial",0);
@@ -76,7 +74,7 @@ function tutorial()
 
     localStorage.setItem("tutorial",localStorage.getItem("tutorial") + 1);
     myApp.popover(popoverHTML,component);
-  }
+  }*/
 }
 
 function mostrar_storage()
@@ -102,6 +100,7 @@ function login()
   {
     myApp.alert('Login realizado com sucesso!');
     localStorage.setItem("login_id",id);
+    myApp.swipePanel = 'left';
   }
   else
     myApp.alert('Email ou senha não correspondem!');

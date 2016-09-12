@@ -79,54 +79,49 @@
     <!-- Status bar overlay for fullscreen mode-->
     <div class="statusbar-overlay"></div>
     <!-- Panels overlay-->
-    <div class="panel-overlay"></div>
-        <!-- Left panel with reveal effect-->
-    <div class="panel panel-left panel-cover">
-      <div class="list-block">
-        <ul>
-          <li><a href="index.html" class="item-link">
-              <div class="item-content">
-                <div class="item-inner"> 
-                  <div class="item-title">Index</div>
-                </div>
-              </div></a></li>
-            <li><a href="#" class="item-link" onclick="mostrar_storage()">
-              <div class="item-content"> 
-                <div class="item-inner">
-                  <div class="item-title">Ver dados de Login</div>
-                </div>
-              </div></a></li>
-            <li><a href="login.html" class="item-link">
-              <div class="item-content"> 
-                <div class="item-inner">
-                  <div class="item-title">Abrir tela de Login</div>
-                </div>
-              </div></a></li>
-          <li><a href="about.html" class="item-link">
-              <div class="item-content">
-                <div class="item-inner"> 
-                  <div class="item-title">About</div>
-                </div>
-              </div></a></li>
-          <li><a href="services.html" class="item-link">
-              <div class="item-content"> 
-                <div class="item-inner">
-                  <div class="item-title">Services</div>
-                </div>
-              </div></a></li>
-          <li><a href="form.html" class="item-link">
-              <div class="item-content"> 
-                <div class="item-inner">
-                  <div class="item-title">Form</div>
-                </div>
-              </div></a></li>
-          <li><a href="#" class="item-link" onclick="logout();">
-              <div class="item-content"> 
-                <div class="item-inner">
-                  <div class="item-title">Logout</div>
-                </div>
-              </div></a></li>
-        </ul>
+    <div class="panel-overlay">
+      <!-- Left panel with reveal effect-->
+      <div class="panel panel-left panel-cover">
+        <div class="list-block">
+          <ul>
+            <li><a href="index.html" class="item-link">
+                <div class="item-content">
+                  <div class="item-inner"> 
+                    <div class="item-title">Index</div>
+                  </div>
+                </div></a></li>
+              <li><a href="#" class="item-link" onclick="mostrar_storage()">
+                <div class="item-content"> 
+                  <div class="item-inner">
+                    <div class="item-title">Ver dados de Login</div>
+                  </div>
+                </div></a></li>
+            <li><a href="about.html" class="item-link">
+                <div class="item-content">
+                  <div class="item-inner"> 
+                    <div class="item-title">About</div>
+                  </div>
+                </div></a></li>
+            <li><a href="services.html" class="item-link">
+                <div class="item-content"> 
+                  <div class="item-inner">
+                    <div class="item-title">Services</div>
+                  </div>
+                </div></a></li>
+            <li><a href="form.html" class="item-link">
+                <div class="item-content"> 
+                  <div class="item-inner">
+                    <div class="item-title">Form</div>
+                  </div>
+                </div></a></li>
+            <li><a href="#" class="item-link" onclick="logout();">
+                <div class="item-content"> 
+                  <div class="item-inner">
+                    <div class="item-title">Logout</div>
+                  </div>
+                </div></a></li>
+          </ul>
+        </div>
       </div>
     </div>
     <!-- Views-->
@@ -161,23 +156,7 @@
         <div class="pages navbar-through">
           <!-- Page, data-page contains page name-->
           <div data-page="index" class="page navbar-fixed">
-            <!-- Scrollable page content-->
-            <div class="page-content">
-              <a href="#" class="floating-button open-popover" id="popover-btn">
-                <i class="fa fa-filter"></i>
-              </a>
-              <form action="#" method="post" id="submete">        
-                <input type="hidden" name="lat" id="lat" value="e">
-                <input type="hidden" name="long" id="long" value="e">
-                <input type="hidden" name="estado" id="estado" value="">
-                <input type="hidden" name="cidade" id="cidade" value="">
-                <input type="hidden" name="pais" id="pais" value="">
-                <input type="hidden" name="endereco" id="endereco" value="">
-                <input type="hidden" name="cep" id="cep" value="">
-              </form>
-              <div id="map"></div>
-              <div id="rightpanel"></div>
-            </div>
+            
           </div>
         </div>
       </div>

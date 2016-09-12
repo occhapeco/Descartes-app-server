@@ -19,6 +19,8 @@ var mainView = myApp.addView('.view-main', {
     dynamicNavbar: true
 });
 
+
+
 var o = true;
 
 var swidth = $$("#ba").width() - $$("#searche").width() - $$("#bc").width() - 16;
@@ -45,3 +47,20 @@ $$('#searche').on('click', function (e){
     
 });
 
+$$(document).on('pageInit', function (e) {
+    var page = e.detail.page;
+    // Code for About page
+    if (page.name === 'mapa')
+    {
+        myApp.showPreloader();
+        setTimeout(function () {
+            select_pontos();
+            criar_popover();
+            myApp.hidePreloader();
+        },100);
+    }
+    // Code for Services page
+    if (page.name === 'services') {
+        myApp.alert('Here comes our services!');
+    }
+});
