@@ -28,6 +28,7 @@ $$("#hc").css('width',swidth);
 $$('#searche').on('click', function (e){
     if (o) 
     {
+        $$("#refresh").hide();
         $$("#hc").css('width',swidth );
         $$("#hc").toggleClass('hi');
         $$("#hd").toggleClass('hi');
@@ -36,6 +37,7 @@ $$('#searche').on('click', function (e){
         o = false;
     }else
     {
+        $$("#refresh").show();
         $$("#hc").css('width',swidth);
         $$("#hd").toggleClass('hi');
         $$("#hc").toggleClass('hi');

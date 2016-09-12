@@ -7,28 +7,36 @@ inicializar();
 $$(document).on('pageInit', function (e) {
     var page = e.detail.page;
 
-    if (page.name === 'mapa')
+    if(page.name === 'index')
     {
-        myApp.showPreloader();
-        setTimeout(function () {
-            inicializar_map();
-            criar_popover();
-            select_pontos();
-            myApp.hidePreloader();
-        },1000);
+      inicializar();
+    }
+
+    if(page.name === 'mapa')
+    {
+      inicializar_map();
+      mapa_refresh();
     }
 });
+
+function mapa_refresh()
+{
+  myApp.showPreloader();
+  setTimeout(function () {
+      criar_popover();
+      select_pontos();
+      myApp.hidePreloader();
+  },1000);
+}
 
 function inicializar()
 {
   if(localStorage.getItem("login_id") == null)
   {
-    //myApp.swipePanel = false;
     mainView.router.loadPage('login.html');
   }
   else
   {
-    //myApp.swipePanel = 'left';
     mainView.router.loadPage('mapa.html');
   }
   //localStorage.removeItem("tutorial");
@@ -129,11 +137,13 @@ function logout()
 
 function select_pontos()
 {
-  console.log("//----ponto_select----//");
   var json_dados = ajax_method(false,'ponto.select','');
   console.log(json_dados);
 
   var ponto = JSON.parse(json_dados);
+
+  setMapOnAll(null);
+  markers = [];
 
   for(var i=0;i<ponto.length;i++)
   {
@@ -168,7 +178,6 @@ function select_pontos()
 
 function criar_popover()
 {
-  console.log("//----criar_popover----//");
   var component = document.getElementById("popover-list");
   var html = '<ul>'+
                 '<li>'+
