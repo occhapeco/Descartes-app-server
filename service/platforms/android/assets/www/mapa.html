@@ -1,4 +1,30 @@
 <div data-page="mapa" class="page navbar-fixed">
+  <div class="navbar" id="ba">
+    <div class="navbar-inner">
+      <div class="left">
+        <a href="#" class="link icon-only open-panel" id="bc"> <i class="icon icon-bars"></i></a>
+        <div id="hd">
+          DescartesLab
+        </div>
+      </div>
+      <!-- We have home navbar without left link-->
+      <div id="hc" class="right hi">
+        <form data-search-list=".list-block-search" data-search-in=".item-title" class="searchbar searchbar-init">
+          <div class="searchbar-input">
+            <input id="pac-input" class="controls" type="search" placeholder="Localidade" data-tap-disabled='true'>
+          </div>
+        </form>
+      </div>
+      <div class="right">
+        <a onclick="mapa_refresh();" class="link icon-only" style="color:#FFFFFF !important; width:56px !important;">
+          <i class="fa fa-refresh"></i>
+        </a>
+        <a href="#" id="searche" class="link icon-only" style="color:#FFFFFF !important; width:56px !important;">
+          <i class="fa fa-search" id="loc"></i>
+        </a>
+      </div>
+    </div>
+  </div>
   <div class="page-content">
     <a href="#" class="floating-button open-popover" id="popover-btn">
       <i class="fa fa-filter"></i>

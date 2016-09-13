@@ -1,8 +1,33 @@
 <div data-page="perfil" class="page navbar-fixed">
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="left">
+        <a href="#" class="link icon-only open-panel" id="bc"> <i class="icon icon-bars"></i></a>
+        <div id="hd">
+          DescartesLab
+        </div>
+      </div>
+      <div class="right">
+        <a onclick="carregar_perfil();" class="link icon-only" style="color:#FFFFFF !important; width:56px !important;">
+          <i class="fa fa-refresh"></i>
+        </a>
+      </div>
+    </div>
+  </div>
   <div class="page-content">
 
   <div class="list-block">
   <img src="img/i-f7-ios.png" style="width:60%; height:100%;margin-left:20%;">
+  <p class="buttons-row">
+    <div class="row" style="width:90%;margin-left:5%;">
+      <div class="col-50">
+        <a href="#" style="width:auto" class="button button-raised button-fill color-green">Alterar foto</a>
+      </div>
+      <div class="col-50">
+        <a href="#" style="width:100%" class="button button-raised button-fill color-blue">Ver endereços</a>
+      </div>
+    </div>
+  </p>
   <ul>
 
     <li>
@@ -11,7 +36,7 @@
         <div class="item-inner">
           <div class="item-title label">Nome</div>
           <div class="item-input">
-            <input type="text" placeholder="Seu nome">
+            <input type="text" id="usuario_nome" name="usuario_nome" placeholder="Seu nome">
           </div>
         </div>
       </div>
@@ -23,7 +48,7 @@
         <div class="item-inner">
           <div class="item-title label">E-mail</div>
           <div class="item-input">
-            <input type="email" disabled placeholder="E-mail">
+            <input type="email" id="usuario_email" name="usuario_email" disabled placeholder="E-mail">
           </div>
         </div>
       </div>
@@ -35,7 +60,7 @@
         <div class="item-inner">
           <div class="item-title label">Telefone</div>
           <div class="item-input">
-            <input type="text" placeholder="Telefone">
+            <input type="text" id="usuario_telefone" name="usuario_telefone" placeholder="Telefone">
           </div>
         </div>
       </div>
@@ -43,19 +68,9 @@
 
   </ul> 
   </div> 
-  <p class="buttons-row">
-    <a href="#" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-blue item-link">Ver endereços</a>
-  </p>
 
   <p class="buttons-row">
-    <div class="row" style="width:90%;margin-left:5%;">
-      <div class="col-50">
-        <a href="#" style="width:auto" class="button button-raised button-fill color-red">Cancelar</a>
-      </div>
-      <div class="col-50">
-        <a href="#" style="width:100%" class="button button-raised button-fill color-green">Salvar</a>
-      </div>
-    </div>
+    <a onclick="alterar_perfil();" style="width:90%;margin-left:5%;" class="button button-raised button-fill ">Salvar</a>
   </p>
 
   </div>

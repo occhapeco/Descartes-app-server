@@ -32,7 +32,7 @@ function mapa_refresh()
     criar_popover();
     select_pontos();
     myApp.hidePreloader();
-  },1000);
+  },500);
 }
 
 function inicializar()
@@ -118,21 +118,30 @@ function submit_login()
 
 function carregar_perfil()
 {
-  var json_dados = ajax_method(false,'usuario.select_by_id',localStorage.getItem("login_id"));
-  var usuario = JSON.parse(json_dados);
-  document.getElementById("usuario_nome").value = usuario[0].nome;
-  document.getElementById("usuario_email").value = usuario[0].email;
-  document.getElementById("usuario_telefone").value = usuario[0].telefone;
+  myApp.showPreloader();
+  setTimeout(function () {
+    var json_dados = ajax_method(false,'usuario.select',"id = "+localStorage.getItem("login_id"));
+    var usuario = JSON.parse(json_dados);
+    document.getElementById("usuario_nome").value = usuario[0].nome;
+    document.getElementById("usuario_email").value = usuario[0].email;
+    document.getElementById("usuario_telefone").value = usuario[0].telefone;
+    myApp.hidePreloader();
+  },100);
 }
 
 function alterar_perfil()
 {
-  var json_dados = ajax_method(false,'usuario.update_perfil',localStorage.getItem("login_id"),document.getElementById("usuario_nome").value,document.getElementById("usuario_email").value,document.getElementById("usuario_telefone").value);
-  var retorno = JSON.parse(json_dados);
-  if(retorno)
-    myApp.alert("Perfil alterado com sucesso.");
-  else
-    myApp.alert("Erro ao alterar perfil.");
+  myApp.showPreloader();
+  setTimeout(function () {
+    var json_dados = ajax_method(false,'usuario.update_perfil',localStorage.getItem("login_id"),document.getElementById("usuario_nome").value,document.getElementById("usuario_email").value,document.getElementById("usuario_telefone").value);
+    console.log(json_dados);
+    ç    var retorno = JSON.parse(json_dados);
+    if(retorno)
+      myApp.alert("Perfil alterado com sucesso.");
+    else
+      myApp.alert("Erro ao alterar perfil.");
+  myApp.hidePreloader();
+  },100);
 
   mainView.router.loadPage('perfil.html');
 }
@@ -150,7 +159,7 @@ function alterar_senha()
   }
   else
     myApp.alert("Senhas não coincidem.");
-  
+
   mainView.router.loadPage('perfil.html');
 }
 
