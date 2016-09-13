@@ -135,7 +135,7 @@ function alterar_perfil()
   setTimeout(function () {
     var json_dados = ajax_method(false,'usuario.update_perfil',localStorage.getItem("login_id"),document.getElementById("usuario_nome").value,document.getElementById("usuario_email").value,document.getElementById("usuario_telefone").value);
     console.log(json_dados);
-    ç    var retorno = JSON.parse(json_dados);
+    var retorno = JSON.parse(json_dados);
     if(retorno)
       myApp.alert("Perfil alterado com sucesso.");
     else
@@ -148,19 +148,23 @@ function alterar_perfil()
 
 function alterar_senha()
 {
-  if(document.getElementById("usuario_senha1").value == document.getElementById("usuario_senha2").value)
-  {
-    var json_dados = ajax_method(false,'usuario.update_senha',localStorage.getItem("login_id"),document.getElementById("usuario_senha_antiga").value,document.getElementById("usuario_senha1").value);
-    var retorno = JSON.parse(json_dados);
-    if(retorno)
-      myApp.alert("Senha alterada com sucesso.");
+  if (document.getElementById("usuario_senha1").value != "" && document.getElementById("usuario_senha2").value != "") {
+    if(document.getElementById("usuario_senha1").value == document.getElementById("usuario_senha2").value)
+    {
+      var json_dados = ajax_method(false,'usuario.update_senha',localStorage.getItem("login_id"),document.getElementById("usuario_senha_antiga").value,document.getElementById("usuario_senha1").value);
+      var retorno = JSON.parse(json_dados);
+      if(retorno)
+        myApp.alert("Senha alterada com sucesso.");
+      else
+        myApp.alert("Erro ao alterar senha.");
+    }
     else
-      myApp.alert("Erro ao alterar senha.");
+      myApp.alert("Senhas não coincidem.");
   }
   else
-    myApp.alert("Senhas não coincidem.");
-
-  mainView.router.loadPage('perfil.html');
+  {
+      myApp.alert("Um ou mais campos foram deixados em branco.");
+  }
 }
 
 function login()

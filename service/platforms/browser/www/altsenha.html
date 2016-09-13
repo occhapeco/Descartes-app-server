@@ -3,17 +3,6 @@
 
   <div class="list-block">
   <ul>
-    <li>
-      <div class="item-content">
-        <div class="item-media"><i class="fa fa-lock"></i></div>
-        <div class="item-inner">
-          <div class="item-title label">Senha antiga</div>
-          <div class="item-input">
-            <input type="password" id="usuario_nome" placeholder="Senha antiga">
-          </div>
-        </div>
-      </div>
-    </li>
 
     <li>
       <div class="item-content">
@@ -21,7 +10,7 @@
         <div class="item-inner">
           <div class="item-title label">Nova senha</div>
           <div class="item-input">
-            <input type="password" id="usuario_nome" placeholder="Nova senha">
+            <input type="password" id="usuario_senha1" placeholder="Nova senha">
           </div>
         </div>
       </div>
@@ -33,7 +22,7 @@
         <div class="item-inner">
           <div class="item-title label">Digite novamente</div>
           <div class="item-input">
-            <input type="password" id="usuario_nome" placeholder="Repita a senha">
+            <input type="password" id="usuario_senha2" placeholder="Repita a senha">
           </div>
         </div>
       </div>
@@ -42,10 +31,10 @@
   <p class="buttons-row">
     <div class="row" style="width:90%;margin-left:5%;">
       <div class="col-50">
-        <a href="#" style="width:auto" class="button button-raised button-fill color-red">Cancelar</a>
+        <a href="#" style="width:auto" class="button button-raised button-fill color-red back">Cancelar</a>
       </div>
       <div class="col-50">
-        <a href="#" style="width:100%" class="button button-raised button-fill color-green">Salvar</a>
+        <a href="#" style="width:100%" onclick="alterar_senha();" class="button button-raised button-fill color-green">Salvar</a>
       </div>
     </div>
   </p>
