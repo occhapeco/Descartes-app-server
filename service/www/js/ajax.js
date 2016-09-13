@@ -17,15 +17,21 @@ $$(document).on('pageInit', function (e) {
       inicializar_map();
       mapa_refresh();
     }
+
+    if(page.name === 'perfil')
+    {
+      carregar_perfil();
+    }
 });
 
 function mapa_refresh()
 {
   myApp.showPreloader();
   setTimeout(function () {
-      criar_popover();
-      select_pontos();
-      myApp.hidePreloader();
+    inicializar_map();  
+    criar_popover();
+    select_pontos();
+    myApp.hidePreloader();
   },1000);
 }
 
@@ -110,6 +116,44 @@ function submit_login()
   $$("#login_form").click();
 }
 
+function carregar_perfil()
+{
+  var json_dados = ajax_method(false,'usuario.select_by_id',localStorage.getItem("login_id"));
+  var usuario = JSON.parse(json_dados);
+  document.getElementById("usuario_nome").value = usuario[0].nome;
+  document.getElementById("usuario_email").value = usuario[0].email;
+  document.getElementById("usuario_telefone").value = usuario[0].telefone;
+}
+
+function alterar_perfil()
+{
+  var json_dados = ajax_method(false,'usuario.update_perfil',localStorage.getItem("login_id"),document.getElementById("usuario_nome").value,document.getElementById("usuario_email").value,document.getElementById("usuario_telefone").value);
+  var retorno = JSON.parse(json_dados);
+  if(retorno)
+    myApp.alert("Perfil alterado com sucesso.");
+  else
+    myApp.alert("Erro ao alterar perfil.");
+
+  mainView.router.loadPage('perfil.html');
+}
+
+function alterar_senha()
+{
+  if(document.getElementById("usuario_senha1").value == document.getElementById("usuario_senha2").value)
+  {
+    var json_dados = ajax_method(false,'usuario.update_senha',localStorage.getItem("login_id"),document.getElementById("usuario_senha_antiga").value,document.getElementById("usuario_senha1").value);
+    var retorno = JSON.parse(json_dados);
+    if(retorno)
+      myApp.alert("Senha alterada com sucesso.");
+    else
+      myApp.alert("Erro ao alterar senha.");
+  }
+  else
+    myApp.alert("Senhas não coincidem.");
+  
+  mainView.router.loadPage('perfil.html');
+}
+
 function login()
 {
   var email = document.getElementById("login_email").value;
@@ -138,7 +182,6 @@ function logout()
 function select_pontos()
 {
   var json_dados = ajax_method(false,'ponto.select','');
-  console.log(json_dados);
 
   var ponto = JSON.parse(json_dados);
 
@@ -148,7 +191,6 @@ function select_pontos()
   for(var i=0;i<ponto.length;i++)
   {
     json_dados = ajax_method(false,'endereco.select_by_id',ponto[i].endereco_id);
-    console.log(json_dados);
     var endereco = JSON.parse(json_dados);
     var features = [];
     features["type"] = "mark1";
@@ -189,7 +231,6 @@ function criar_popover()
                   '</li>';
 
   var json_dados = ajax_method(false,'tipo_lixo.select','');
-  console.log(json_dados);
   var tipo_lixo = JSON.parse(json_dados);
 
   for(var i=0;i<tipo_lixo.length;i++)
