@@ -18,13 +18,18 @@ $$(document).on('pageInit', function (e) {
         mainView.router.loadPage('mapa.html');
     }
 
-    if(page.name === 'mapa')
+    if(page.name == 'mapa' && page.from != "left")
     {
       inicializar_map();
       mapa_refresh();
     }
 
-    if(page.name === 'perfil')
+    if(page.name == 'mapa' && page.from == "left")
+    {
+      carregar_perfil();
+    }
+
+    if(page.name == 'perfil')
     {
       carregar_perfil();
     }

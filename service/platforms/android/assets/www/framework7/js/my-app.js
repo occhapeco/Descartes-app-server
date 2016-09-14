@@ -25,8 +25,7 @@ var swidth = $$("#ba").width() - $$("#searche").width() - $$("#bc").width() - 16
 swidth+='px';
 $$("#hc").css('width',swidth);
 
-function search(){
-    alert("hjk");
+$$('#searche').on('click', function (e){
     if (o) 
     {
         $$("#refresh").hide();
@@ -45,4 +44,5 @@ function search(){
         $$("#loc").toggleClass('fa-search, fa-remove');
         o = true;
     }
-}
+    
+});

@@ -18,13 +18,18 @@ $$(document).on('pageInit', function (e) {
         mainView.router.loadPage('mapa.html');
     }
 
-    if(page.name === 'mapa')
+    if(page.name == 'mapa' && page.from != "left")
     {
       inicializar_map();
       mapa_refresh();
     }
 
-    if(page.name === 'perfil')
+    if(page.name == 'mapa' && page.from == "left")
+    {
+      carregar_perfil();
+    }
+
+    if(page.name == 'perfil')
     {
       carregar_perfil();
     }
@@ -317,33 +322,4 @@ function ajax_method()
   httpRequest.send(soapMessage);
 
   return retorno;
-}
-
-
-var o = true;
-
-var swidth = $$("#ba").width() - $$("#searche").width() - $$("#bc").width() - 16;
-swidth+='px';
-$$("#hc").css('width',swidth);
-
-function search(){
-    alert("hjk");
-    if (o) 
-    {
-        $$("#refresh").hide();
-        $$("#hc").css('width',swidth );
-        $$("#hc").toggleClass('hi');
-        $$("#hd").toggleClass('hi');
-        $$("#loc").toggleClass('fa-search, fa-remove');
-        $$("#pac-input").focus();
-        o = false;
-    }else
-    {
-        $$("#refresh").show();
-        $$("#hc").css('width',swidth);
-        $$("#hd").toggleClass('hi');
-        $$("#hc").toggleClass('hi');
-        $$("#loc").toggleClass('fa-search, fa-remove');
-        o = true;
-    }
 }
