@@ -177,19 +177,23 @@ function login()
   var senha = document.getElementById("login_senha").value;
   var id = null;
 
-  id = ajax_method(false,'usuario.login',email,senha);
+  myApp.showPreloader();
+  setTimeout(function () {
+    id = ajax_method(false,'usuario.login',email,senha);
 
-  if (id != 0)
-  {
-    localStorage.setItem("login_id",id);
-    myApp.alert('Login realizado com sucesso!',function (){
-      mainView.router.loadPage('mapa.html');
-    });
-  }
-  else
-  {
-    myApp.alert('Email ou senha não correspondem!');
-  }
+    if (id != 0)
+    {
+      localStorage.setItem("login_id",id);
+      myApp.alert('Login realizado com sucesso!',function (){
+        mainView.router.loadPage('mapa.html');
+      });
+    }
+    else
+    {
+      myApp.alert('Email ou senha não correspondem!');
+    }
+    myApp.hidePreloader();
+  },100);
 }
 
 function logout()
@@ -313,4 +317,33 @@ function ajax_method()
   httpRequest.send(soapMessage);
 
   return retorno;
+}
+
+
+var o = true;
+
+var swidth = $$("#ba").width() - $$("#searche").width() - $$("#bc").width() - 16;
+swidth+='px';
+$$("#hc").css('width',swidth);
+
+function search(){
+    alert("hjk");
+    if (o) 
+    {
+        $$("#refresh").hide();
+        $$("#hc").css('width',swidth );
+        $$("#hc").toggleClass('hi');
+        $$("#hd").toggleClass('hi');
+        $$("#loc").toggleClass('fa-search, fa-remove');
+        $$("#pac-input").focus();
+        o = false;
+    }else
+    {
+        $$("#refresh").show();
+        $$("#hc").css('width',swidth);
+        $$("#hd").toggleClass('hi');
+        $$("#hc").toggleClass('hi');
+        $$("#loc").toggleClass('fa-search, fa-remove');
+        o = true;
+    }
 }

@@ -177,19 +177,23 @@ function login()
   var senha = document.getElementById("login_senha").value;
   var id = null;
 
-  id = ajax_method(false,'usuario.login',email,senha);
+  myApp.showPreloader();
+  setTimeout(function () {
+    id = ajax_method(false,'usuario.login',email,senha);
 
-  if (id != 0)
-  {
-    localStorage.setItem("login_id",id);
-    myApp.alert('Login realizado com sucesso!',function (){
-      mainView.router.loadPage('mapa.html');
-    });
-  }
-  else
-  {
-    myApp.alert('Email ou senha não correspondem!');
-  }
+    if (id != 0)
+    {
+      localStorage.setItem("login_id",id);
+      myApp.alert('Login realizado com sucesso!',function (){
+        mainView.router.loadPage('mapa.html');
+      });
+    }
+    else
+    {
+      myApp.alert('Email ou senha não correspondem!');
+    }
+    myApp.hidePreloader();
+  },100);
 }
 
 function logout()
