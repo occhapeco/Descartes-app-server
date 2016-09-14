@@ -12,6 +12,7 @@
   <div class="page-content">
 
   <div class="list-block">
+  <form onsubmit="alterar_senha();"> 
   <ul>
 
   <li>
@@ -49,17 +50,18 @@
         </div>
       </div>
     </li>
-
+  </ul>
   <p class="buttons-row">
     <div class="row" style="width:90%;margin-left:5%;">
       <div class="col-50">
         <a href="#" style="width:auto" class="button button-raised button-fill color-red back">Cancelar</a>
       </div>
       <div class="col-50">
-        <a href="#" style="width:100%" onclick="alterar_senha();" class="button button-raised button-fill color-green">Salvar</a>
+        <button type="submit" style="width:100%" onclick="alterar_senha();" class="button button-raised button-fill color-green">Salvar</button>
       </div>
     </div>
   </p>
+  </form>
 
   </div>
 </div>

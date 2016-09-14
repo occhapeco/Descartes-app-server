@@ -167,7 +167,7 @@ function alterar_senha()
   }
   else
   {
-      myApp.alert("Um ou mais campos foram deixados em branco.");
+    myApp.alert("Um ou mais campos foram deixados em branco.");
   }
 }
 
@@ -182,11 +182,14 @@ function login()
   if (id != 0)
   {
     localStorage.setItem("login_id",id);
-    myApp.swipePanel = 'left';
-    mainView.router.loadPage('mapa.html');
+    myApp.alert('Login realizado com sucesso!',function (){
+      mainView.router.loadPage('mapa.html');
+    });
   }
   else
+  {
     myApp.alert('Email ou senha não correspondem!');
+  }
 }
 
 function logout()

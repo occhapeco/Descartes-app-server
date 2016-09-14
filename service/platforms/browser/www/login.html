@@ -1,37 +1,35 @@
 <div data-page="login-screen" class="page no-navbar no-toolbar no-swipeback">
   <div class="page-content login-screen-content">
     <div class="login-screen-title">Descartes Lab</div>
-      <form onsubmit="login();">
-        <div class="list-block">
-          <ul>
-            <li class="item-content">
-              <div class="item-inner">
-                <div class="item-title label">Email</div>
-                <div class="item-input">
-                  <input type="email" name="login_email" id="login_email" placeholder="ex: joão@batata.com" required>
-                </div>
+      <div class="list-block">
+        <ul>
+          <li class="item-content">
+            <div class="item-inner">
+              <div class="item-title label">Email</div>
+              <div class="item-input">
+                <input type="email" name="login_email" id="login_email" placeholder="ex: joão@batata.com" required>
               </div>
-            </li>
-            <li class="item-content">
-              <div class="item-inner">
-                <div class="item-title label">Senha</div>
-                <div class="item-input">
-                  <input type="password" name="login_senha" id="login_senha" placeholder="ex: *******" required>
-                </div>
+            </div>
+          </li>
+          <li class="item-content">
+            <div class="item-inner">
+              <div class="item-title label">Senha</div>
+              <div class="item-input">
+                <input type="password" name="login_senha" id="login_senha" placeholder="ex: *******" required>
               </div>
-            </li>
-          </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="list-block">
+        <ul>
+          <li>
+            <center><button onclick="login();" class="item-link button" style="width: 90%;">Entrar</button></center>
+          </li>
+        </ul>
+        <div class="list-block-label">
+          <p><a href="#" class="back button">Não possui cadastro? Clique aqui!</a></p>
         </div>
-        <div class="list-block">
-          <ul>
-            <li>
-              <button type="submit" onclick="login();" class="item-link button active">Entrar</button>
-            </li>
-          </ul>
-          <div class="list-block-label">
-            <p><a href="#" class="back button">Não possui cadastro? Clique aqui!</a></p>
-          </div>
-        </div>
-      </form>
-    </div>
+      </div>
   </div>
+</div>
