@@ -12,6 +12,12 @@ $$(document).on('pageInit', function (e) {
       inicializar();
     }
 
+    if(page.name === 'login')
+    {
+      if(localStorage.getItem("login_id") != null)
+        mainView.router.loadPage('mapa.html');
+    }
+
     if(page.name === 'mapa')
     {
       inicializar_map();
@@ -111,11 +117,6 @@ function mostrar_storage()
   myApp.alert("Usuário: "+login_id,'Informações de Login');
 }
 
-function submit_login()
-{
-  $$("#login_form").click();
-}
-
 function carregar_perfil()
 {
   myApp.showPreloader();
@@ -154,7 +155,10 @@ function alterar_senha()
       var json_dados = ajax_method(false,'usuario.update_senha',localStorage.getItem("login_id"),document.getElementById("usuario_senha_antiga").value,document.getElementById("usuario_senha1").value);
       var retorno = JSON.parse(json_dados);
       if(retorno)
+      {
         myApp.alert("Senha alterada com sucesso.");
+        mainView.router.loadPage('perfil.html');
+      }
       else
         myApp.alert("Erro ao alterar senha.");
     }
@@ -177,10 +181,9 @@ function login()
 
   if (id != 0)
   {
-    myApp.alert('Login realizado com sucesso!');
     localStorage.setItem("login_id",id);
     myApp.swipePanel = 'left';
-    mainView.router.loadPage('index.html');
+    mainView.router.loadPage('mapa.html');
   }
   else
     myApp.alert('Email ou senha não correspondem!');
@@ -189,7 +192,7 @@ function login()
 function logout()
 {
   localStorage.removeItem("login_id");  
-  myApp.alert('Logout efetuado com sucesso.');
+  mainView.router.loadPage('login.html');
 }
 
 function select_pontos()

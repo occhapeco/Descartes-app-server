@@ -7,7 +7,7 @@ var myApp = new Framework7({
     swipePanelActiveArea: 20,
     modalTitle: "Descartes Lab",
     modalButtonCancel: "Cancelar",
-    modalPreloaderTitle: "Carregando...",
+    modalPreloaderTitle: "Carregando..."
 });
 
 // Export selectors engine
