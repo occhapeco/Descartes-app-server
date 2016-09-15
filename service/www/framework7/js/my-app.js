@@ -8,7 +8,8 @@ var myApp = new Framework7({
     modalTitle: "Descartes Lab",
     modalButtonCancel: "Cancelar",
     modalPreloaderTitle: "Carregando...",
-    preloadPreviousPage : false
+    preloadPreviousPage : false,
+    uniqueHistory : true
 });
 
 // Export selectors engine
@@ -22,11 +23,11 @@ var mainView = myApp.addView('.view-main', {
 
 var o = true;
 
-var swidth = $$("#ba").width() - $$("#searche").width() - $$("#bc").width() - 16;
-swidth+='px';
-$$("#hc").css('width',swidth);
+function inverte () {
+    var swidth = $$("#ba").width() - $$("#searche").width() - $$("#bc").width() - 16; 
+    swidth+='px';
+    $$("#hc").css('width',swidth);
 
-$$('#searche').on('click', function (e){
     if (o) 
     {
         $$("#refresh").hide();
@@ -45,5 +46,5 @@ $$('#searche').on('click', function (e){
         $$("#loc").toggleClass('fa-search, fa-remove');
         o = true;
     }
-    
-});
+ 
+}
