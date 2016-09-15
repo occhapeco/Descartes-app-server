@@ -9,23 +9,27 @@ $$(document).on('pageInit', function (e) {
 
     if(page.name === 'index')
     {
+      criar_menu();
       inicializar();
     }
 
     if(page.name === 'login')
     {
+      remover_panel();
       if(localStorage.getItem("login_id") != null)
         mainView.router.loadPage('mapa.html');
     }
 
     if(page.name == 'mapa')
     {
+      criar_menu();
       inicializar_map();
       mapa_refresh();
     }
 
     if(page.name == 'perfil')
     {
+      criar_menu();
       carregar_perfil();
     }
 });
@@ -34,8 +38,19 @@ function mapa_refresh()
 {
   myApp.showPreloader();
   setTimeout(function () {
-    inicializar_map();  
     criar_popover();
+    inicializar_map();  
+    select_pontos();
+    myApp.hidePreloader();
+  },500);
+}
+
+function aplicar_filtro()
+{
+  myApp.closeModal();
+  myApp.showPreloader(); 
+  setTimeout(function () {
+    inicializar_map();  
     select_pontos();
     myApp.hidePreloader();
   },500);
@@ -45,10 +60,12 @@ function inicializar()
 {
   if(localStorage.getItem("login_id") == null)
   {
+    remover_panel();
     mainView.router.loadPage('login.html');
   }
   else
   {
+    criar_menu();
     mainView.router.loadPage('mapa.html');
   }
   //localStorage.removeItem("tutorial");
@@ -135,7 +152,6 @@ function alterar_perfil()
   myApp.showPreloader();
   setTimeout(function () {
     var json_dados = ajax_method(false,'usuario.update_perfil',localStorage.getItem("login_id"),document.getElementById("usuario_nome").value,document.getElementById("usuario_email").value,document.getElementById("usuario_telefone").value);
-    console.log(json_dados);
     var retorno = JSON.parse(json_dados);
     if(retorno)
       myApp.alert("Perfil alterado com sucesso.");
@@ -171,6 +187,46 @@ function alterar_senha()
   }
 }
 
+function criar_menu()
+{
+  var panel_html = '<li><a href="mapa.html" class="item-link">'+
+                      '<div class="item-content">'+
+                        '<div class="item-inner"> '+
+                          '<div class="item-title">Mapa</div>'+
+                        '</div>'+
+                      '</div></a></li>'+
+                    '<li><a href="#" class="item-link" onclick="mostrar_storage()">'+
+                      '<div class="item-content"> '+
+                        '<div class="item-inner">'+
+                          '<div class="item-title">Ver dados de Login</div>'+
+                        '</div>'+
+                      '</div></a></li>'+
+                  '<li><a href="perfil.html" class="item-link">'+
+                      '<div class="item-content">' +
+                        '<div class="item-inner">'+
+                          '<div class="item-title">Perfil</div>'+
+                        '</div>'+
+                     ' </div></a></li>'+
+                  '<li><a href="enderecos.html" class="item-link">'+
+                      '<div class="item-content"> '+
+                        '<div class="item-inner">'+
+                          '<div class="item-title">Enderecos</div>'+
+                        '</div>'+
+                      '</div></a></li>'+
+                  '<li><a href="#" class="item-link" onclick="logout();">'+
+                      '<div class="item-content"> '+
+                        '<div class="item-inner">'+
+                          '<div class="item-title">Logout</div>'+
+                        '</div>'+
+                      '</div></a></li>';
+  document.getElementById("local_panel").innerHTML = panel_html;
+}
+
+function remover_panel()
+{
+  document.getElementById("local_panel").innerHTML = '<p>Você não realizou o login!</p>';
+}
+
 function login()
 {
   var email = document.getElementById("login_email").value;
@@ -198,14 +254,29 @@ function login()
 
 function logout()
 {
+  remover_panel();
   localStorage.removeItem("login_id");  
   mainView.router.loadPage('login.html');
 }
 
 function select_pontos()
 {
-  var json_dados = ajax_method(false,'ponto.select','');
+  var json_dados = ajax_method(false,'tipo_lixo.select','');
+  var tipo_lixo = JSON.parse(json_dados);
+  var num = 0;
+  var condicao = '';
+  for(var j=0;j<tipo_lixo.length;j++)
+  {
+    if(document.getElementById("tipo_lixo_"+tipo_lixo[j].id).checked == true)
+    {
+      if(num != 0)
+        condicao += " OR";
+      condicao += " tipo_lixo_id = "+tipo_lixo[j].id;
+      num++;
+    }
+  }
 
+  json_dados = ajax_method(false,'ponto.select','');
   var ponto = JSON.parse(json_dados);
 
   setMapOnAll(null);
@@ -213,30 +284,38 @@ function select_pontos()
 
   for(var i=0;i<ponto.length;i++)
   {
-    json_dados = ajax_method(false,'endereco.select_by_id',ponto[i].endereco_id);
-    var endereco = JSON.parse(json_dados);
-    var features = [];
-    features["type"] = "mark1";
-    features["position"] = new google.maps.LatLng(endereco[0].latitude,endereco[0].longitude);
-    features["info"] = '<div class="list-block cards-list">'+
-                         '<ul>'+
-                           '<li class="card">'+
-                             '<div class="card-header">Nome do ponto</div>'+
-                             '<div class="card-content">'+
-                               '<div class="card-content-inner">Descrição do ponto</div>'+
-                             '</div>'+
-                             '<div class="card-footer">'+
-                             '<div class="content-block"><div class="buttons-row">'+
-                               '<a href="#" style="width:auto" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
-                             ''+
-                               '<a href="#" style="width:auto" class="button button-raised button-fill color-blue" onclick ="calculateAndDisplayRoute'+
-                               '('+endereco[0].latitude+','+endereco[0].longitude+')">Rotas até aqui</a>'+
-                             '</div></div></div>'+
-                           '</li>'+
-                         '</ul>'+
-                       '</div>';
-    features["draggable"] = false;
-    addMarker(features);
+    var condi = "ponto_id = "+ponto[i].id+" AND ("+condicao+")";
+    if(num == 0)
+      condi = '';
+    json_dados = ajax_method(false,'tipo_lixo_has_ponto.select',condi);
+    tipo_lixo_has_ponto = JSON.parse(json_dados);
+    if(tipo_lixo_has_ponto.length > 0)
+    {
+      json_dados = ajax_method(false,'endereco.select_by_id',ponto[i].endereco_id);
+      var endereco = JSON.parse(json_dados);
+      var features = [];
+      features["type"] = "mark1";
+      features["position"] = new google.maps.LatLng(endereco[0].latitude,endereco[0].longitude);
+      features["info"] = '<div class="list-block cards-list">'+
+                           '<ul>'+
+                             '<li class="card">'+
+                               '<div class="card-header">Nome do ponto</div>'+
+                               '<div class="card-content">'+
+                                 '<div class="card-content-inner">Descrição do ponto</div>'+
+                               '</div>'+
+                               '<div class="card-footer">'+
+                               '<div class="content-block"><div class="buttons-row">'+
+                                 '<a href="#" style="width:auto" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
+                               ''+
+                                 '<a href="#" style="width:auto" class="button button-raised button-fill color-blue" onclick ="calculateAndDisplayRoute'+
+                                 '('+endereco[0].latitude+','+endereco[0].longitude+')">Rotas até aqui</a>'+
+                               '</div></div></div>'+
+                             '</li>'+
+                           '</ul>'+
+                         '</div>';
+      features["draggable"] = false;
+      addMarker(features);
+    }
   }
   var markerCluster = new MarkerClusterer(map, markers, options); 
 }
@@ -259,7 +338,7 @@ function criar_popover()
   for(var i=0;i<tipo_lixo.length;i++)
     html += '<li>'+
               '<label class="label-checkbox item-content">'+
-                '<input type="checkbox" name="'+tipo_lixo[i].id+'">'+
+                '<input type="checkbox" id="tipo_lixo_'+tipo_lixo[i].id+'"  name="tipo_lixo_'+tipo_lixo[i].id+'" value="'+tipo_lixo[i].id+'" checked="false">'+
                 '<div class="item-media">'+
                   '<i class="icon icon-form-checkbox"></i>'+
                 '</div>'+
@@ -268,7 +347,12 @@ function criar_popover()
                 '</div>'+
               '</label>'+
             '</li>';
-  html += "</ul>";
+  html +=   '<li>'+
+              '<label class="label-checkbox item-content">'+
+                '<a onclick="aplicar_filtro();" style="width:100%;margin-right:15px;" class="button button-raised button-fill color-bluegray">Aplicar filtros</a>'+
+              '</label>'+
+            '</li>'+
+          '</ul>';
   component.innerHTML = html;
 }
 
