@@ -16,6 +16,18 @@
  <div class="list-block">
   <ul>
 
+  <li>
+      <div class="item-content">
+        <div class="item-media"><i class="fa fa-lock"></i></div>
+        <div class="item-inner">
+          <div class="item-title label">Nome do endereço</div>
+          <div class="item-input">
+            <input type="text" id="nome" placeholder="Nome do endereco">
+          </div>
+        </div>
+      </div>
+    </li>
+
     <li>
       <div class="item-content">
         <div class="item-media"><i class="fa fa-lock"></i></div>
@@ -115,7 +127,7 @@
   </ul>
 
   <p class="buttons-row">
-      <a href="#" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green back">Salvar</a>
+      <a onclick="adicionar_endereco();" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Salvar</a>
   </p>
   <p class="buttons-row">
       <a href="#" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-red back">Cancelar</a>
@@ -123,3 +135,35 @@
 
   </div>
 </div>
+
+<script type="text/javascript">
+function adicionar_endereco()
+{
+  myApp.showPreloader();
+  setTimeout(function () {
+    var json_dados = ajax_method(false,'endereco.insert',document.getElementById("rua").value,document.getElementById("numero").value,document.getElementById("complemento").value,document.getElementById("cep").value,document.getElementById("bairro").value,document.getElementById("uf").value,document.getElementById("cidade").value,document.getElementById("pais").value,0,0);
+    console.log(json_dados);
+    var retorno = JSON.parse(json_dados);
+    if(retorno != 0)
+    {
+      json_dados = ajax_method(false,'usuario_has_endereco.insert',localStorage.getItem("login_id"),retorno,document.getElementById("nome").value);
+      console.log(json_dados);
+      var retorno_id = JSON.parse(json_dados);
+      if(retorno_id != 0)
+      {
+        myApp.alert("Endereço criado com sucesso.");
+      }
+      else
+      {
+        json_dados = ajax_method(false,'endereco.delete',retorno);
+        myApp.alert("Seu endereco não pode ser criado, reveja suas informações ou sua conexão por favor.");
+      }
+    }
+    else
+      myApp.alert("Seu endereco não pode ser criado, reveja suas informações ou sua conexão por favor.");
+  myApp.hidePreloader();
+  },100);
+
+  mainView.router.loadPage('enderecos.html');
+}
+</script>
