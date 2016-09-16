@@ -44,6 +44,8 @@ function mapa_refresh()
 {
   myApp.showPreloader();
   setTimeout(function () {
+    document.getElementById("rightpanel").style.height = '0';
+    document.getElementById("map").style.height = '100%';
     criar_popover();
     inicializar_map();  
     select_pontos();
@@ -132,12 +134,6 @@ function tutorial()
     localStorage.setItem("tutorial",localStorage.getItem("tutorial") + 1);
     myApp.popover(popoverHTML,component);
   }*/
-}
-
-function mostrar_storage()
-{
-  var login_id = localStorage.getItem("login_id");
-  myApp.alert("Usuário: "+login_id,'Informações de Login');
 }
 
 function adicionar_endereco()
@@ -251,36 +247,30 @@ function criar_menu()
                           '<div class="item-title">Mapa</div>'+
                         '</div>'+
                       '</div></a></li>'+
-                    '<li><a href="#" class="item-link" onclick="mostrar_storage()">'+
-                      '<div class="item-content"> '+
-                        '<div class="item-inner">'+
-                          '<div class="item-title">Ver dados de Login</div>'+
-                        '</div>'+
-                      '</div></a></li>'+
-                  '<li><a href="perfil.html" class="item-link">'+
-                      '<div class="item-content">' +
-                        '<div class="item-inner">'+
-                          '<div class="item-title">Perfil</div>'+
-                        '</div>'+
-                     ' </div></a></li>'+
-                    '<li><a href="agendamentos.html" class="item-link">'+
-                      '<div class="item-content"> '+
-                        '<div class="item-inner">'+
-                          '<div class="item-title">Agendamentos</div>'+
-                        '</div>'+
-                      '</div></a></li>'+
-                  '<li><a href="enderecos.html" class="item-link">'+
-                      '<div class="item-content"> '+
-                        '<div class="item-inner">'+
-                          '<div class="item-title">Enderecos</div>'+
-                        '</div>'+
-                      '</div></a></li>'+
-                  '<li><a href="#" class="item-link" onclick="logout();">'+
-                      '<div class="item-content"> '+
-                        '<div class="item-inner">'+
-                          '<div class="item-title">Logout</div>'+
-                        '</div>'+
-                      '</div></a></li>';
+                    '<li><a href="perfil.html" class="item-link">'+
+                        '<div class="item-content">' +
+                          '<div class="item-inner">'+
+                            '<div class="item-title">Perfil</div>'+
+                          '</div>'+
+                       ' </div></a></li>'+
+                      '<li><a href="agendamentos.html" class="item-link">'+
+                        '<div class="item-content"> '+
+                          '<div class="item-inner">'+
+                            '<div class="item-title">Agendamentos</div>'+
+                          '</div>'+
+                        '</div></a></li>'+
+                    '<li><a href="enderecos.html" class="item-link">'+
+                        '<div class="item-content"> '+
+                          '<div class="item-inner">'+
+                            '<div class="item-title">Enderecos</div>'+
+                          '</div>'+
+                        '</div></a></li>'+
+                    '<li><a href="#" class="item-link" onclick="logout();">'+
+                        '<div class="item-content"> '+
+                          '<div class="item-inner">'+
+                            '<div class="item-title">Logout</div>'+
+                          '</div>'+
+                        '</div></a></li>';
   document.getElementById("local_panel").innerHTML = panel_html;
 }
 
