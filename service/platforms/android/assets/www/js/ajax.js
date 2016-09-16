@@ -38,6 +38,13 @@ $$(document).on('pageInit', function (e) {
       criar_menu();
       carregar_enderecos();
     }
+
+    if(page.name == 'agendamentos')
+    {
+      criar_menu();
+      carregar_agendamentos();
+    }
+    
 });
 
 function mapa_refresh()
@@ -134,6 +141,47 @@ function tutorial()
     localStorage.setItem("tutorial",localStorage.getItem("tutorial") + 1);
     myApp.popover(popoverHTML,component);
   }*/
+}
+
+function criar_agendamentos()
+{
+  myApp.showPreloader("Agendando coleta...");
+  setTimeout(function () {
+    myApp.hidePreloader();
+  },500);
+}
+
+function carregar_agendamentos()
+{
+  myApp.showPreloader();
+  setTimeout(function () {
+    var json_dados = ajax_method(false,"agendamento.select","usuario_id = "+localStorage.getItem("login_id"));
+    var agendamento = JSON.parse(json_dados);
+    for(var i=0;i<agendamento.length;i++)
+    {
+      json_dados = ajax_method(false,'empresa.select_by_id',agendamento[i].empresa_id);
+      var empresa = JSON.parse(json_dados);
+      var data = new Date(agendamento[i].data_agendamento);
+      var hoje = new Date;
+      var html = '<li class="accordion-item"><a href="#" class="item-content item-link">'+
+                '<div class="item-inner" >'+
+                  '<div class="item-title"><i class="fa fa-arrow-right"></i>   '+empresa[0].nome+'</div>'+
+                    '</div></a>'+
+                      '<div class="accordion-item-content" style="background-color:#EDEDED;"><div class="content-block">'+
+                          '<p>Data agendada: '+agendamento[i].data_agendamento+'</p>'+
+                          '<p>Horário: '+agendamento[i].horario+
+                      '</div></div></li>';
+      if((agendamento[i].aceito == 0) && (agendamento[i].realizado == 0))
+        document.getElementById('espera').innerHTML += html;
+      else if((agendamento[i].aceito == 1) && (agendamento[i].realizado == 0))
+        document.getElementById('aceitos').innerHTML += html;
+      else if((agendamento[i].aceito == 1) && (agendamento[i].realizado == 0) && (data < hoje))
+        document.getElementById('espera').innerHTML += html;
+      else if((agendamento[i].aceito == 0) && (agendamento[i].realizado == 0) && (data >= hoje))
+        document.getElementById('espera').innerHTML += html;
+    }
+    myApp.hidePreloader();
+  },500);
 }
 
 function adicionar_endereco()
@@ -311,6 +359,12 @@ function logout()
   mainView.router.loadPage('login.html');
 }
 
+function criar_agendamento(empresa_id)
+{
+  document.getElementById("empresa_id").value = empresa_id;
+  mainView.router.loadPage('addagendamento.html');
+}
+
 function select_pontos()
 {
   var json_dados = ajax_method(false,'tipo_lixo.select','');
@@ -357,7 +411,7 @@ function select_pontos()
                                '</div>'+
                                '<div class="card-footer">'+
                                '<div class="content-block"><div class="buttons-row">'+
-                                 '<a href="#" style="width:auto" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
+                                 '<a href="#" onclick="criar_agendamento('+ponto[i].empresa_id+');" style="width:auto" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
                                ''+
                                  '<a href="#" style="width:auto" class="button button-raised button-fill color-blue" onclick ="calculateAndDisplayRoute'+
                                  '('+endereco[0].latitude+','+endereco[0].longitude+')">Rotas até aqui</a>'+
