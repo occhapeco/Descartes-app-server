@@ -233,6 +233,12 @@ function criar_menu()
                           '<div class="item-title">Perfil</div>'+
                         '</div>'+
                      ' </div></a></li>'+
+                    '<li><a href="agendamentos.html" class="item-link">'+
+                      '<div class="item-content"> '+
+                        '<div class="item-inner">'+
+                          '<div class="item-title">Agendamentos</div>'+
+                        '</div>'+
+                      '</div></a></li>'+
                   '<li><a href="enderecos.html" class="item-link">'+
                       '<div class="item-content"> '+
                         '<div class="item-inner">'+
