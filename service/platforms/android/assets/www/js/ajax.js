@@ -134,6 +134,32 @@ function mostrar_storage()
   myApp.alert("Usuário: "+login_id,'Informações de Login');
 }
 
+function adicionar_endereco()
+{
+  myApp.showPreloader();
+  setTimeout(function () {
+    var endereco_id = ajax_method(false,'endereco.insert',document.getElementById("rua").value,document.getElementById("numero").value,document.getElementById("complemento").value,document.getElementById("cep").value,document.getElementById("bairro").value,document.getElementById("estado").value,document.getElementById("cidade").value,document.getElementById("pais").value,-27,-50);
+    if(endereco_id != 0)
+    {
+      var usuario_has_endereco_id  = ajax_method(false,'usuario_has_endereco.insert',localStorage.getItem("login_id"),endereco_id,document.getElementById("nome").value);
+      if(usuario_has_endereco_id != 0)
+      {
+        myApp.alert("Endereço criado com sucesso.");
+      }
+      else
+      {
+        var retorno = ajax_method(false,'endereco.delete',retorno);
+        myApp.alert("Seu endereco não pode ser criado, reveja suas informações ou sua conexão por favor.");
+      }
+    }
+    else
+      myApp.alert("Seu endereco não pode ser criado, reveja suas informações ou sua conexão por favor.");
+    myApp.hidePreloader();
+    mainView.router.loadPage('enderecos.html');
+  },500);
+
+}
+
 function carregar_perfil()
 {
   myApp.showPreloader();
