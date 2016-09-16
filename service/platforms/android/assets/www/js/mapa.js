@@ -170,4 +170,34 @@ function setMapOnAll(mapi) {
   }
 }
 
+function carregar_enderecos()
+{
+  myApp.showPreloader();
+  setTimeout(function () {
+    var json_dados = ajax_method(false,'usuario_has_endereco.select','usuario_id = '+ localStorage.getItem("login_id"));
+    console.log(json_dados);
+    var retorno = JSON.parse(json_dados);
+    var endereco;
+    document.getElementById('ulenderecos').innerHTML = '';
+
+    for (i = 0; i < retorno.length; i++)
+    {
+      json_dados = ajax_method(false,'endereco.select_by_id',retorno[i].endereco_id);
+      endereco = JSON.parse(json_dados);
+      document.getElementById('ulenderecos').innerHTML += 
+          '<li class="accordion-item"><a href="#" class="item-content item-link">'+
+              '<div class="item-inner" >'+
+                '<div class="item-title"><i class="fa fa-university"></i>   '+retorno[i].nome+'</div>'+
+                  '</div></a>'+
+                    '<div class="accordion-item-content" style="background-color:#EDEDED;"><div class="content-block">'+
+                        '<p>'+'Rua: '+endereco[i].rua+'</p>'+
+                        '<p>'+'Número: '+endereco[i].num+'. Complemento: '+endereco[i].complemento+'</p>'+
+                        '<p>'+'CEP:'+endereco[i].cep+'</p>'+
+                        '<p>'+'Cidade: '+endereco[i].cidade+'. Bairro: '+endereco[i].bairro+'</p>'+
+                        '<p>'+'UF: '+endereco[i].uf+'. País: '+endereco[i].pais+'</p>'+
+                    '</div></div></li>';
+    }
+    myApp.hidePreloader();
+  },100);
+}
 
