@@ -135,11 +135,13 @@ var options = {
           imagePath: 'mapa/images/m'
 };
 
+var ds = new google.maps.DirectionsRenderer;
 function calculateAndDisplayRoute(lati,longi) {
 
   var directionsService = new google.maps.DirectionsService;
-  var directionsDisplay = new google.maps.DirectionsRenderer; 
-
+  var directionsDisplay = new google.maps.DirectionsRenderer({draggable: true}); 
+  ds.setMap(null);
+  realiza_rota();
   directionsDisplay.setMap(map);
 
   directionsDisplay.setPanel(document.getElementById("rightpanel"));
@@ -148,8 +150,9 @@ function calculateAndDisplayRoute(lati,longi) {
   document.getElementById("rightpanel").style.zIndex = '9999999999999';
   document.getElementById("rightpanel").style.overflow = 'auto';
   document.getElementById("map").style.height = '60%';
+  infowindow.close();
 
-  setMapOnAll(null);
+  setMapOnAll(false);
 
   directionsService.route({
     origin: new google.maps.LatLng(-27.090416, -52.622415),
@@ -162,10 +165,11 @@ function calculateAndDisplayRoute(lati,longi) {
       myApp.alert('Não foi possível criar a rota que você requisitou.');
     }
   });
+  ds = directionsDisplay;
 }
 
 function setMapOnAll(mapi) {
   for (var i = 0; i < markers.length; i++) {
-    markers[i].setMap(mapi);
+    markers[i].setVisible(mapi);
   }
 }
