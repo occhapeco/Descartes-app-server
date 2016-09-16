@@ -32,6 +32,12 @@ $$(document).on('pageInit', function (e) {
       criar_menu();
       carregar_perfil();
     }
+
+    if(page.name == 'enderecos')
+    {
+      criar_menu();
+      carregar_enderecos();
+    }
 });
 
 function mapa_refresh()
@@ -158,6 +164,34 @@ function adicionar_endereco()
     mainView.router.loadPage('enderecos.html');
   },500);
 
+}
+
+function carregar_enderecos()
+{
+  myApp.showPreloader();
+  setTimeout(function () {
+    var json_dados = ajax_method(false,'usuario_has_endereco.select','usuario_id = '+localStorage.getItem("login_id"));
+    var retorno = JSON.parse(json_dados);
+    html = '';
+    for (i = 0; i < retorno.length; i++)
+    {
+      json_dados = ajax_method(false,'endereco.select_by_id',retorno[i].endereco_id);
+      var endereco = JSON.parse(json_dados);
+      html += '<li class="accordion-item"><a href="#" class="item-content item-link">'+
+                '<div class="item-inner" >'+
+                  '<div class="item-title"><i class="fa fa-university"></i>   '+retorno[i].nome+'</div>'+
+                    '</div></a>'+
+                      '<div class="accordion-item-content" style="background-color:#EDEDED;"><div class="content-block">'+
+                          '<p>Rua: '+endereco[0].rua+'</p>'+
+                          '<p>Número: '+endereco[0].num+'. Complemento: '+endereco[0].complemento+'</p>'+
+                          '<p>CEP:'+endereco[0].cep+'</p>'+
+                          '<p>Cidade: '+endereco[0].cidade+'. Bairro: '+endereco[0].bairro+'</p>'+
+                          '<p>UF: '+endereco[0].uf+'. País: '+endereco[0].pais+'</p>'+
+                      '</div></div></li>';
+    }
+    document.getElementById('ulenderecos').innerHTML = html;
+    myApp.hidePreloader();
+  },500);
 }
 
 function carregar_perfil()
