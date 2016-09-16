@@ -148,11 +148,7 @@ function adicionar_endereco()
     if(endereco_id != 0)
     {
       var usuario_has_endereco_id  = ajax_method(false,'usuario_has_endereco.insert',localStorage.getItem("login_id"),endereco_id,document.getElementById("nome").value);
-      if(usuario_has_endereco_id != 0)
-      {
-        myApp.alert("Endereço criado com sucesso.");
-      }
-      else
+      if(usuario_has_endereco_id == 0)
       {
         var retorno = ajax_method(false,'endereco.delete',retorno);
         myApp.alert("Seu endereco não pode ser criado, reveja suas informações ou sua conexão por favor.");
