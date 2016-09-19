@@ -11,33 +11,45 @@
   </div>
   <div class="page-content">
     <div class="list-block">
-      <ul>
+      <form onsubmit="criar_agendamento();"> 
+        <ul>
 
-        <li>
-          <div class="item-content">
-            <div class="item-media"><i class="fa fa-calendar"></i></div>
-            <div class="item-inner">
-              <div class="item-title label">Data da coleta</div>
-              <div class="item-input">
-                <input type="text" placeholder="Data da coleta" readonly id="calendar-default">
+          <li>
+            <div class="item-content">
+              <div class="item-media"><i class="fa fa-calendar"></i></div>
+              <div class="item-inner">
+                <div class="item-title label">Data da coleta</div>
+                <div class="item-input">
+                  <input type="text" placeholder="Data da coleta" readonly id="data_agendamento">
+                </div>
               </div>
             </div>
-          </div>
-        </li>
+          </li>
 
-        <li>
-          <div class="item-content">
-            <div class="item-media"><i class="fa fa-clock-o"></i></div>
-            <div class="item-inner">
-              <div class="item-title label">Horário da coleta</div>
-              <div class="item-input">
-                <input type="text" placeholder="Horário da coleta" readonly id="picker-device">
+          <li>
+            <div class="item-content">
+              <div class="item-media"><i class="fa fa-clock-o"></i></div>
+              <div class="item-inner">
+                <div class="item-title label">Horário da coleta</div>
+                <div class="item-input">
+                  <input type="text" placeholder="Horário da coleta" readonly id="horario_agendamento">
+                </div>
               </div>
             </div>
-          </div>
-        </li>
+          </li>
 
-      </ul> 
+        </ul>
+        <p class="buttons-row">
+          <div class="row" style="width:90%;margin-left:5%;">
+            <div class="col-50">
+              <a href="#" style="width:auto" class="button button-raised button-fill color-red back">Cancelar</a>
+            </div>
+            <div class="col-50">
+              <a style="width:100%" onclick="criar_agendamento();" class="button button-raised button-fill color-blue">Salvar</a>
+            </div>
+          </div>
+        </p>
+      </form>
     </div>
   </div>
 </div>

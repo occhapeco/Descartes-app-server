@@ -63,7 +63,34 @@ $$(document).on('pageInit', function (e) {
     if(page.name == 'agendar')
     {
       criar_menu();
-      myApp.alert(agendar.endereco_id);
+      var calendarDefault = myApp.calendar({
+        input: '#data_agendamento',
+      });  
+
+      var pickerDevice = myApp.picker({
+        input: '#horario_agendamento',
+        cols: [
+            {
+              values: (function () {
+                var arr = [];
+                for (var i = 0; i <= 23; i++) { arr.push(i < 10 ? '0' + i : i); }
+                return arr;
+              })(),
+            },
+            // Divider
+            {
+              values: ":",
+            },
+            // Minutes
+            {
+              values: (function () {
+                var arr = [];
+                for (var i = 0; i <= 59; i++) { arr.push(i < 10 ? '0' + i : i); }
+                return arr;
+              })(),
+            }
+          ]
+      });
     }
     
 });
@@ -168,6 +195,19 @@ function criar_agendamento()
 {
   myApp.showPreloader("Agendando coleta...");
   setTimeout(function () {
+    if ((document.getElementById("data_agendamento").value != "") && (document.getElementById("horario_agendamento").value != "")) 
+    {
+      var retorno = ajax_method(false,'agendamento.insert',agendar.empresa_id,localStorage.getItem("login_id"),document.getElementById("data_agendamento").value,document.getElementById("horario_agendamento").value,0,0);
+      console.log(retorno);
+      if(retorno != 0)
+      {
+        mainView.router.loadPage('agendamentos.html');
+      }
+      else
+        myApp.alert("Erro ao fazer agendamento.");
+    }
+    else
+      myApp.alert("Um ou mais campos foram deixados em branco.");
     myApp.hidePreloader();
   },500);
 }
@@ -186,7 +226,7 @@ function carregar_agendamentos()
       var hoje = new Date;
       var html = '<li class="accordion-item"><a href="#" class="item-content item-link">'+
                 '<div class="item-inner" >'+
-                  '<div class="item-title"><i class="fa fa-arrow-right"></i>   '+empresa[0].nome+'</div>'+
+                  '<div class="item-title"><i class="fa fa-arrow-right"></i>   '+empresa[0].nome_fantasia+'</div>'+
                     '</div></a>'+
                       '<div class="accordion-item-content" style="background-color:#EDEDED;"><div class="content-block">'+
                           '<p>Data agendada: '+agendamento[i].data_agendamento+'</p>'+
@@ -378,12 +418,6 @@ function logout()
   remover_panel();
   localStorage.removeItem("login_id");  
   mainView.router.loadPage('login.html');
-}
-
-function criar_agendamento(empresa_id)
-{
-  document.getElementById("empresa_id").value = empresa_id;
-  mainView.router.loadPage('addagendamento.html');
 }
 
 function select_pontos()
