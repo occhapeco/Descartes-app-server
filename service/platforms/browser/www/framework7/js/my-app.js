@@ -53,25 +53,27 @@ function cancela_rota()
 {
     $$("#hb").addClass('hi');
     $$("#refresh").show();
+    $$("#searche").show();
     $$("#hd").removeClass('hi');
     ds.setMap(null);
     setMapOnAll(true);
     document.getElementById("rightpanel").style.height = '0';
     document.getElementById("map").style.height = '100%';
 
-    /*markerCluster.set("map", HIDDEN_MAP);
+    markerCluster.addMarkers(markers);
     markerCluster.resetViewport();
-    markerCluster.redraw();*/
+    markerCluster.repaint();
 }
 
 function realiza_rota()
 {
+    $$("#searche").hide();
     $$("#hb").removeClass('hi');
     $$("#refresh").hide();
     $$("#hd").addClass('hi');
     $$("#hc").addClass('hi');
 
-    /*markerCluster.set("map", map);
+    markerCluster.clearMarkers();
     markerCluster.resetViewport();
-    markerCluster.redraw();*/
+    markerCluster.repaint();
 }

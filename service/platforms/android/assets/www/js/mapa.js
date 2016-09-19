@@ -139,7 +139,7 @@ var ds = new google.maps.DirectionsRenderer;
 function calculateAndDisplayRoute(lati,longi) {
 
   var directionsService = new google.maps.DirectionsService;
-  var directionsDisplay = new google.maps.DirectionsRenderer({draggable: true}); 
+  var directionsDisplay = new google.maps.DirectionsRenderer(); 
   ds.setMap(null);
   realiza_rota();
   directionsDisplay.setMap(map);
@@ -172,4 +172,19 @@ function setMapOnAll(mapi) {
   for (var i = 0; i < markers.length; i++) {
     markers[i].setVisible(mapi);
   }
+}
+
+var geocoder = new google.maps.Geocoder();
+
+function codeAddress() {
+    var address = document.getElementById( 'cidade' ).value+', '+document.getElementById( 'estado' ).value+ ', '+ document.getElementById( 'rua' ).value+' '+ document.getElementById( 'numero' ).value;
+    geocoder.geocode( { 'address' : address }, function( results, status ) {
+        if( status == google.maps.GeocoderStatus.OK ) {
+            document.getElementById( 'lat' ).value = results[0].geometry.location.lat();
+            document.getElementById( 'long' ).value = results[0].geometry.location.lng();
+            adicionar_endereco();
+        } else {
+            alert( 'Não podemos encontrar sua localização corretamente, por favor, reveja os dados.');
+        }
+    } );
 }
