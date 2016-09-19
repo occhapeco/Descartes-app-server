@@ -1,6 +1,21 @@
 var xhrTimeout=1000;
 var url='http://descartes.esy.es/';
 var urn = 'urn:descartes';
+var agendar = [empresa_id = 0,endereco_id = 0];
+
+var calendarDefault = myApp.calendar({
+    input: '#calendar-default',
+});  
+
+var pickerDevice = myApp.picker({
+    input: '#picker-device',
+    cols: [
+        {
+            textAlign: 'center',
+            values: ['iPhone 4', 'iPhone 4S', 'iPhone 5', 'iPhone 5S', 'iPhone 6', 'iPhone 6 Plus', 'iPad 2', 'iPad Retina', 'iPad Air', 'iPad mini', 'iPad mini 2', 'iPad mini 3']
+        }
+    ]
+});
 
 inicializar();
 
@@ -43,6 +58,11 @@ $$(document).on('pageInit', function (e) {
     {
       criar_menu();
       carregar_agendamentos();
+    }
+    if(page.name == 'agendar')
+    {
+      criar_menu();
+      myApp.alert(agendar.endereco_id);
     }
     
 });
@@ -143,7 +163,7 @@ function tutorial()
   }*/
 }
 
-function criar_agendamentos()
+function criar_agendamento()
 {
   myApp.showPreloader("Agendando coleta...");
   setTimeout(function () {
@@ -411,7 +431,7 @@ function select_pontos()
                                '</div>'+
                                '<div class="card-footer">'+
                                '<div class="content-block"><div class="buttons-row">'+
-                                 '<a href="#" onclick="criar_agendamento('+ponto[i].empresa_id+');" style="width:auto" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
+                                 '<a href="agendar.html" onclick="agendar.empresa_id='+ponto[i].empresa_id+';agendar.endereco_id='+endereco[0].id+';" style="width:auto" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
                                ''+
                                  '<a href="#" style="width:auto" class="button button-raised button-fill color-blue" onclick ="calculateAndDisplayRoute'+
                                  '('+endereco[0].latitude+','+endereco[0].longitude+')">Rotas até aqui</a>'+
