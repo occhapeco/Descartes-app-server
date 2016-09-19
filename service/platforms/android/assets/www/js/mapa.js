@@ -188,3 +188,23 @@ function codeAddress() {
         }
     } );
 }
+
+function cadastro()
+{
+  myApp.showPreloader();
+  setTimeout(function () {
+    var adduser = ajax_method(false,'usuario.insert',document.getElementById("cad_nome").value,document.getElementById("cad_email").value,document.getElementById("cad_senha").value,document.getElementById("cad_cpf").value,document.getElementById("cad_telefone").value);
+    if(adduser != 0)
+    {
+      myApp.hidePreloader();
+      localStorage.setItem("login_id",adduser);
+      mainView.router.loadPage('mapa.html');
+    }
+    else
+    {
+      myApp.hidePreloader();
+      myApp.alert("Seu perfil não pode ser criado, reveja suas informações ou sua conexão por favor.");
+    }
+  },500);
+
+}
