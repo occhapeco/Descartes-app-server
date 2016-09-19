@@ -2,6 +2,7 @@ var xhrTimeout=1000;
 var url='http://descartes.esy.es/';
 var urn = 'urn:descartes';
 var agendar = [empresa_id = 0,endereco_id = 0];
+var markerCluster;
 
 var calendarDefault = myApp.calendar({
     input: '#calendar-default',
@@ -208,7 +209,7 @@ function adicionar_endereco()
 {
   myApp.showPreloader();
   setTimeout(function () {
-    var endereco_id = ajax_method(false,'endereco.insert',document.getElementById("rua").value,document.getElementById("numero").value,document.getElementById("complemento").value,document.getElementById("cep").value,document.getElementById("bairro").value,document.getElementById("estado").value,document.getElementById("cidade").value,document.getElementById("pais").value,-27,-50);
+    var endereco_id = ajax_method(false,'endereco.insert',document.getElementById("rua").value,document.getElementById("numero").value,document.getElementById("complemento").value,document.getElementById("cep").value,document.getElementById("bairro").value,document.getElementById("estado").value,document.getElementById("cidade").value,document.getElementById("pais").value,document.getElementById("lat").value,document.getElementById("lng").value);
     if(endereco_id != 0)
     {
       var usuario_has_endereco_id  = ajax_method(false,'usuario_has_endereco.insert',localStorage.getItem("login_id"),endereco_id,document.getElementById("nome").value);
@@ -443,7 +444,7 @@ function select_pontos()
       addMarker(features);
     }
   }
-  var markerCluster = new MarkerClusterer(map, markers, options); 
+  markerCluster = new MarkerClusterer(map, markers, options); 
 }
 
 function criar_popover()
