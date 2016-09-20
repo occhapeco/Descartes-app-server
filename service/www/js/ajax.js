@@ -271,7 +271,15 @@ function carregar_enderecos()
       var endereco = JSON.parse(json_dados);
       html += '<li class="accordion-item"><a href="#" class="item-content item-link">'+
                 '<div class="item-inner" >'+
-                  '<div class="item-title"><i class="fa fa-university"></i>   '+retorno[i].nome+'</div>'+
+                  '<div class="item-title">';
+      if (localStorage.getItem("lat_padrao")==endereco[0].latitude && localStorage.getItem("long_padrao")==endereco[0].longitude)
+        html+='<i class="fa fa-star">';
+      else
+        html+='<i class="fa fa-university">';
+
+      botaum = "seleciona("+endereco[0].latitude+","+endereco[0].longitude+");"; 
+
+      html+='</i>   '+retorno[i].nome+'</div>'+
                     '</div></a>'+
                       '<div class="accordion-item-content" style="background-color:#EDEDED;"><div class="content-block">'+
                           '<p>Rua: '+endereco[0].rua+'</p>'+
@@ -279,6 +287,7 @@ function carregar_enderecos()
                           '<p>CEP:'+endereco[0].cep+'</p>'+
                           '<p>Cidade: '+endereco[0].cidade+'. Bairro: '+endereco[0].bairro+'</p>'+
                           '<p>UF: '+endereco[0].uf+'. País: '+endereco[0].pais+'</p>'+
+                          '<p><a onclick="'+botaum+'" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Endereço principal</a><p>'
                       '</div></div></li>';
     }
     document.getElementById('ulenderecos').innerHTML = html;
@@ -607,4 +616,11 @@ function cadastro()
     }
   },500);
 
+}
+
+function seleciona (lat,long)
+{
+  localStorage.setItem('lat_padrao',lat);
+  localStorage.setItem('long_padrao',long);
+  mainView.router.refreshPage();
 }

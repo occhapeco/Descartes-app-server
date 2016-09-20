@@ -155,7 +155,7 @@ function calculateAndDisplayRoute(lati,longi) {
   setMapOnAll(false);
 
   directionsService.route({
-    origin: new google.maps.LatLng(-27.090416, -52.622415),
+    origin: new google.maps.LatLng(localStorage.getItem("lat_padrao"), localStorage.getItem("long_padrao")),
     destination: new google.maps.LatLng(lati,longi),
     travelMode: google.maps.TravelMode.DRIVING
   }, function(response, status) {
