@@ -176,35 +176,3 @@ function setMapOnAll(mapi) {
 
 var geocoder = new google.maps.Geocoder();
 
-function codeAddress() {
-    var address = document.getElementById( 'cidade' ).value+', '+document.getElementById( 'estado' ).value+ ', '+ document.getElementById( 'rua' ).value+' '+ document.getElementById( 'numero' ).value;
-    geocoder.geocode( { 'address' : address }, function( results, status ) {
-        if( status == google.maps.GeocoderStatus.OK ) {
-            document.getElementById( 'lat' ).value = results[0].geometry.location.lat();
-            document.getElementById( 'long' ).value = results[0].geometry.location.lng();
-            adicionar_endereco();
-        } else {
-            alert( 'Não podemos encontrar sua localização corretamente, por favor, reveja os dados.');
-        }
-    } );
-}
-
-function cadastro()
-{
-  myApp.showPreloader();
-  setTimeout(function () {
-    var adduser = ajax_method(false,'usuario.insert',document.getElementById("cad_nome").value,document.getElementById("cad_email").value,document.getElementById("cad_senha").value,document.getElementById("cad_cpf").value,document.getElementById("cad_telefone").value);
-    if(adduser != 0)
-    {
-      myApp.hidePreloader();
-      localStorage.setItem("login_id",adduser);
-      mainView.router.loadPage('mapa.html');
-    }
-    else
-    {
-      myApp.hidePreloader();
-      myApp.alert("Seu perfil não pode ser criado, reveja suas informações ou sua conexão por favor.");
-    }
-  },500);
-
-}
