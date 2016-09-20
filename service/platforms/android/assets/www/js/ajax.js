@@ -1,7 +1,7 @@
 var xhrTimeout=1000;
 var url='http://descartes.esy.es/';
 var urn = 'urn:descartes';
-var agendar = [empresa_id = 0,endereco_id = 0];
+var empresa_id = 0;
 var markerCluster;
 
 inicializar();
@@ -49,6 +49,7 @@ $$(document).on('pageInit', function (e) {
     if(page.name == 'agendar')
     {
       criar_menu();
+      mostrar_enderecos();
       criar_tipos_lixo();
       var calendarDefault = myApp.calendar({
         input: '#data_agendamento',
@@ -184,10 +185,10 @@ function criar_agendamento()
   setTimeout(function () {
     if ((document.getElementById("data_agendamento").value != "") && (document.getElementById("horario_agendamento").value != "")) 
     {
-      var retorno = ajax_method(false,'agendamento.insert',agendar.empresa_id,localStorage.getItem("login_id"),document.getElementById("data_agendamento").value,document.getElementById("horario_agendamento").value,0,0);
-      console.log(retorno);
+      var retorno = ajax_method(false,'agendamento.insert',empresa_id,localStorage.getItem("login_id"),document.getElementById("data_agendamento").value,document.getElementById("horario_agendamento").value,document.getElementById("endereco_id_agendamento").value);
       if(retorno != 0)
       {
+        myApp.hidePreloader();
         mainView.router.loadPage('agendamentos.html');
       }
       else
@@ -213,15 +214,17 @@ function carregar_agendamentos()
     {
       json_dados = ajax_method(false,'empresa.select_by_id',agendamento[i].empresa_id);
       var empresa = JSON.parse(json_dados);
+      json_dados = ajax_method(false,'usuario_has_endereco.select',"endereco_id = "+agendamento[i].endereco_id+" AND usuario_id = "+localStorage.getItem("login_id"));
+      var usuario_has_endereco = JSON.parse(json_dados);
       var data = new Date(agendamento[i].data_agendamento);
       var hoje = new Date;
       var html = '<li class="accordion-item"><a href="#" class="item-content item-link">'+
                 '<div class="item-inner" >'+
-                  '<div class="item-title"><i class="fa fa-arrow-right"></i>   '+empresa[0].nome_fantasia+'</div>'+
+                  '<div class="item-title"><i class="fa fa-arrow-right"></i>   '+empresa[0].nome_fantasia+' - '+usuario_has_endereco[0].nome+'</div>'+
                     '</div></a>'+
                       '<div class="accordion-item-content" style="background-color:#EDEDED;"><div class="content-block">'+
                           '<p>Data agendada: '+agendamento[i].data_agendamento+'</p>'+
-                          '<p>Horário: '+agendamento[i].horario+
+                          '<p>Horário: '+agendamento[i].horario+'</p>'+
                       '</div></div></li>';
       if((agendamento[i].aceito == 0) && (agendamento[i].realizado == 0))
         document.getElementById('espera').innerHTML += html;
@@ -466,7 +469,7 @@ function select_pontos()
                                '</div>'+
                                '<div class="card-footer">'+
                                '<div class="content-block"><div class="buttons-row">'+
-                                 '<a href="agendar.html" onclick="agendar.empresa_id='+ponto[i].empresa_id+';agendar.endereco_id='+endereco[0].id+';" style="width:auto" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
+                                 '<a href="agendar.html" onclick="empresa_id='+ponto[i].empresa_id+';" style="width:auto" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
                                ''+
                                  '<a href="#" style="width:auto" class="button button-raised button-fill color-blue" onclick ="calculateAndDisplayRoute'+
                                  '('+endereco[0].latitude+','+endereco[0].longitude+')">Rotas até aqui</a>'+
@@ -481,6 +484,22 @@ function select_pontos()
   markerCluster = new MarkerClusterer(map, markers, options); 
 }
 
+function mostrar_enderecos()
+{
+  var json_dados = ajax_method(false,'usuario_has_endereco.select','usuario_id = '+localStorage.getItem("login_id"));
+  var usuario_has_endereco = JSON.parse(json_dados);
+  var html = "";
+
+  for(var i=0;i<usuario_has_endereco.length;i++)
+  {
+    html += '<option value='+usuario_has_endereco[i].endereco_id;
+    if(i==0)
+      html += ' selected';
+    html += '>'+usuario_has_endereco[i].nome+'</option>';
+  }
+  document.getElementById("endereco_id_agendamento").innerHTML = html;
+}
+
 function criar_tipos_lixo()
 {
   var json_dados = ajax_method(false,'tipo_lixo.select','');
@@ -488,18 +507,13 @@ function criar_tipos_lixo()
   var html = "";
 
   for(var i=0;i<tipo_lixo.length;i++)
-    html += '<li>'+
-              '<label class="label-checkbox item-content">'+
-                '<input type="checkbox" id="agendar_tipo_lixo_'+tipo_lixo[i].id+'"  name="agendar_tipo_lixo_'+tipo_lixo[i].id+'" value="'+tipo_lixo[i].id+'" checked="true">'+
-                '<div class="item-media">'+
-                  '<i class="icon icon-form-checkbox"></i>'+
-                '</div>'+
-                '<div class="item-inner">'+
-                  '<div class="item-title">'+tipo_lixo[i].nome+'</div>'+
-                '</div>'+
-              '</label>'+
-            '</li>';
-  document.getElementById("agendar_ul").innerHTML += html;
+  {
+    html += '<option value='+tipo_lixo[i].id;
+    if(i==0)
+      html += ' selected';
+    html += '>'+tipo_lixo[i].nome+'</option>';
+  }
+  document.getElementById("tipos_lixo_agendamento").innerHTML = html;
 }
 
 function criar_popover()

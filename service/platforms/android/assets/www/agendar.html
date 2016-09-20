@@ -38,6 +38,54 @@
             </div>
           </li>
 
+          <li>
+            <div class="item-content">
+              <div class="item-media"><i class="fa fa-university"></i></div>
+              <div class="item-inner">
+                <a href="#" class="item-link smart-select">
+                  <select id="endereco_id_agendamento">
+                    <option selected>Nada selecionado</option>
+                  </select>
+                  <div class="item-content">
+                    <div class="item-inner">
+                      <div class="item-title">Endereço</div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div class="item-content">
+              <div class="item-media"><i class="fa fa-university"></i></div>
+              <div class="item-inner">
+                <a href="#" class="item-link smart-select">
+                  <select id="tipos_lixo_agendamento" multiple>
+                    <option selected>Nada selecionado</option>
+                  </select>
+                  <div class="item-content">
+                    <div class="item-inner">
+                      <div class="item-title">Tipos de lixo</div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </li>
+
+          <li>
+            <div class="item-content">
+              <div class="item-media"><i class="fa fa-clock-o"></i></div>
+              <div class="item-inner">
+                <div class="item-title label">Quantidade média (em Kg)</div>
+                <div class="item-input">
+                  <input type="number" placeholder="Quantidade média (em Kg)" id="quantidade_agendamento">
+                </div>
+              </div>
+            </div>
+          </li>
+
         </ul>
         <p class="buttons-row">
           <div class="row" style="width:90%;margin-left:5%;">
@@ -45,7 +93,7 @@
               <a href="#" style="width:auto" class="button button-raised button-fill color-red back">Cancelar</a>
             </div>
             <div class="col-50">
-              <a style="width:100%" onclick="criar_agendamento();" class="button button-raised button-fill color-blue">Salvar</a>
+              <a style="width:100%" onclick="criar_agendamento();" class="button button-raised button-fill color-blue">Agendar</a>
             </div>
           </div>
         </p>
