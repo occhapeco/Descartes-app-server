@@ -67,6 +67,9 @@ function cancela_rota()
 
 function realiza_rota()
 {
+    if (!o) {
+        inverte();
+    }
     $$("#searche").hide();
     $$("#hb").removeClass('hi');
     $$("#refresh").hide();
