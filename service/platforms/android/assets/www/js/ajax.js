@@ -4,20 +4,6 @@ var urn = 'urn:descartes';
 var agendar = [empresa_id = 0,endereco_id = 0];
 var markerCluster;
 
-var calendarDefault = myApp.calendar({
-    input: '#calendar-default',
-});  
-
-var pickerDevice = myApp.picker({
-    input: '#picker-device',
-    cols: [
-        {
-            textAlign: 'center',
-            values: ['iPhone 4', 'iPhone 4S', 'iPhone 5', 'iPhone 5S', 'iPhone 6', 'iPhone 6 Plus', 'iPad 2', 'iPad Retina', 'iPad Air', 'iPad mini', 'iPad mini 2', 'iPad mini 3']
-        }
-    ]
-});
-
 inicializar();
 
 $$(document).on('pageInit', function (e) {
@@ -63,6 +49,7 @@ $$(document).on('pageInit', function (e) {
     if(page.name == 'agendar')
     {
       criar_menu();
+      criar_tipos_lixo();
       var calendarDefault = myApp.calendar({
         input: '#data_agendamento',
       });  
@@ -218,6 +205,10 @@ function carregar_agendamentos()
   setTimeout(function () {
     var json_dados = ajax_method(false,"agendamento.select","usuario_id = "+localStorage.getItem("login_id"));
     var agendamento = JSON.parse(json_dados);
+    document.getElementById('espera').innerHTML = "";
+    document.getElementById('aceitos').innerHTML = "";
+    document.getElementById('atrasados').innerHTML = "";
+    document.getElementById('realizados').innerHTML = "";
     for(var i=0;i<agendamento.length;i++)
     {
       json_dados = ajax_method(false,'empresa.select_by_id',agendamento[i].empresa_id);
@@ -234,12 +225,12 @@ function carregar_agendamentos()
                       '</div></div></li>';
       if((agendamento[i].aceito == 0) && (agendamento[i].realizado == 0))
         document.getElementById('espera').innerHTML += html;
+      else if((agendamento[i].aceito == 1) && (agendamento[i].realizado == 0) && (data < hoje))
+        document.getElementById('atrasados').innerHTML += html;
       else if((agendamento[i].aceito == 1) && (agendamento[i].realizado == 0))
         document.getElementById('aceitos').innerHTML += html;
-      else if((agendamento[i].aceito == 1) && (agendamento[i].realizado == 0) && (data < hoje))
-        document.getElementById('espera').innerHTML += html;
-      else if((agendamento[i].aceito == 0) && (agendamento[i].realizado == 0) && (data >= hoje))
-        document.getElementById('espera').innerHTML += html;
+      else if((agendamento[i].aceito == 1) && (agendamento[i].realizado == 1) && (data >= hoje))
+        document.getElementById('realizados').innerHTML += html;
     }
     myApp.hidePreloader();
   },500);
@@ -479,6 +470,27 @@ function select_pontos()
     }
   }
   markerCluster = new MarkerClusterer(map, markers, options); 
+}
+
+function criar_tipos_lixo()
+{
+  var json_dados = ajax_method(false,'tipo_lixo.select','');
+  var tipo_lixo = JSON.parse(json_dados);
+  var html = "";
+
+  for(var i=0;i<tipo_lixo.length;i++)
+    html += '<li>'+
+              '<label class="label-checkbox item-content">'+
+                '<input type="checkbox" id="agendar_tipo_lixo_'+tipo_lixo[i].id+'"  name="agendar_tipo_lixo_'+tipo_lixo[i].id+'" value="'+tipo_lixo[i].id+'" checked="true">'+
+                '<div class="item-media">'+
+                  '<i class="icon icon-form-checkbox"></i>'+
+                '</div>'+
+                '<div class="item-inner">'+
+                  '<div class="item-title">'+tipo_lixo[i].nome+'</div>'+
+                '</div>'+
+              '</label>'+
+            '</li>';
+  document.getElementById("agendar_ul").innerHTML += html;
 }
 
 function criar_popover()
