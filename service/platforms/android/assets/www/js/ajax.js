@@ -300,7 +300,7 @@ function carregar_enderecos()
                           '<p><a onclick="'+botaum+'" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Endereço principal</a><p>'+
                       '</div></div>'+
                       '<div class="swipeout-actions-left "><a href="addendereco.html?id='+retorno[i].endereco_id+'&nome='+retorno[i].nome+'" class="action1 bg-orange">Editar</a></div>'+
-                      '<div class="swipeout-actions-right "><a onclick="excluir_endereco('+retorno[i].endereco_id+')" class="action1 bg-red">Excluir</a></div>'+
+                      '<div class="swipeout-actions-right "><a onclick="excluir_endereco('+retorno[i].endereco_id+')" class="swipeout-delete bg-red">Excluir</a></div>'+
                       '</li>';
     }
     document.getElementById('ulenderecos').innerHTML = html;
@@ -708,15 +708,11 @@ function editar_endereco()
 
 function excluir_endereco(id)
 {
-    myApp.showPreloader();
     setTimeout(function () {
       var json_dados = ajax_method(false,'endereco.delete',id);
       if (json_dados) {
-         myApp.hidePreloader();
-         mainView.router.refreshPage();
       }
       else{
-        myApp.hidePreloader();
         myApp.alert("Não foi possível excluir seu endereço, por favor, reveja sua conexão.");
       }
     },500);
