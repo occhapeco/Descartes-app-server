@@ -190,12 +190,19 @@ function criar_agendamento()
 {
   myApp.showPreloader("Agendando coleta...");
   setTimeout(function () {
-    if ((document.getElementById("data_agendamento").value != "") && (document.getElementById("horario_agendamento").value != "")) 
+    var tipo_lixo_id = obter_select(document.getElementById("tipos_lixo_agendamento"));
+    if ((document.getElementById("data_agendamento").value != "") && (document.getElementById("horario_agendamento").value != "") && (document.getElementById("quantidade_agendamento").value != "" && tipo_lixo_id.length != 0)) 
     {
-      var retorno = ajax_method(false,'agendamento.insert',empresa_id,localStorage.getItem("login_id"),document.getElementById("data_agendamento").value,document.getElementById("horario_agendamento").value,document.getElementById("endereco_id_agendamento").value);
-      if(retorno != 0)
+      var agendamento_id = ajax_method(false,'agendamento.insert',empresa_id,localStorage.getItem("login_id"),document.getElementById("data_agendamento").value,document.getElementById("horario_agendamento").value,document.getElementById("endereco_id_agendamento").value);
+      if(agendamento_id != 0)
       {
-        myApp.hidePreloader();
+        for(var i=0;i<tipo_lixo_id.length;i++)
+        {
+          console.log(tipo_lixo_id[i]);
+          console.log(agendamento_id);
+          console.log(document.getElementById("quantidade_agendamento"));
+          var agendamento_has_tipo_lixo_id = ajax_method(false,'agendamento_has_tipo_lixo.insert',tipo_lixo_id[i],agendamento_id,document.getElementById("quantidade_agendamento").value);
+        }
         mainView.router.loadPage('agendamentos.html');
       }
       else
@@ -231,8 +238,21 @@ function carregar_agendamentos()
                     '</div></a>'+
                       '<div class="accordion-item-content" style="background-color:#EDEDED;"><div class="content-block">'+
                           '<p>Data agendada: '+agendamento[i].data_agendamento+'</p>'+
-                          '<p>Horário: '+agendamento[i].horario+'</p>'+
-                      '</div></div></li>';
+                          '<p>Horário: '+agendamento[i].horario+'</p>';
+      json_dados = ajax_method(false,'agendamento_has_tipo_lixo.select_by_agendamento',agendamento[i].id);
+      var agendamento_has_tipo_lixo = JSON.parse(json_dados);
+      var tipos_lixo = "";
+      for(var j=0;j<agendamento_has_tipo_lixo.length;j++)
+      {
+        json_dados = ajax_method(false,'tipo_lixo.select_by_id',agendamento_has_tipo_lixo[j].tipo_lixo_id);
+        var tipo_lixo = JSON.parse(json_dados);
+        if(j!=0)
+          tipos_lixo += ', ';
+        tipos_lixo += tipo_lixo[0].nome;
+      }
+      if(agendamento_has_tipo_lixo.length > 0)
+        html += '<p>Quantidade média (em Kg): '+agendamento_has_tipo_lixo[0].quantidade+'</p>';
+      html += '<p>Tipos de lixo: '+tipos_lixo+'</p></div></div></li>';
       if((agendamento[i].aceito == 0) && (agendamento[i].realizado == 0))
         document.getElementById('espera').innerHTML += html;
       else if((agendamento[i].aceito == 1) && (agendamento[i].realizado == 0) && (data < hoje))
@@ -517,12 +537,7 @@ function criar_tipos_lixo()
   var html = "";
 
   for(var i=0;i<tipo_lixo.length;i++)
-  {
-    html += '<option value='+tipo_lixo[i].id;
-    if(i==0)
-      html += ' selected';
-    html += '>'+tipo_lixo[i].nome+'</option>';
-  }
+    html += '<option value='+tipo_lixo[i].id+'>'+tipo_lixo[i].nome+'</option>';
   document.getElementById("tipos_lixo_agendamento").innerHTML = html;
 }
 
@@ -716,4 +731,19 @@ function excluir_endereco(id)
         myApp.alert("Não foi possível excluir seu endereço, por favor, reveja sua conexão.");
       }
     },500);
+}
+
+function obter_select(select) {
+  var resultado = [];
+  var options = select && select.options;
+  var opt;
+
+  for (var i=0, iLen=options.length; i<iLen; i++) {
+    opt = options[i];
+
+    if (opt.selected) {
+      resultado[i] = opt.value;
+    }
+  }
+  return resultado;
 }
