@@ -22,6 +22,13 @@ $$(document).on('pageInit', function (e) {
         mainView.router.loadPage('mapa.html');
     }
 
+    if(page.name === 'addendereco')
+    {
+      if (page.query.id) {
+        carregar_edicao_endereco(page.query.id,page.query.nome);
+      }
+    }
+
     if(page.name == 'mapa')
     {
       criar_menu();
@@ -272,7 +279,7 @@ function carregar_enderecos()
     {
       json_dados = ajax_method(false,'endereco.select_by_id',retorno[i].endereco_id);
       var endereco = JSON.parse(json_dados);
-      html += '<li class="accordion-item"><a href="#" class="item-content item-link">'+
+      html += '<li class="accordion-item swipeout"><a href="#" class="item-content swipeout-content item-link">'+
                 '<div class="item-inner" >'+
                   '<div class="item-title">';
       if (localStorage.getItem("lat_padrao")==endereco[0].latitude && localStorage.getItem("long_padrao")==endereco[0].longitude)
@@ -284,14 +291,17 @@ function carregar_enderecos()
 
       html+='</i>   '+retorno[i].nome+'</div>'+
                     '</div></a>'+
-                      '<div class="accordion-item-content" style="background-color:#EDEDED;"><div class="content-block">'+
+                      '<div class="accordion-item-content swipeout-content" style="background-color:#EDEDED;"><div class="content-block">'+
                           '<p>Rua: '+endereco[0].rua+'</p>'+
                           '<p>Número: '+endereco[0].num+'. Complemento: '+endereco[0].complemento+'</p>'+
                           '<p>CEP:'+endereco[0].cep+'</p>'+
                           '<p>Cidade: '+endereco[0].cidade+'. Bairro: '+endereco[0].bairro+'</p>'+
                           '<p>UF: '+endereco[0].uf+'. País: '+endereco[0].pais+'</p>'+
-                          '<p><a onclick="'+botaum+'" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Endereço principal</a><p>'
-                      '</div></div></li>';
+                          '<p><a onclick="'+botaum+'" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Endereço principal</a><p>'+
+                      '</div></div>'+
+                      '<div class="swipeout-actions-left "><a href="addendereco.html?id='+retorno[i].endereco_id+'&nome='+retorno[i].nome+'" class="action1 bg-orange">Editar</a></div>'+
+                      '<div class="swipeout-actions-right "><a onclick="excluir_endereco('+retorno[i].endereco_id+')" class="action1 bg-red">Excluir</a></div>'+
+                      '</li>';
     }
     document.getElementById('ulenderecos').innerHTML = html;
     myApp.hidePreloader();
@@ -607,7 +617,20 @@ function codeAddress() {
             document.getElementById( 'long' ).value = results[0].geometry.location.lng();
             adicionar_endereco();
         } else {
-            alert( 'Não podemos encontrar sua localização corretamente, por favor, reveja os dados.');
+            myApp.alert( 'Não podemos encontrar sua localização corretamente, por favor, reveja os dados.');
+        }
+    } );
+}
+
+function codeAddressa() {
+    var address = document.getElementById( 'cidade' ).value+', '+document.getElementById( 'estado' ).value+ ', '+ document.getElementById( 'rua' ).value+' '+ document.getElementById( 'numero' ).value;
+    geocoder.geocode( { 'address' : address }, function( results, status ) {
+        if( status == google.maps.GeocoderStatus.OK ) {
+            document.getElementById( 'lat' ).value = results[0].geometry.location.lat();
+            document.getElementById( 'long' ).value = results[0].geometry.location.lng();
+            editar_endereco();
+        } else {
+            myApp.alert( 'Não podemos encontrar sua localização corretamente, por favor, reveja os dados.');
         }
     } );
 }
@@ -637,4 +660,64 @@ function seleciona (lat,long)
   localStorage.setItem('lat_padrao',lat);
   localStorage.setItem('long_padrao',long);
   mainView.router.refreshPage();
+}
+
+function carregar_edicao_endereco(id,nome)
+{
+    id = parseInt(id);
+    myApp.showPreloader();
+    setTimeout(function () {
+      var json_dados = ajax_method(false,'endereco.select_by_id',id);
+      var retorno = JSON.parse(json_dados);
+
+      document.getElementById('nome').value = nome;
+      document.getElementById('nome').disabled = true;
+      document.getElementById('rua').value = retorno[0].rua;
+      document.getElementById('numero').value = retorno[0].num;
+      document.getElementById('complemento').value = retorno[0].complemento;
+      document.getElementById('cep').value = retorno[0].cep;
+      document.getElementById('bairro').value = retorno[0].bairro;
+      document.getElementById('estado').value = retorno[0].uf;
+      document.getElementById('cidade').value = retorno[0].cidade;
+      document.getElementById('pais').value = retorno[0].pais;
+      document.getElementById('lat').value = retorno[0].latitude;
+      document.getElementById('long').value = retorno[0].longitude;
+      document.getElementById('id').value = id;
+      $$("#salvar").toggleClass('hi');
+      $$("#editar").toggleClass('hi');
+      $$("#excluir").toggleClass('hi');
+      myApp.hidePreloader();
+    },500);
+}
+
+function editar_endereco()
+{
+    myApp.showPreloader();
+    setTimeout(function () {
+      var json_dados = ajax_method(false,'endereco.update',document.getElementById('id').value,document.getElementById('rua').value,document.getElementById('numero').value,document.getElementById('complemento').value,document.getElementById('cep').value,document.getElementById('bairro').value,document.getElementById('estado').value,document.getElementById('cidade').value,document.getElementById('pais').value,document.getElementById('lat').value,document.getElementById('long').value);
+      if (json_dados) {
+         myApp.hidePreloader();
+         mainView.router.loadPage('enderecos.html');
+      }
+      else{
+        myApp.hidePreloader();
+        myApp.alert("Não foi possível editar seu endereço, por favor, reveja sua conexão ou dados.")
+      }
+    },500);
+}
+
+function excluir_endereco(id)
+{
+    myApp.showPreloader();
+    setTimeout(function () {
+      var json_dados = ajax_method(false,'endereco.delete',id);
+      if (json_dados) {
+         myApp.hidePreloader();
+         mainView.router.refreshPage();
+      }
+      else{
+        myApp.hidePreloader();
+        myApp.alert("Não foi possível excluir seu endereço, por favor, reveja sua conexão.");
+      }
+    },500);
 }
