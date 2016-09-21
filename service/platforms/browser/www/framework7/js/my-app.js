@@ -75,6 +75,7 @@ function realiza_rota()
     $$("#refresh").hide();
     $$("#hd").addClass('hi');
     $$("#hc").addClass('hi');
+    infowindow.close();
 
     markerCluster.clearMarkers();
     markerCluster.resetViewport();
