@@ -11,6 +11,7 @@ function inicializar_map()
         center: new google.maps.LatLng(0.234035, -24.178513),
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         mapTypeControl : false,
+        draggable:true,
         streetViewControlOptions: {
             position: google.maps.ControlPosition.BOTTOM_CENTER
         },

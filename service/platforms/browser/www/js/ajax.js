@@ -478,12 +478,12 @@ function select_pontos()
                                  '<div class="card-content-inner">Descrição do ponto</div>'+
                                '</div>'+
                                '<div class="card-footer">'+
-                               '<div class="content-block"><div class="buttons-row">'+
-                                 '<a href="agendar.html" onclick="empresa_id='+ponto[i].empresa_id+';" style="width:auto" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
-                               ''+
-                                 '<a href="#" style="width:auto" class="button button-raised button-fill color-blue" onclick ="calculateAndDisplayRoute'+
+                               '<div class="content-block"><p class="buttons-row">'+
+                                 '<a href="agendar.html" onclick="empresa_id='+ponto[i].empresa_id+';" style="width:100%" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
+                               '</p><p class="buttons-row">'+
+                                 '<a href="#" style="width:100%" class="button button-raised button-fill color-blue" onclick ="calculateAndDisplayRoute'+
                                  '('+endereco[0].latitude+','+endereco[0].longitude+')">Rotas até aqui</a>'+
-                               '</div></div></div>'+
+                               '</p></div></div>'+
                              '</li>'+
                            '</ul>'+
                          '</div>';
