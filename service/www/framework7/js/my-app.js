@@ -81,3 +81,17 @@ function realiza_rota()
     markerCluster.resetViewport();
     markerCluster.repaint();
 }
+
+var google1 = "https://www.google.com/images/errors/logo_sm.gif"; 
+    ping( google1 );
+
+function ping( page ){
+         var ImageObject = new Image();
+         ImageObject.src = page;
+
+         if( ImageObject.height>0 ) {
+         } else {
+           myApp.alert( " sem conexão " );
+         }
+
+}
