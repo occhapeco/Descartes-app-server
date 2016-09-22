@@ -198,9 +198,6 @@ function criar_agendamento()
       {
         for(var i=0;i<tipo_lixo_id.length;i++)
         {
-          console.log(tipo_lixo_id[i]);
-          console.log(agendamento_id);
-          console.log(document.getElementById("quantidade_agendamento"));
           var agendamento_has_tipo_lixo_id = ajax_method(false,'agendamento_has_tipo_lixo.insert',tipo_lixo_id[i],agendamento_id,document.getElementById("quantidade_agendamento").value);
         }
         mainView.router.loadPage('agendamentos.html');
@@ -232,11 +229,11 @@ function carregar_agendamentos()
       var usuario_has_endereco = JSON.parse(json_dados);
       var data = new Date(agendamento[i].data_agendamento);
       var hoje = new Date;
-      var html = '<li class="accordion-item"><a href="#" class="item-content item-link">'+
+      var html = '<li class="accordion-item swipeout" id="li_id_'+agendamento[i].id+'"><a href="#" class="item-content swipeout-content item-link">'+
                 '<div class="item-inner" >'+
                   '<div class="item-title"><i class="fa fa-arrow-right"></i>   '+empresa[0].nome_fantasia+' - '+usuario_has_endereco[0].nome+'</div>'+
                     '</div></a>'+
-                      '<div class="accordion-item-content" style="background-color:#EDEDED;"><div class="content-block">'+
+                      '<div class="accordion-item-content swipeout-content" style="background-color:#EDEDED;"><div class="content-block">'+
                           '<p>Data agendada: '+agendamento[i].data_agendamento+'</p>'+
                           '<p>Horário: '+agendamento[i].horario+'</p>';
       json_dados = ajax_method(false,'agendamento_has_tipo_lixo.select_by_agendamento',agendamento[i].id);
@@ -252,18 +249,24 @@ function carregar_agendamentos()
       }
       if(agendamento_has_tipo_lixo.length > 0)
         html += '<p>Quantidade média (em Kg): '+agendamento_has_tipo_lixo[0].quantidade+'</p>';
-      html += '<p>Tipos de lixo: '+tipos_lixo+'</p></div></div></li>';
+      html += '<p>Tipos de lixo: '+tipos_lixo+'</p>';
+      btn = '<p><a onclick="cancelar_agendamento('+agendamento[i].id+')" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-red swipeout-delete">Cancelar Agendamento</a><p>';
       if((agendamento[i].aceito == 0) && (agendamento[i].realizado == 0))
-        document.getElementById('espera').innerHTML += html;
+        document.getElementById('espera').innerHTML += html+btn+'</div></div></li>';
       else if((agendamento[i].aceito == 1) && (agendamento[i].realizado == 0) && (data < hoje))
-        document.getElementById('atrasados').innerHTML += html;
+        document.getElementById('atrasados').innerHTML += html+btn+'</div></div></li>';
       else if((agendamento[i].aceito == 1) && (agendamento[i].realizado == 0))
-        document.getElementById('aceitos').innerHTML += html;
+        document.getElementById('aceitos').innerHTML += html+btn+'</div></div></li>';
       else if((agendamento[i].aceito == 1) && (agendamento[i].realizado == 1) && (data >= hoje))
-        document.getElementById('realizados').innerHTML += html;
+        document.getElementById('realizados').innerHTML += html+'</div></div></li>';
     }
     myApp.hidePreloader();
   },500);
+}
+
+function cancelar_agendamento(id)
+{
+  var cancelador = ajax_method(false,'agendamento.cancelar',id);
 }
 
 function adicionar_endereco()
@@ -316,12 +319,13 @@ function carregar_enderecos()
                           '<p>Número: '+endereco[0].num+'. Complemento: '+endereco[0].complemento+'</p>'+
                           '<p>CEP:'+endereco[0].cep+'</p>'+
                           '<p>Cidade: '+endereco[0].cidade+'. Bairro: '+endereco[0].bairro+'</p>'+
-                          '<p>UF: '+endereco[0].uf+'. País: '+endereco[0].pais+'</p>'+
-                          '<p><a onclick="'+botaum+'" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Endereço principal</a><p>'+
-                      '</div></div>'+
-                      '<div class="swipeout-actions-left "><a href="addendereco.html?id='+retorno[i].endereco_id+'&nome='+retorno[i].nome+'" class="action1 bg-orange">Editar</a></div>'+
-                      '<div class="swipeout-actions-right "><a onclick="excluir_endereco('+retorno[i].endereco_id+')" class="swipeout-delete bg-red">Excluir</a></div>'+
-                      '</li>';
+                          '<p>UF: '+endereco[0].uf+'. País: '+endereco[0].pais+'</p>';
+      if (localStorage.getItem("lat_padrao")!=endereco[0].latitude && localStorage.getItem("long_padrao")!=endereco[0].longitude)
+        html += '<p><a onclick="'+botaum+'" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Definir como principal</a><p>';
+      html += '</div></div>'+
+              '<div class="swipeout-actions-left "><a href="addendereco.html?id='+retorno[i].endereco_id+'&nome='+retorno[i].nome+'" class="action1 bg-orange">Editar</a></div>'+
+              '<div class="swipeout-actions-right "><a onclick="excluir_endereco('+retorno[i].endereco_id+')" class="swipeout-delete bg-red">Excluir</a></div>'+
+              '</li>';
     }
     document.getElementById('ulenderecos').innerHTML = html;
     myApp.hidePreloader();
