@@ -461,6 +461,47 @@ function alterar_senha()
   }
 }
 
+function excluir_notificacao(id)
+{
+    setTimeout(function () {
+      var json_dados = ajax_method(false,'notificacao.delete',id);
+      if (json_dados) {
+      }
+      else{
+        myApp.alert("Não foi possível excluir sua notificação, por favor, reveja sua conexão.");
+      }
+    },500);
+}
+
+function carregar_notificacoes()
+{
+  myApp.showPreloader();
+  setTimeout(function () {
+    var json_dados = ajax_method(false,'notificacao.select_by_usuario',localStorage.getItem("login_id"));
+    var retorno = JSON.parse(json_dados);
+    html = '';
+    for (i = 0; i < retorno.length; i++)
+    {
+      if (retorno[i].destino == 0) {
+        json_dados = ajax_method(false,'empresa.select_by_id',retorno[i].empresa_id);
+        var empresa = JSON.parse(json_dados);
+        html += '<li class="swipeout">'+
+                    '<div class="swipeout-content item-content">'+
+                      '<div class="item-media"></div>'+
+                      '<div class="item-inner">'+empresa[0].nome_fantasia;
+                      if (retorno[i].tipo == 1)
+                        html += ' aceitou o agendamento.</div>';
+                      if (retorno[i].tipo == 2)
+                        html += ' recusou o agendamento.</div>';
+                    html +='</div>';
+        html += '<div class="swipeout-actions-right"><a onclick="excluir_notificacao('+retorno[i].id+');" class="bg-red swipeout-delete">Excluir</a></div></li>';
+      }
+    }
+    document.getElementById('ulnotificacoes').innerHTML = html;
+    myApp.hidePreloader();
+  },500);
+}
+
 function remover_menu()
 {
   document.getElementById("local_panel").innerHTML = '<p>Você não realizou o login!</p>';
@@ -483,7 +524,13 @@ function criar_menu()
                     '<li><a href="enderecos.html" onclick="myApp.closePanel();" class="item-link">'+
                         '<div class="item-content"> '+
                           '<div class="item-inner">'+
-                            '<div class="item-title">Enderecos</div>'+
+                            '<div class="item-title">Endereços</div>'+
+                          '</div>'+
+                        '</div></a></li>'+
+                      '<li><a href="notificacoes.html" onclick="myApp.closePanel();" class="item-link">'+
+                        '<div class="item-content"> '+
+                          '<div class="item-inner">'+
+                            '<div class="item-title">Notificações</div>'+
                           '</div>'+
                         '</div></a></li>'+
                     '<li><a href="#" class="item-link" onclick="myApp.closePanel();logout();">'+
