@@ -31,7 +31,7 @@ var mainView = myApp.addView('.view-main', {
 var o = true;
 
 function inverte () {
-    var swidth = $$("#ba").width() - $$("#searche").width() - $$("#bc").width() - 16; 
+    var swidth = $$("#ba").width() - $$("#searche").width() - $$("#bc").width(); 
     swidth+='px';
     $$("#hc").css('width',swidth);
 
@@ -564,11 +564,11 @@ function mostrar_tela_mapa()
                                                           '<div id="hc" class="right hi">'+
                                                             '<form data-search-list=".list-block-search" data-search-in=".item-title" class="searchbar searchbar-init">'+
                                                               '<div class="searchbar-input">'+
-                                                                '<input id="pac-input" class="controls" type="search" placeholder="Localidade" data-tap-disabled="true">'+
+                                                                '<input id="pac-input" class="controls no-fastclick" type="search" placeholder="Localidade" data-tap-disabled="true">'+
                                                               '</div>'+
                                                             '</form>'+
                                                           '</div>'+
-                                                          '<div class="center">'+
+                                                          '<div class="center" style="margin:0!important">'+
                                                             '<div id="hb" class="hi" onclick="cancela_rota();">'+
                                                               'Apagar Rota  <i class="fa fa-remove"></i>'+
                                                             '</div>'+

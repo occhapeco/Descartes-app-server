@@ -58,7 +58,8 @@ function inicializar_map()
   //map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
   // Bias the SearchBox results towards current map's viewport.
-  map.addListener('bounds_changed', function() {
+  map.addListener('bounds_changed', function() { 
+    $$('.pac-container').addClass('no-fastclick');
     searchBox.setBounds(map.getBounds());
   });
 

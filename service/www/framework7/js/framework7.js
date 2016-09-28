@@ -44,7 +44,7 @@
             pushStateSeparator: '#!/',
             pushStateOnLoad: true,
             // Fast clicks
-            fastClicks: false,
+            fastClicks: true,
             fastClicksDistanceThreshold: 10,
             fastClicksDelayBetweenClicks: 50,
             // Tap Hold
