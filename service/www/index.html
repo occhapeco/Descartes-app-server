@@ -4,16 +4,15 @@
 
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui" />
-  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="theme-color" content="#9c27b0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="stylesheet" href="framework7/css/framework7.material.min.css">
   <link rel="stylesheet" href="framework7/css/framework7.material.colors.min.css">
   <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="framework7/css/my-app.css">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script type="text/javascript" src="mapa/js/markerclusterer.js"></script>
 
   <title>Descartes</title>
@@ -78,8 +77,6 @@
 <body class="theme-bluegray" onload="tutorial();">
     <!-- Status bar overlay for fullscreen mode-->
     <div class="statusbar-overlay"></div>
-    <!-- Panels overlay-->
-    <div class="panel-overlay"></div>
       <!-- Left panel with reveal effect-->
       <div class="panel panel-left panel-cover" style="background-color:#FAFAFA;">
         <div class="list-block" style="margin:0 !important;">
@@ -115,7 +112,7 @@
 
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript" src="framework7/js/framework7.min.js"></script>
+    <script type="text/javascript" src="framework7/js/framework7.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmWPAIE9_AASg6Ijgoh0lVOZZ_VWvw6fg&libraries=places"></script>
     <script type="text/javascript" src="js/mapa.js"></script>
     <script type="text/javascript" src="js/ajax.js"></script>

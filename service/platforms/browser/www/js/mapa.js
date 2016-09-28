@@ -89,7 +89,6 @@ function inicializar_map()
     });
     map.fitBounds(bounds);
   });
-
 }
 
 //local dos ícones utilizados

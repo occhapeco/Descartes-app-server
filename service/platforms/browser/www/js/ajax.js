@@ -18,7 +18,7 @@ var myApp = new Framework7({
     swipePanelActiveArea: 20,
     init: false,
     preloadPreviousPage: false,
-    uniqueHistory: true,
+    uniqueHistory: true
 });
 
 var $$ = Dom7;
@@ -468,25 +468,25 @@ function remover_menu()
 
 function criar_menu()
 {
-  var panel_html = '<li><a href="perfil.html" class="item-link">'+
+  var panel_html = '<li><a href="perfil.html" onclick="myApp.closePanel();" class="item-link">'+
                         '<div class="item-content">' +
                           '<div class="item-inner">'+
                             '<div class="item-title">Perfil</div>'+
                           '</div>'+
                        ' </div></a></li>'+
-                      '<li><a href="agendamentos.html" class="item-link">'+
+                      '<li><a href="agendamentos.html" onclick="myApp.closePanel();" class="item-link">'+
                         '<div class="item-content"> '+
                           '<div class="item-inner">'+
                             '<div class="item-title">Agendamentos</div>'+
                           '</div>'+
                         '</div></a></li>'+
-                    '<li><a href="enderecos.html" class="item-link">'+
+                    '<li><a href="enderecos.html" onclick="myApp.closePanel();" class="item-link">'+
                         '<div class="item-content"> '+
                           '<div class="item-inner">'+
                             '<div class="item-title">Enderecos</div>'+
                           '</div>'+
                         '</div></a></li>'+
-                    '<li><a href="#" class="item-link" onclick="logout();">'+
+                    '<li><a href="#" class="item-link" onclick="myApp.closePanel();logout();">'+
                         '<div class="item-content"> '+
                           '<div class="item-inner">'+
                             '<div class="item-title">Logout</div>'+
@@ -603,7 +603,6 @@ function login()
 function logout()
 {
   remover_menu();
-  myApp.closePanel();
   localStorage.removeItem("login_id");  
   mainView.router.refreshPage();
 }
