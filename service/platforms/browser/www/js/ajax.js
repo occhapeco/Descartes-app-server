@@ -5,6 +5,7 @@ var empresa_id = 0;
 var markerCluster;
 
 var myApp = new Framework7({
+    material: true,
     pushState: true,
     animatePages: true,
     modalTitle: "Descartes Lab",
@@ -13,13 +14,13 @@ var myApp = new Framework7({
     smartSelectBackText: 'Voltar',
     smartSelectPopupCloseText: 'Fechar',
     smartSelectPickerCloseText: 'Definir',
-    material: true,
     swipePanel: "left",
     swipePanelActiveArea: 20,
     init: false,
-    preloadPreviousPage : false,
-    uniqueHistory : true
+    preloadPreviousPage: false,
+    uniqueHistory: true,
 });
+
 var $$ = Dom7;
 
 // Add view
@@ -97,13 +98,6 @@ $$(document).on('pageInit', function (e) {
     {
       criar_menu();
       inicializar();
-    }
-
-    if(page.name === 'login')
-    {
-      remover_menu();
-      if(localStorage.getItem("login_id") != null)
-        mainView.router.loadPage('mapa.html');
     }
 
     if(page.name === 'addendereco')
@@ -195,7 +189,6 @@ function inicializar()
       {
         remover_menu();
         mostrar_tela_login();
-        criar_menu();
       }
       else
       {
@@ -468,15 +461,14 @@ function alterar_senha()
   }
 }
 
+function remover_menu()
+{
+  document.getElementById("local_panel").innerHTML = '<p>Você não realizou o login!</p>';
+}
+
 function criar_menu()
 {
-  var panel_html = '<li><a href="mapa.html" class="item-link">'+
-                      '<div class="item-content">'+
-                        '<div class="item-inner"> '+
-                          '<div class="item-title">Mapa</div>'+
-                        '</div>'+
-                      '</div></a></li>'+
-                    '<li><a href="perfil.html" class="item-link">'+
+  var panel_html = '<li><a href="perfil.html" class="item-link">'+
                         '<div class="item-content">' +
                           '<div class="item-inner">'+
                             '<div class="item-title">Perfil</div>'+
@@ -585,11 +577,6 @@ function mostrar_tela_login()
                                                     '</div>';
 }
 
-function remover_menu()
-{
-  document.getElementById("local_panel").innerHTML = '<p>Você não realizou o login!</p>';
-}
-
 function login()
 {
   var email = document.getElementById("login_email").value;
@@ -616,6 +603,7 @@ function login()
 function logout()
 {
   remover_menu();
+  myApp.closePanel();
   localStorage.removeItem("login_id");  
   mainView.router.refreshPage();
 }
