@@ -284,6 +284,7 @@ function criar_agendamento()
         {
           var agendamento_has_tipo_lixo_id = ajax_method(false,'agendamento_has_tipo_lixo.insert',tipo_lixo_id[i],agendamento_id,document.getElementById("quantidade_agendamento").value);
         }
+        mainView.router.back();
         mainView.router.loadPage('agendamentos.html');
       }
       else
@@ -291,6 +292,7 @@ function criar_agendamento()
     }
     else
       myApp.alert("Um ou mais campos foram deixados em branco.");
+    mainView.router.back();
     myApp.hidePreloader();
   },500);
 }
