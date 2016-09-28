@@ -117,6 +117,14 @@ $$(document).on('pageInit', function (e) {
       carregar_enderecos();
     }
 
+    if(page.name === 'notificacoes')
+    {
+      myApp.closePanel();
+      setTimeout(function () {
+        carregar_notificacoes()
+      },300);
+    }
+
     if(page.name == 'agendamentos')
     {
       carregar_agendamentos();
@@ -719,15 +727,10 @@ function mostrar_enderecos()
 {
   var json_dados = ajax_method(false,'usuario_has_endereco.select','usuario_id = '+localStorage.getItem("login_id"));
   var usuario_has_endereco = JSON.parse(json_dados);
-  var html = "";
+  var html = "<option value='0' selected>Nada selecionado</option>";
 
   for(var i=0;i<usuario_has_endereco.length;i++)
-  {
-    html += '<option value='+usuario_has_endereco[i].endereco_id;
-    if(i==0)
-      html += ' selected';
-    html += '>'+usuario_has_endereco[i].nome+'</option>';
-  }
+    html += '<option value='+usuario_has_endereco[i].endereco_id+'>'+usuario_has_endereco[i].nome+'</option>';
   document.getElementById("endereco_id_agendamento").innerHTML = html;
 }
 
