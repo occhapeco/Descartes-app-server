@@ -16,11 +16,9 @@ var myApp = new Framework7({
     smartSelectPickerCloseText: 'Definir',
     swipePanel: "left",
     swipePanelActiveArea: 20,
-    materialPageLoadDelay:50,
     init: false,
     preloadPreviousPage: false,
-    uniqueHistory: true,
-    tapHold: false
+    uniqueHistory: true
 });
 
 var $$ = Dom7;

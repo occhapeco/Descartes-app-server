@@ -46,10 +46,10 @@
             // Fast clicks
             fastClicks: false,
             fastClicksDistanceThreshold: 10,
-            fastClicksDelayBetweenClicks: 10,
+            fastClicksDelayBetweenClicks: 50,
             // Tap Hold
             tapHold: false,
-            tapHoldDelay: 1250,
+            tapHoldDelay: 750,
             tapHoldPreventClicks: true,
             // Active State
             activeState: true,
