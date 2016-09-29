@@ -495,16 +495,13 @@ function carregar_notificacoes()
       if (retorno[i].destino == 0) {
         json_dados = ajax_method(false,'empresa.select_by_id',retorno[i].empresa_id);
         var empresa = JSON.parse(json_dados);
-        html += '<li class="swipeout">'+
-                    '<div class="swipeout-content item-content">'+
-                      '<div class="item-media"></div>'+
-                      '<div class="item-inner">'+empresa[0].nome_fantasia;
-                      if (retorno[i].tipo == 1)
-                        html += ' aceitou o agendamento.</div>';
-                      if (retorno[i].tipo == 2)
-                        html += ' recusou o agendamento.</div>';
-                    html +='</div>';
-        html += '<div class="swipeout-actions-right"><a onclick="excluir_notificacao('+retorno[i].id+');" class="bg-red swipeout-delete">Excluir</a></div></li>';
+        html += '<li class="item-link swipeout">'+
+                    '<div class="swipeout-content item-content">';
+        if (retorno[i].tipo == 0)
+          html += '<div class="item-media"><i class="fa fa-hourglass-2"></i></div><div class="item-inner">'+empresa[0].nome_fantasia+' aceitou o agendamento.</div>';
+        if (retorno[i].tipo == 1)
+          html += '<div class="item-media"><i class="fa fa-calendar-times-o"></i></div><div class="item-inner">'+empresa[0].nome_fantasia+' recusou o agendamento.</div>';
+        html +='</div><div class="swipeout-actions-right"><a onclick="excluir_notificacao('+retorno[i].id+');" class="bg-red swipeout-delete">Excluir</a></div></li>';
       }
     }
     document.getElementById('ulnotificacoes').innerHTML = html;
