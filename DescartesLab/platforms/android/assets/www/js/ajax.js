@@ -748,14 +748,7 @@ function criar_tipos_lixo()
 function criar_popover()
 {
   var component = document.getElementById("popover-list");
-  var html = '<ul>'+
-                '<li>'+
-                    '<div class="item-content"> '+
-                      '<div class="item-inner">'+
-                        '<div class="item-title" style="font-size:18px;">Filtros</div>'+
-                      '</div>'
-                    '</div>'+
-                  '</li>';
+  var html = '<ul>';
 
   var json_dados = ajax_method(false,'tipo_lixo.select','');
   var tipo_lixo = JSON.parse(json_dados);
@@ -772,12 +765,7 @@ function criar_popover()
                 '</div>'+
               '</label>'+
             '</li>';
-  html +=   '<li>'+
-              '<label class="label-checkbox item-content">'+
-                '<a onclick="aplicar_filtro();" style="width:100%;margin-right:15px;" class="button button-raised button-fill color-bluegray">Aplicar filtros</a>'+
-              '</label>'+
-            '</li>'+
-          '</ul>';
+  html +=   '</ul>';
   component.innerHTML = html;
 }
 

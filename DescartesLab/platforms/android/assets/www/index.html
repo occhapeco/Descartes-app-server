@@ -102,9 +102,16 @@
     <!--FILTROS-->
     <div class="popover demo-popover" style="z-index:1333330 !important;" id="filter-popover">
       <div class="popover-inner">
-        <div id="popover-list" class="list-block">
+        <div class="list-block">
+          <h5 style="font-size:18px;margin-left: 20px;">Filtros</h5>
+        </div>
+        <div id="popover-list" class="list-block" style="max-height: 500px;overflow: auto;">
           <!-- Conteúdo do popover (óbvio) -->
         </div>
+        <div class="list-block">
+          <a onclick="aplicar_filtro();" style="width:100%;margin-right:15px;" class="button button-raised button-fill color-bluegray">Aplicar filtros</a>
+        </div>
+
       </div>
     </div>
 
