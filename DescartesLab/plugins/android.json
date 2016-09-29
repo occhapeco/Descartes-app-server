@@ -1,0 +1,76 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-battery-status": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-media-capture": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-contacts": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-device-motion": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-device-orientation": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-globalization": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-media": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-vibration": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        }
+    },
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        }
+    }
+}

@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="cc.descarteslab" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <preference name="loglevel" value="DEBUG" />
+    <feature name="Battery">
+        <param name="android-package" value="org.apache.cordova.batterystatus.BatteryListener" />
+    </feature>
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <allow-navigation href="cdvfile:*" />
+    <feature name="Capture">
+        <param name="android-package" value="org.apache.cordova.mediacapture.Capture" />
+    </feature>
+    <feature name="Contacts">
+        <param name="android-package" value="org.apache.cordova.contacts.ContactManager" />
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="Accelerometer">
+        <param name="android-package" value="org.apache.cordova.devicemotion.AccelListener" />
+    </feature>
+    <feature name="Compass">
+        <param name="android-package" value="org.apache.cordova.deviceorientation.CompassListener" />
+    </feature>
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
+    <feature name="FileTransfer">
+        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
+    </feature>
+    <feature name="Geolocation">
+        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
+    </feature>
+    <feature name="Globalization">
+        <param name="android-package" value="org.apache.cordova.globalization.Globalization" />
+    </feature>
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    </feature>
+    <feature name="Media">
+        <param name="android-package" value="org.apache.cordova.media.AudioHandler" />
+    </feature>
+    <feature name="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="StatusBar">
+        <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Vibration">
+        <param name="android-package" value="org.apache.cordova.vibration.Vibration" />
+    </feature>
+    <feature name="Whitelist">
+        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <icon density="ldpi" src="imagens/logo37.png" />
+    <icon density="mdpi" src="imagens/logo37.png" />
+    <icon density="hdpi" src="imagens/logo37.png" />
+    <icon density="xhdpi" src="imagens/logo37.png" />
+    <icon density="xxhdpi" src="imagens/logo37.png" />
+    <icon density="xxxhdpi" src="imagens/logo37.png" />
+    <splash density="land-ldpi" src="imagens/logobase.png" />
+    <splash density="land-mdpi" src="imagens/logobase.png" />
+    <splash density="land-hdpi" src="imagens/logobase.png" />
+    <splash density="land-xhdpi" src="imagens/logobase.png" />
+    <splash density="land-xxhdpi" src="imagens/logobase.png" />
+    <splash density="land-xxxhdpi" src="imagens/logobase.png" />
+    <splash density="port-ldpi" src="imagens/logobase.png" />
+    <splash density="port-mdpi" src="imagens/logobase.png" />
+    <splash density="port-hdpi" src="imagens/logobase.png" />
+    <splash density="port-xhdpi" src="imagens/logobase.png" />
+    <splash density="port-xxhdpi" src="imagens/logobase.png" />
+    <splash density="port-xxxhdpi" src="imagens/logobase.png" />
+    <allow-intent href="market:*" />
+    <name>Descartes Lab</name>
+    <description>
+        App do DescartesLab para usuários.
+    </description>
+    <author email="occhapecosenai@gmail.com" href="http://descarteslab.cc">
+        OC Chapecó 2016
+    </author>
+    <content src="index.html" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="android-minSdkVersion" value="14" />
+    <icon src="icon.png" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+</widget>
