@@ -335,16 +335,16 @@ function carregar_agendamentos()
           tipos_lixo += ', ';
         tipos_lixo += tipo_lixo[0].nome;
       }
-      if(agendamento_has_tipo_lixo.length > 0)
-        html += '<p>Quantidade média (em Kg): '+agendamento_has_tipo_lixo[0].quantidade+'</p>';
+      html += '<p>Quantidade média (em Kg): '+agendamento_has_tipo_lixo[0].quantidade+'</p>';
       html += '<p>Tipos de lixo: '+tipos_lixo+'</p>';
-      btn = '<p><a onclick="cancelar_agendamento('+agendamento[i].id+')" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-red swipeout-delete">Cancelar Agendamento</a><p>';
+      btn_realizar = '<p><a onclick="realizar_agendamento('+agendamento[i].id+')" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green swipeout-delete">Definir como realizado</a><p>';;
+      btn = '<p><a onclick="cancelar_agendamento('+agendamento[i].id+')" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-red swipeout-delete">Cancelar agendamento</a><p>';
       if((agendamento[i].aceito == 0) && (agendamento[i].realizado == 0))
         document.getElementById('espera').innerHTML += html+btn+'</div></div></li>';
       else if((agendamento[i].aceito == 1) && (agendamento[i].realizado == 0) && (data < hoje))
-        document.getElementById('atrasados').innerHTML += html+btn+'</div></div></li>';
+        document.getElementById('atrasados').innerHTML += html+btn_realizar+btn+'</div></div></li>';
       else if((agendamento[i].aceito == 1) && (agendamento[i].realizado == 0))
-        document.getElementById('aceitos').innerHTML += html+btn+'</div></div></li>';
+        document.getElementById('aceitos').innerHTML += html+btn_realizar+btn+'</div></div></li>';
       else if((agendamento[i].aceito == 1) && (agendamento[i].realizado == 1) && (data >= hoje))
         document.getElementById('realizados').innerHTML += html+'</div></div></li>';
     }
@@ -355,6 +355,12 @@ function carregar_agendamentos()
 function cancelar_agendamento(id)
 {
   var cancelador = ajax_method(false,'agendamento.cancelar',id);
+}
+
+function realizar_agendamento(id)
+{
+  var realizador = ajax_method(false,'agendamento.realizar',id);
+  carregar_agendamentos();
 }
 
 function adicionar_endereco()
