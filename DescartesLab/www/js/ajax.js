@@ -858,17 +858,23 @@ function cadastro()
 {
   myApp.showPreloader();
   setTimeout(function () {
-    var adduser = ajax_method(false,'usuario.insert',document.getElementById("cad_nome").value,document.getElementById("cad_email").value,document.getElementById("cad_senha").value,document.getElementById("cad_cpf").value,document.getElementById("cad_telefone").value);
-    if(adduser != 0)
+    if(document.getElementById("cad_senha").value == document.getElementById("cad_senha2").value)
     {
-      myApp.hidePreloader();
-      myApp.alert("Seu perfil foi criado, por favor, faça login.");
-      mainView.router.back();
-    }
-    else
-    {
-      myApp.hidePreloader();
-      myApp.alert("Seu perfil não pode ser criado, reveja suas informações ou sua conexão por favor.");
+      var adduser = ajax_method(false,'usuario.insert',document.getElementById("cad_nome").value,document.getElementById("cad_email").value,document.getElementById("cad_senha").value,document.getElementById("cad_cpf").value,document.getElementById("cad_telefone").value);
+      if(adduser != 0)
+      {
+        myApp.hidePreloader();
+        mainView.router.back();
+        mostrar_tela_mapa();
+        mapa_refresh();
+        criar_menu();
+        localStorage.setItem("login_id",adduser);
+      }
+      else
+      {
+        myApp.hidePreloader();
+        myApp.alert("Seu perfil não pode ser criado, reveja suas informações ou sua conexão por favor.");
+      }
     }
   },500);
 
