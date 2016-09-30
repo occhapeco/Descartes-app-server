@@ -664,63 +664,68 @@ function logout()
 
 function select_pontos()
 {
-  var json_dados = ajax_method(false,'tipo_lixo.select','');
-  var tipo_lixo = JSON.parse(json_dados);
-  var num = 0;
-  var condicao = '';
-  for(var j=0;j<tipo_lixo.length;j++)
-  {
-    if(document.getElementById("tipo_lixo_"+tipo_lixo[j].id).checked == true)
+  if (localStorage.getItem("long_padrao") != null) {
+    var json_dados = ajax_method(false,'tipo_lixo.select','');
+    var tipo_lixo = JSON.parse(json_dados);
+    var num = 0;
+    var condicao = '';
+    for(var j=0;j<tipo_lixo.length;j++)
     {
-      if(num != 0)
-        condicao += " OR";
-      condicao += " tipo_lixo_id = "+tipo_lixo[j].id;
-      num++;
+      if(document.getElementById("tipo_lixo_"+tipo_lixo[j].id).checked == true)
+      {
+        if(num != 0)
+          condicao += " OR";
+        condicao += " tipo_lixo_id = "+tipo_lixo[j].id;
+        num++;
+      }
     }
-  }
 
-  json_dados = ajax_method(false,'ponto.select','');
-  var ponto = JSON.parse(json_dados);
+    json_dados = ajax_method(false,'ponto.select_by_coordenadas',localStorage.getItem("lat_padrao"),localStorage.getItem("long_padrao"));
+    var ponto = JSON.parse(json_dados);
 
-  setMapOnAll(null);
-  markers = [];
+    setMapOnAll(null);
+    markers = [];
 
-  for(var i=0;i<ponto.length;i++)
-  {
-    var condi = "ponto_id = "+ponto[i].id+" AND ("+condicao+")";
-    if(num == 0)
-      condi = '';
-    json_dados = ajax_method(false,'tipo_lixo_has_ponto.select',condi);
-    tipo_lixo_has_ponto = JSON.parse(json_dados);
-    if(tipo_lixo_has_ponto.length > 0)
+    for(var i=0;i<ponto.length;i++)
     {
-      json_dados = ajax_method(false,'endereco.select_by_id',ponto[i].endereco_id);
-      var endereco = JSON.parse(json_dados);
-      var features = [];
-      features["type"] = "mark1";
-      features["position"] = new google.maps.LatLng(endereco[0].latitude,endereco[0].longitude);
-      features["info"] = '<div class="list-block cards-list">'+
-                           '<ul>'+
-                             '<li class="card">'+
-                               '<div class="card-header">Nome do ponto</div>'+
-                               '<div class="card-content">'+
-                                 '<div class="card-content-inner">Descrição do ponto</div>'+
-                               '</div>'+
-                               '<div class="card-footer">'+
-                               '<div class="content-block"><p class="buttons-row">'+
-                                 '<a href="agendar.html" onclick="empresa_id='+ponto[i].empresa_id+';" style="width:100%" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
-                               '</p><p class="buttons-row">'+
-                                 '<a href="#" style="width:100%" class="button button-raised button-fill color-blue" onclick ="calculateAndDisplayRoute'+
-                                 '('+endereco[0].latitude+','+endereco[0].longitude+')">Rotas até aqui</a>'+
-                               '</p></div></div>'+
-                             '</li>'+
-                           '</ul>'+
-                         '</div>';
-      features["draggable"] = false;
-      addMarker(features);
+      var condi = " ponto_id = "+ponto[i].id+" AND ("+condicao+")";
+      if(num == 0)
+        condi = '';
+      json_dados = ajax_method(false,'tipo_lixo_has_ponto.select',condi);
+      tipo_lixo_has_ponto = JSON.parse(json_dados);
+      if(tipo_lixo_has_ponto.length > 0)
+      {
+        json_dados = ajax_method(false,'endereco.select_by_id',ponto[i].endereco_id);
+        var endereco = JSON.parse(json_dados);
+        var features = [];
+        features["type"] = "mark1";
+        features["position"] = new google.maps.LatLng(endereco[0].latitude,endereco[0].longitude);
+        features["info"] = '<div class="list-block cards-list">'+
+                             '<ul>'+
+                               '<li class="card">'+
+                                 '<div class="card-header">Nome do ponto</div>'+
+                                 '<div class="card-content">'+
+                                   '<div class="card-content-inner">Descrição do ponto</div>'+
+                                 '</div>'+
+                                 '<div class="card-footer">'+
+                                 '<div class="content-block"><p class="buttons-row">'+
+                                   '<a href="agendar.html" onclick="empresa_id='+ponto[i].empresa_id+';" style="width:100%" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
+                                 '</p><p class="buttons-row">'+
+                                   '<a href="#" style="width:100%" class="button button-raised button-fill color-blue" onclick ="calculateAndDisplayRoute'+
+                                   '('+endereco[0].latitude+','+endereco[0].longitude+')">Rotas até aqui</a>'+
+                                 '</p></div></div>'+
+                               '</li>'+
+                             '</ul>'+
+                           '</div>';
+        features["draggable"] = false;
+        addMarker(features);
+      }
     }
+    markerCluster = new MarkerClusterer(map, markers, options); 
   }
-  markerCluster = new MarkerClusterer(map, markers, options); 
+  else{
+    myApp.alert("Não pudemos carregar os pontos próximos a você pois você ainda não adicionou ou definiu um endereço como principal. Por favor faça-o.")
+  }
 }
 
 function mostrar_enderecos()
