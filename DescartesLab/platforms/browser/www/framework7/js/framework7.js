@@ -10029,15 +10029,15 @@
         var Calendar = function (params) {
             var p = this;
             var defaults = {
-                monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August' , 'September' , 'October', 'November', 'December'],
-                monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-                dayNamesShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-                firstDay: 1, // First day of the week, Monday
+                monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junnho', 'Julho', 'Agosto' , 'Setembro' , 'Outubro', 'Novembro', 'Dezembro'],
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                firstDay: 0, // First day of the week, Sunday
                 weekendDays: [0, 6], // Sunday and Saturday
                 multiple: false,
                 rangePicker: false,
-                dateFormat: 'yyyy-mm-dd',
+                dateFormat: 'dd/mm/yyyy',
                 direction: 'horizontal', // or 'vertical'
                 minDate: null,
                 maxDate: null,
@@ -10069,8 +10069,8 @@
                 convertToPopover: true,
                 onlyInPopover: false,
                 toolbar: true,
-                toolbarCloseText: 'Done',
-                headerPlaceholder: 'Select date',
+                toolbarCloseText: 'Definir',
+                headerPlaceholder: 'Selecionar data',
                 header: app.params.material,
                 footer: app.params.material,
                 toolbarTemplate:
