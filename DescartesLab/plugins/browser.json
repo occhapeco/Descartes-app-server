@@ -7,16 +7,7 @@
         "files": {}
     },
     "installed_plugins": {
-        "cordova-plugin-battery-status": {
-            "PACKAGE_NAME": "cc.descarteslab"
-        },
-        "cordova-plugin-camera": {
-            "PACKAGE_NAME": "cc.descarteslab"
-        },
         "cordova-plugin-console": {
-            "PACKAGE_NAME": "cc.descarteslab"
-        },
-        "cordova-plugin-contacts": {
             "PACKAGE_NAME": "cc.descarteslab"
         },
         "cordova-plugin-device": {
@@ -32,9 +23,6 @@
             "PACKAGE_NAME": "cc.descarteslab"
         },
         "cordova-plugin-file-transfer": {
-            "PACKAGE_NAME": "cc.descarteslab"
-        },
-        "cordova-plugin-geolocation": {
             "PACKAGE_NAME": "cc.descarteslab"
         },
         "cordova-plugin-globalization": {
@@ -58,10 +46,22 @@
         "cordova-plugin-statusbar": {
             "PACKAGE_NAME": "cc.descarteslab"
         },
-        "cordova-plugin-vibration": {
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "cc.descarteslab"
         },
-        "cordova-plugin-whitelist": {
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-battery-status": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-contacts": {
+            "PACKAGE_NAME": "cc.descarteslab"
+        },
+        "cordova-plugin-vibration": {
             "PACKAGE_NAME": "cc.descarteslab"
         }
     },
