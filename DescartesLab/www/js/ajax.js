@@ -682,6 +682,7 @@ function select_pontos()
 
     json_dados = ajax_method(false,'ponto.select_by_coordenadas',localStorage.getItem("lat_padrao"),localStorage.getItem("long_padrao"));
     var ponto = JSON.parse(json_dados);
+    console.log(json_dados);
 
     setMapOnAll(null);
     markers = [];
