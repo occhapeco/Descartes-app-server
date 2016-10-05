@@ -665,7 +665,7 @@ function logout()
 function select_pontos()
 {
   if (localStorage.getItem("long_padrao") != null) {
-    var json_dados = ajax_method(false,'tipo_lixo.select','');
+    var json_dados = ajax_method(false,'tipo_lixo.select',null);    
     var tipo_lixo = JSON.parse(json_dados);
     var num = 0;
     var condicao = '';
@@ -680,9 +680,9 @@ function select_pontos()
       }
     }
 
+
     json_dados = ajax_method(false,'ponto.select_by_coordenadas',localStorage.getItem("lat_padrao"),localStorage.getItem("long_padrao"));
     var ponto = JSON.parse(json_dados);
-    console.log(json_dados);
 
     setMapOnAll(null);
     markers = [];
@@ -694,16 +694,35 @@ function select_pontos()
         condi = '';
       json_dados = ajax_method(false,'tipo_lixo_has_ponto.select',condi);
       tipo_lixo_has_ponto = JSON.parse(json_dados);
+      
       if(tipo_lixo_has_ponto.length > 0)
       {
+        var tipos_lixo = '';
+        for(j=0;j<tipo_lixo.length;j++)
+          for(var h=0;h<tipo_lixo_has_ponto.length;h++)
+            if(tipo_lixo[j].id == tipo_lixo_has_ponto[h].tipo_lixo_id)
+              tipos_lixo += '<option disabled>'+tipo_lixo[j].nome+'</option>';
+        console.log(tipos_lixo);
         json_dados = ajax_method(false,'endereco.select_by_id',ponto[i].endereco_id);
         var endereco = JSON.parse(json_dados);
         var features = [];
         features["type"] = "mark1";
         features["position"] = new google.maps.LatLng(endereco[0].latitude,endereco[0].longitude);
-        features["info"] = '<div class="list-block cards-list">'+
+        features["info"] = '<div class="list-block">'+
                              '<ul>'+
-                               '<li class="card">'+
+                                '<li class="item-content">'+
+                                  '<a href="#" class="item-link smart-select" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Pesquisar" data-popup-close-text="Voltar">'+
+                                    '<select name="tipos">'+
+                                      tipos_lixo+
+                                    '</select>'+
+                                    '<div class="item-content">'+
+                                      '<div class="item-inner">'+
+                                        '<div class="item-title">Tipos de lixo</div>'+
+                                      '</div>'+
+                                    '</div>'+
+                                  '</a>'+
+                                '</li>'+
+                                '<li>'+
                                  '<div class="card-header">Nome do ponto</div>'+
                                  '<div class="card-content">'+
                                    '<div class="card-content-inner">Descrição do ponto</div>'+
