@@ -285,7 +285,6 @@ function criar_agendamento()
         {
           var agendamento_has_tipo_lixo_id = ajax_method(false,'agendamento_has_tipo_lixo.insert',tipo_lixo_id[i],agendamento_id,document.getElementById("quantidade_agendamento").value);
         }
-        mainView.router.back();
         mainView.router.loadPage('agendamentos.html');
       }
       else
@@ -665,7 +664,7 @@ function logout()
 function select_pontos()
 {
   if (localStorage.getItem("long_padrao") != null) {
-    var json_dados = ajax_method(false,'tipo_lixo.select',null);    
+    var json_dados = ajax_method(false,'tipo_lixo.select','');    
     var tipo_lixo = JSON.parse(json_dados);
     var num = 0;
     var condicao = '';
@@ -701,41 +700,53 @@ function select_pontos()
         for(j=0;j<tipo_lixo.length;j++)
           for(var h=0;h<tipo_lixo_has_ponto.length;h++)
             if(tipo_lixo[j].id == tipo_lixo_has_ponto[h].tipo_lixo_id)
-              tipos_lixo += '<option disabled>'+tipo_lixo[j].nome+'</option>';
-        console.log(tipos_lixo);
+              tipos_lixo += '<li class="item-content"><div class="item-title">'+tipo_lixo[j].nome+'</div></li>';
         json_dados = ajax_method(false,'endereco.select_by_id',ponto[i].endereco_id);
+        document.getElementById("popups").innerHTML += '<div class="popup popup-ponto_'+ponto[i].id+'">'+
+                                                          '<div class="navbar">'+
+                                                            '<div class="navbar-inner">'+
+                                                              '<div class="left">'+
+                                                                '<a href="#" class="link icon-only close-popup" id="bc"><i class="icon icon-back"></i></a>'+
+                                                                '<div id="hd">'+
+                                                                  'Tipos de lixo do ponto'+
+                                                                '</div>'+
+                                                              '</div>'+
+                                                            '</div>'+
+                                                          '</div>'+
+                                                        '<div class="content-block">'+
+                                                          '<div class="list-block">'+
+                                                            '<ul>'+
+                                                              tipos_lixo+
+                                                            '</ul>'+
+                                                          '</div>'+
+                                                        '</div>'+
+                                                      '</div>';
         var endereco = JSON.parse(json_dados);
         var features = [];
         features["type"] = "mark1";
         features["position"] = new google.maps.LatLng(endereco[0].latitude,endereco[0].longitude);
         features["info"] = '<div class="list-block">'+
                              '<ul>'+
-                                '<li class="item-content">'+
-                                  '<a href="#" class="item-link smart-select" data-open-in="popup" data-searchbar="true" data-searchbar-placeholder="Pesquisar" data-popup-close-text="Voltar">'+
-                                    '<select name="tipos">'+
-                                      tipos_lixo+
-                                    '</select>'+
-                                    '<div class="item-content">'+
-                                      '<div class="item-inner">'+
-                                        '<div class="item-title">Tipos de lixo</div>'+
-                                      '</div>'+
-                                    '</div>'+
-                                  '</a>'+
-                                '</li>'+
                                 '<li>'+
-                                 '<div class="card-header">Nome do ponto</div>'+
-                                 '<div class="card-content">'+
-                                   '<div class="card-content-inner">Descrição do ponto</div>'+
-                                 '</div>'+
-                                 '<div class="card-footer">'+
-                                 '<div class="content-block"><p class="buttons-row">'+
-                                   '<a href="agendar.html" onclick="empresa_id='+ponto[i].empresa_id+';" style="width:100%" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
-                                 '</p><p class="buttons-row">'+
-                                   '<a href="#" style="width:100%" class="button button-raised button-fill color-blue" onclick ="calculateAndDisplayRoute'+
-                                   '('+endereco[0].latitude+','+endereco[0].longitude+')">Rotas até aqui</a>'+
-                                 '</p></div></div>'+
-                               '</li>'+
+                                  '<a href="#" class="item-link open-popup" data-popup=".popup-ponto_'+ponto[i].id+'">'+
+                                    '<div class="item-content">' +
+                                      '<div class="item-inner">'+
+                                        '<div class="item-title">Ver tipos de lixo</div>'+
+                                      '</div>'+
+                                   '</div>'+
+                                   '</a>'+
+                                 '</li>'+
+                                '<li><div class="item-content">'+
+                                '<div class="item-title">Funcionamento: '+ponto[i].atendimento_ini+' - '+ponto[i].atendimento_fim+'</div>'+
+                               '</div></li>'+
                              '</ul>'+
+                             '<p class="buttons-row">'+
+                               '<a href="agendar.html" onclick="empresa_id='+ponto[i].empresa_id+';" style="width:100%" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
+                             '</p>'+
+                             '<p class="buttons-row">'+
+                               '<a href="#" style="width:100%" class="button button-raised button-fill color-blue" onclick ="calculateAndDisplayRoute'+
+                               '('+endereco[0].latitude+','+endereco[0].longitude+')">Criar rota</a>'+
+                             '</p>'
                            '</div>';
         features["draggable"] = false;
         addMarker(features);
