@@ -656,9 +656,10 @@ function login()
 
 function logout()
 {
-  remover_menu();
   localStorage.removeItem("login_id");  
-  mainView.router.refreshPage();
+  mainView.router.back();
+  remover_menu();
+  mostrar_tela_login();
 }
 
 function select_pontos()
