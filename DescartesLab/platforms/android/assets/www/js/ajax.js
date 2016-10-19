@@ -8,7 +8,7 @@ var myApp = new Framework7({
     material: true,
     pushState: true,
     animatePages: true,
-    modalTitle: "Descartes Lab",
+    modalTitle: "DescartesLab",
     modalButtonCancel: "Cancelar",
     modalPreloaderTitle: "Carregando...",
     smartSelectBackText: 'Voltar',
