@@ -1,5 +1,5 @@
 var xhrTimeout=1000;
-var url='http://descartes.esy.es/';
+var url="http://www.descartes.esy.es/";
 var urn = 'urn:descartes';
 var empresa_id = 0;
 var markerCluster;
@@ -307,24 +307,56 @@ function carregar_agendamentos()
     document.getElementById('aceitos').innerHTML = "";
     document.getElementById('atrasados').innerHTML = "";
     document.getElementById('realizados').innerHTML = "";
+    document.getElementById('cancelados').innerHTML = "";
+    document.getElementById('popups-agendamentos').innerHTML = "";
     for(var i=0;i<agendamento.length;i++)
     {
+
       json_dados = ajax_method(false,'empresa.select_by_id',agendamento[i].empresa_id);
       var empresa = JSON.parse(json_dados);
       json_dados = ajax_method(false,'usuario_has_endereco.select',"endereco_id = "+agendamento[i].endereco_id+" AND usuario_id = "+localStorage.getItem("login_id"));
       var usuario_has_endereco = JSON.parse(json_dados);
+
       var data = new Date(agendamento[i].data_agendamento);
       var hoje = new Date;
-      var html = '<li class="accordion-item swipeout" id="li_id_'+agendamento[i].id+'"><a href="#" class="item-content swipeout-content item-link">'+
-                '<div class="item-inner" >'+
-                  '<div class="item-title"><i class="fa fa-arrow-right"></i>   '+empresa[0].nome_fantasia+' - '+usuario_has_endereco[0].nome+'</div>'+
-                    '</div></a>'+
-                      '<div class="accordion-item-content swipeout-content" style="background-color:#EDEDED;"><div class="content-block">'+
-                          '<p>Data agendada: '+agendamento[i].data_agendamento+'</p>'+
-                          '<p>Horário: '+agendamento[i].horario+'</p>';
+      var html = '<li class="swipeout">'+
+                  '<a href="#" class="item-link open-popup swipeout-content" data-popup=".popup-agendamento-'+agendamento[i].id+'">'+
+                    '<div class="item-content">' +
+                      '<div class="item-inner">'+
+                        '<div class="item-title">'+empresa[0].nome_fantasia+' - '+usuario_has_endereco[0].nome+'</div>'+
+                      '</div>'+
+                   '</div>'+
+                   '</a>'+
+                 '</li>';
+
+      var justificativa = '<li class="item-content"><div class="item-title">Justificativa</div><div class="item-after">'+agendamento[i].justificativa+'</div></li>';
+
+      if(agendamento[i].justificativa == null)
+        justificativa = "";
+      var btn = '<p><a onclick="cancelar_agendamento('+agendamento[i].id+')" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-red swipeout-delete">Cancelar agendamento</a></p>';
+      if((agendamento[i].aceito == 0) && (agendamento[i].realizado == 0))
+        document.getElementById('espera').innerHTML += html;
+      else if((agendamento[i].aceito == 1) && (agendamento[i].realizado == 0) && (data < hoje))
+        document.getElementById('atrasados').innerHTML += html;
+      else if((agendamento[i].aceito == 1) && (agendamento[i].realizado == 0))
+        document.getElementById('aceitos').innerHTML += html;
+      else if((agendamento[i].aceito == 1) && (agendamento[i].realizado == 1) && (data >= hoje))
+      {
+        document.getElementById('realizados').innerHTML += html;
+        btn = "";
+      }
+      else if((agendamento[i].aceito == 0) && (agendamento[i].realizado == 1))
+      {
+        document.getElementById('cancelados').innerHTML += html;
+        btn = "";
+      }
+
       json_dados = ajax_method(false,'agendamento_has_tipo_lixo.select_by_agendamento',agendamento[i].id);
       var agendamento_has_tipo_lixo = JSON.parse(json_dados);
       var tipos_lixo = "";
+      if(agendamento_has_tipo_lixo.length == 0)
+        tipos_lixo = "Nenhum";
+
       for(var j=0;j<agendamento_has_tipo_lixo.length;j++)
       {
         json_dados = ajax_method(false,'tipo_lixo.select_by_id',agendamento_has_tipo_lixo[j].tipo_lixo_id);
@@ -333,18 +365,41 @@ function carregar_agendamentos()
           tipos_lixo += ', ';
         tipos_lixo += tipo_lixo[0].nome;
       }
+      var quantidade = "";
       if(agendamento_has_tipo_lixo.length > 0)
-        html += '<p>Quantidade média (em Kg): '+agendamento_has_tipo_lixo[0].quantidade+'</p>';
-      html += '<p>Tipos de lixo: '+tipos_lixo+'</p>';
-      btn = '<p><a onclick="cancelar_agendamento('+agendamento[i].id+')" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-red swipeout-delete">Cancelar Agendamento</a><p>';
-      if((agendamento[i].aceito == 0) && (agendamento[i].realizado == 0))
-        document.getElementById('espera').innerHTML += html+btn+'</div></div></li>';
-      else if((agendamento[i].aceito == 1) && (agendamento[i].realizado == 0) && (data < hoje))
-        document.getElementById('atrasados').innerHTML += html+btn+'</div></div></li>';
-      else if((agendamento[i].aceito == 1) && (agendamento[i].realizado == 0))
-        document.getElementById('aceitos').innerHTML += html+btn+'</div></div></li>';
-      else if((agendamento[i].aceito == 1) && (agendamento[i].realizado == 1) && (data >= hoje))
-        document.getElementById('realizados').innerHTML += html+'</div></div></li>';
+      {
+        quantidade = '<li class="item-content"><div class="item-title">Quantidade média (Kg)</div><div class="item-after">'+agendamento_has_tipo_lixo[0].quantidade+'</div></li>';
+      }
+
+
+      document.getElementById("popups-agendamentos").innerHTML += '<div class="popup popup-agendamento-'+agendamento[i].id+'">'+
+                                                                  '<div class="navbar">'+
+                                                                    '<div class="navbar-inner">'+
+                                                                      '<div class="left">'+
+                                                                        '<a href="#" class="link icon-only close-popup" id="bc"><i class="icon icon-back"></i></a>'+
+                                                                        '<div id="hd">'+
+                                                                          'Informações do agendamento'+
+                                                                        '</div>'+
+                                                                      '</div>'+
+                                                                    '</div>'+
+                                                                  '</div>'+
+                                                                '<div class="content-block">'+
+                                                                  '<div class="list-block">'+
+                                                                    '<ul>'+
+                                                                      '<li class="item-content"><div class="item-title">Tipos de lixo</div><div class="item-after">'+tipos_lixo+'</div></li>'+
+                                                                      quantidade+
+                                                                      '<li class="item-content"><div class="item-title">Empresa</div><div class="item-after">'+empresa[0].nome_fantasia+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Endereço</div><div class="item-after">'+usuario_has_endereco[0].nome+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Data agendada</div><div class="item-after">'+agendamento[i].data_agendamento+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Horário agendado</div><div class="item-after">'+agendamento[i].horario+'</div></li>'+
+                                                                      justificativa+
+                                                                    '</ul>'+
+                                                                    btn+
+                                                                  '</div>'+
+                                                                '</div>'+
+                                                              '</div>';
+
+      
     }
     myApp.hidePreloader();
   },500);
