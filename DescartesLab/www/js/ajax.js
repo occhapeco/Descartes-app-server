@@ -452,39 +452,61 @@ function carregar_enderecos()
 {
   myApp.showPreloader();
   setTimeout(function () {
-    var json_dados = ajax_method(false,'usuario_has_endereco.select','usuario_id = '+localStorage.getItem("login_id"));
-    var retorno = JSON.parse(json_dados);
-    html = '';
-    for (i = 0; i < retorno.length; i++)
+    var json_dados = ajax_method(false,"usuario_has_endereco.select","usuario_id = "+localStorage.getItem("login_id"));
+    var usuario_has_endereco = JSON.parse(json_dados);
+    document.getElementById('ulenderecos').innerHTML = "";
+    document.getElementById('popups-enderecos').innerHTML = "";
+    for(var i=0;i<usuario_has_endereco.length;i++)
     {
-      json_dados = ajax_method(false,'endereco.select_by_id',retorno[i].endereco_id);
+      json_dados = ajax_method(false,'endereco.select_by_id',usuario_has_endereco[i].endereco_id);
       var endereco = JSON.parse(json_dados);
-      html += '<li class="accordion-item swipeout"><a href="#" class="item-content swipeout-content item-link" style="background-color: #FFFFFF;">'+
-                '<div class="item-inner" >'+
-                  '<div class="item-title">';
+      var html = '<li id="li-endereco-'+usuario_has_endereco[i].id+'">'+
+                  '<a href="#" class="item-link open-popup" data-popup=".popup-endereco-'+usuario_has_endereco[i].id+'">'+
+                    '<div class="item-content">' +
+                      '<div class="item-inner">'+
+                        '<div class="item-title">';
       if (localStorage.getItem("lat_padrao")==endereco[0].latitude && localStorage.getItem("long_padrao")==endereco[0].longitude)
-        html+='<i class="fa fa-star">';
+        html+='<i class="fa fa-star"> ';
       else
-        html+='<i class="fa fa-university">';
+        html+='<i class="fa fa-university"> ';
 
+                        html += usuario_has_endereco[i].nome+'</div>'+
+                      '</div>'+
+                   '</div>'+
+                   '</a>'+
+                 '</li>';
       botaum = "seleciona("+endereco[0].latitude+","+endereco[0].longitude+");"; 
 
-      html+='</i>   '+retorno[i].nome+'</div>'+
-                    '</div></a>'+
-                      '<div class="accordion-item-content swipeout-content" style="background-color:#EDEDED;"><div class="content-block">'+
-                          '<p>Rua: '+endereco[0].rua+'</p>'+
-                          '<p>Número: '+endereco[0].num+'. Complemento: '+endereco[0].complemento+'</p>'+
-                          '<p>CEP:'+endereco[0].cep+'</p>'+
-                          '<p>Cidade: '+endereco[0].cidade+'. Bairro: '+endereco[0].bairro+'</p>'+
-                          '<p>UF: '+endereco[0].uf+'. País: '+endereco[0].pais+'</p>';
-      if (localStorage.getItem("lat_padrao")!=endereco[0].latitude && localStorage.getItem("long_padrao")!=endereco[0].longitude)
-        html += '<p><a onclick="'+botaum+'" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Definir como principal</a><p>';
-      html += '</div></div>'+
-              '<div class="swipeout-actions-left "><a href="addendereco.html?id='+retorno[i].endereco_id+'&nome='+retorno[i].nome+'" class="action1 bg-orange">Editar</a></div>'+
-              '<div class="swipeout-actions-right "><a onclick="excluir_endereco('+retorno[i].endereco_id+')" class="swipeout-delete bg-red">Excluir</a></div>'+
-              '</li>';
+      document.getElementById("popups-enderecos").innerHTML += '<div class="popup popup-endereco-'+usuario_has_endereco[i].id+'">'+
+                                                                  '<div class="navbar">'+
+                                                                    '<div class="navbar-inner">'+
+                                                                      '<div class="left">'+
+                                                                        '<a href="#" class="link icon-only close-popup" id="bc"><i class="icon icon-back"></i></a>'+
+                                                                        '<div id="hd">'+
+                                                                          'Detalhes do endereco'+
+                                                                        '</div>'+
+                                                                      '</div>'+
+                                                                    '</div>'+
+                                                                  '</div>'+
+                                                                '<div class="content-block">'+
+                                                                  '<div class="list-block">'+
+                                                                    '<ul id="ul-endereco-'+usuario_has_endereco[i].id+'">'+
+                                                                      '<li class="item-content"><div class="item-title">Nome do endereço</div><div class="item-after">'+usuario_has_endereco[i].nome+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Rua</div><div class="item-after">'+endereco[0].rua+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Numero</div><div class="item-after">'+endereco[0].num+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Complemento</div><div class="item-after">'+endereco[0].complemento+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Estado</div><div class="item-after">'+endereco[0].uf+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Cidade</div><div class="item-after">'+endereco[0].cidade+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Bairro</div><div class="item-after">'+endereco[0].bairro+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">País</div><div class="item-after">'+endereco[0].pais+'</div></li></ul><div id="bot'+usuario_has_endereco[i].id+'"></div><p><a style="width:90%;margin-left:5%;" href="addendereco.html?id='+usuario_has_endereco[i].endereco_id+'&nome='+usuario_has_endereco[i].nome+'" class="button button-raised button-fill color-orange">Editar</a></p>'+
+                                                                      '<p><a style="width:90%;margin-left:5%;" onclick="excluir_endereco('+usuario_has_endereco[i].endereco_id+')" class="button button-raised button-fill color-red">Excluir</a></p>'+
+                                                                  '</div>'+
+                                                                '</div>'+
+                                                              '</div>';
+    document.getElementById("ulenderecos").innerHTML += html;
+    if (localStorage.getItem("lat_padrao")!=endereco[0].latitude && localStorage.getItem("long_padrao")!=endereco[0].longitude)
+      document.getElementById('bot'+usuario_has_endereco[i].id).innerHTML ='<p><a onclick="seleciona('+endereco[0].latitude+','+endereco[0].longitude+');" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Definir como principal</a><p>';
     }
-    document.getElementById('ulenderecos').innerHTML = html;
     myApp.hidePreloader();
   },500);
 }
