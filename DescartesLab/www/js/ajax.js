@@ -468,7 +468,7 @@ function carregar_enderecos()
       if (localStorage.getItem("lat_padrao")==endereco[0].latitude && localStorage.getItem("long_padrao")==endereco[0].longitude)
         html+='<i class="fa fa-star"> ';
       else
-        html+='<i class="fa fa-university"> ';
+        html+='<i class="fa fa-university"></i>';
 
                         html += usuario_has_endereco[i].nome+'</div>'+
                       '</div>'+
