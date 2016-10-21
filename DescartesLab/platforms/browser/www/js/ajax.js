@@ -377,7 +377,7 @@ function carregar_agendamentos()
                                                                       '<div class="left">'+
                                                                         '<a href="#" class="link icon-only close-popup" id="bc"><i class="icon icon-back"></i></a>'+
                                                                         '<div id="hd">'+
-                                                                          'Informações do agendamento'+
+                                                                          'Detalhes do agendamento'+
                                                                         '</div>'+
                                                                       '</div>'+
                                                                     '</div>'+
