@@ -13,6 +13,7 @@ var myApp = new Framework7({
     modalPreloaderTitle: "Carregando...",
     smartSelectBackText: 'Voltar',
     smartSelectPopupCloseText: 'Fechar',
+    reload: true,
     smartSelectPickerCloseText: 'Definir',
     swipePanel: "left",
     swipePanelActiveArea: 20,
@@ -281,9 +282,11 @@ function criar_agendamento()
       var agendamento_id = ajax_method(false,'agendamento.insert',empresa_id,localStorage.getItem("login_id"),document.getElementById("data_agendamento").value,document.getElementById("horario_agendamento").value,document.getElementById("endereco_id_agendamento").value);
       if(agendamento_id != 0)
       {
+         alert(agendamento_id);
         for(var i=0;i<tipo_lixo_id.length;i++)
         {
           var agendamento_has_tipo_lixo_id = ajax_method(false,'agendamento_has_tipo_lixo.insert',tipo_lixo_id[i],agendamento_id,document.getElementById("quantidade_agendamento").value);
+          alert(agendamento_has_tipo_lixo_id);
         }
         mainView.router.loadPage('agendamentos.html');
       }
@@ -466,16 +469,16 @@ function carregar_enderecos()
                       '<div class="item-inner">'+
                         '<div class="item-title">';
       if (localStorage.getItem("lat_padrao")==endereco[0].latitude && localStorage.getItem("long_padrao")==endereco[0].longitude)
-        html+='<i class="fa fa-star"> ';
+        html+='<i class="fa fa-star"> </i>';
       else
-        html+='<i class="fa fa-university"> ';
+        html+='<i class="fa fa-university"> </i>';
 
                         html += usuario_has_endereco[i].nome+'</div>'+
                       '</div>'+
                    '</div>'+
                    '</a>'+
                  '</li>';
-      botaum = "seleciona("+endereco[0].latitude+","+endereco[0].longitude+");"; 
+      botaum = "seleciona("+usuario_has_endereco[i].id+","+endereco[0].latitude+","+endereco[0].longitude+");"; 
 
       document.getElementById("popups-enderecos").innerHTML += '<div class="popup popup-endereco-'+usuario_has_endereco[i].id+'">'+
                                                                   '<div class="navbar">'+
@@ -498,14 +501,17 @@ function carregar_enderecos()
                                                                       '<li class="item-content"><div class="item-title">Estado</div><div class="item-after">'+endereco[0].uf+'</div></li>'+
                                                                       '<li class="item-content"><div class="item-title">Cidade</div><div class="item-after">'+endereco[0].cidade+'</div></li>'+
                                                                       '<li class="item-content"><div class="item-title">Bairro</div><div class="item-after">'+endereco[0].bairro+'</div></li>'+
-                                                                      '<li class="item-content"><div class="item-title">País</div><div class="item-after">'+endereco[0].pais+'</div></li></ul><div id="bot'+usuario_has_endereco[i].id+'"></div><p><a style="width:90%;margin-left:5%;" href="addendereco.html?id='+usuario_has_endereco[i].endereco_id+'&nome='+usuario_has_endereco[i].nome+'" class="button button-raised button-fill color-orange">Editar</a></p>'+
-                                                                      '<p><a style="width:90%;margin-left:5%;" onclick="excluir_endereco('+usuario_has_endereco[i].endereco_id+')" class="button button-raised button-fill color-red">Excluir</a></p>'+
+                                                                      '<li class="item-content"><div class="item-title">País</div><div class="item-after">'+endereco[0].pais+'</div></li>'+
+                                                                    '</ul>'+
+                                                                    '<div id="bot'+usuario_has_endereco[i].id+'"></div>'+
+                                                                    '<p><a style="width:90%;margin-left:5%;" onclick="myApp.closeModal(`.popup-endereco-'+usuario_has_endereco[i].id+'`);" href="addendereco.html?id='+usuario_has_endereco[i].endereco_id+'&nome='+usuario_has_endereco[i].nome+'" class="button button-raised button-fill color-orange">Editar</a></p>'+
+                                                                    '<p><a style="width:90%;margin-left:5%;" onclick="myApp.closeModal(`.popup-endereco-'+usuario_has_endereco[i].id+'`); excluir_endereco('+usuario_has_endereco[i].endereco_id+')" class="button button-raised button-fill color-red">Excluir</a></p>'+
                                                                   '</div>'+
                                                                 '</div>'+
                                                               '</div>';
     document.getElementById("ulenderecos").innerHTML += html;
     if (localStorage.getItem("lat_padrao")!=endereco[0].latitude && localStorage.getItem("long_padrao")!=endereco[0].longitude)
-      document.getElementById('bot'+usuario_has_endereco[i].id).innerHTML ='<p><a onclick="seleciona('+endereco[0].latitude+','+endereco[0].longitude+');" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Definir como principal</a><p>';
+      document.getElementById('bot'+usuario_has_endereco[i].id).innerHTML ='<p><a onclick="seleciona('+usuario_has_endereco[i].id+','+endereco[0].latitude+','+endereco[0].longitude+');" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Definir como principal</a><p>';
     }
     myApp.hidePreloader();
   },500);
@@ -609,7 +615,12 @@ function remover_menu()
 
 function criar_menu()
 {
-  var panel_html = '<li><a href="perfil.html" onclick="myApp.closePanel();" class="item-link">'+
+  var panel_html = '<li><a href="index.html" onclick="myApp.closePanel();" class="item-link">'+
+                        '<div class="item-content">' +
+                          '<div class="item-inner">'+
+                            '<div class="item-title">Mapa</div>'+
+                          '</div>'+
+                       ' </div></a></li>'+'<li><a href="perfil.html" onclick="myApp.closePanel();" class="item-link">'+
                         '<div class="item-content">' +
                           '<div class="item-inner">'+
                             '<div class="item-title">Perfil</div>'+
@@ -749,7 +760,9 @@ function login()
 
 function logout()
 {
-  localStorage.removeItem("login_id");  
+  localStorage.removeItem("login_id");
+  localStorage.removeItem("lat_padrao");
+  localStorage.removeItem("long_padrao");
   mainView.router.back();
   remover_menu();
   mostrar_tela_login();
@@ -998,11 +1011,12 @@ function cadastro()
 
 }
 
-function seleciona (lat,long)
+function seleciona (id,lat,long)
 {
   localStorage.setItem('lat_padrao',lat);
   localStorage.setItem('long_padrao',long);
   mainView.router.refreshPage();
+  myApp.closeModal('.popup-endereco-'+id);
 }
 
 function carregar_edicao_endereco(id,nome)
@@ -1053,11 +1067,10 @@ function excluir_endereco(id)
 {
     setTimeout(function () {
       var json_dados = ajax_method(false,'endereco.delete',id);
-      if (json_dados) {
-      }
-      else{
+      if (!json_dados)
         myApp.alert("Não foi possível excluir seu endereço, por favor, reveja sua conexão.");
-      }
+      else
+         mainView.router.refreshPage();
     },500);
 }
 

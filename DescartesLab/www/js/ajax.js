@@ -13,6 +13,7 @@ var myApp = new Framework7({
     modalPreloaderTitle: "Carregando...",
     smartSelectBackText: 'Voltar',
     smartSelectPopupCloseText: 'Fechar',
+    reload: true,
     smartSelectPickerCloseText: 'Definir',
     swipePanel: "left",
     swipePanelActiveArea: 20,
@@ -281,9 +282,11 @@ function criar_agendamento()
       var agendamento_id = ajax_method(false,'agendamento.insert',empresa_id,localStorage.getItem("login_id"),document.getElementById("data_agendamento").value,document.getElementById("horario_agendamento").value,document.getElementById("endereco_id_agendamento").value);
       if(agendamento_id != 0)
       {
+         alert(agendamento_id);
         for(var i=0;i<tipo_lixo_id.length;i++)
         {
           var agendamento_has_tipo_lixo_id = ajax_method(false,'agendamento_has_tipo_lixo.insert',tipo_lixo_id[i],agendamento_id,document.getElementById("quantidade_agendamento").value);
+          alert(agendamento_has_tipo_lixo_id);
         }
         mainView.router.loadPage('agendamentos.html');
       }
@@ -612,7 +615,12 @@ function remover_menu()
 
 function criar_menu()
 {
-  var panel_html = '<li><a href="perfil.html" onclick="myApp.closePanel();" class="item-link">'+
+  var panel_html = '<li><a href="index.html" onclick="myApp.closePanel();" class="item-link">'+
+                        '<div class="item-content">' +
+                          '<div class="item-inner">'+
+                            '<div class="item-title">Mapa</div>'+
+                          '</div>'+
+                       ' </div></a></li>'+'<li><a href="perfil.html" onclick="myApp.closePanel();" class="item-link">'+
                         '<div class="item-content">' +
                           '<div class="item-inner">'+
                             '<div class="item-title">Perfil</div>'+
@@ -1059,11 +1067,10 @@ function excluir_endereco(id)
 {
     setTimeout(function () {
       var json_dados = ajax_method(false,'endereco.delete',id);
-      if (json_dados) {
-      }
-      else{
+      if (!json_dados)
         myApp.alert("Não foi possível excluir seu endereço, por favor, reveja sua conexão.");
-      }
+      else
+         mainView.router.refreshPage();
     },500);
 }
 
