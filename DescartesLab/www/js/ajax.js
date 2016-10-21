@@ -475,7 +475,7 @@ function carregar_enderecos()
                    '</div>'+
                    '</a>'+
                  '</li>';
-      botaum = "seleciona("+endereco[0].latitude+","+endereco[0].longitude+");"; 
+      botaum = "seleciona("+usuario_has_endereco[i].id+","+endereco[0].latitude+","+endereco[0].longitude+");"; 
 
       document.getElementById("popups-enderecos").innerHTML += '<div class="popup popup-endereco-'+usuario_has_endereco[i].id+'">'+
                                                                   '<div class="navbar">'+
@@ -498,8 +498,11 @@ function carregar_enderecos()
                                                                       '<li class="item-content"><div class="item-title">Estado</div><div class="item-after">'+endereco[0].uf+'</div></li>'+
                                                                       '<li class="item-content"><div class="item-title">Cidade</div><div class="item-after">'+endereco[0].cidade+'</div></li>'+
                                                                       '<li class="item-content"><div class="item-title">Bairro</div><div class="item-after">'+endereco[0].bairro+'</div></li>'+
-                                                                      '<li class="item-content"><div class="item-title">País</div><div class="item-after">'+endereco[0].pais+'</div></li></ul><div id="bot'+usuario_has_endereco[i].id+'"></div><p><a style="width:90%;margin-left:5%;" href="addendereco.html?id='+usuario_has_endereco[i].endereco_id+'&nome='+usuario_has_endereco[i].nome+'" class="button button-raised button-fill color-orange">Editar</a></p>'+
-                                                                      '<p><a style="width:90%;margin-left:5%;" onclick="excluir_endereco('+usuario_has_endereco[i].endereco_id+')" class="button button-raised button-fill color-red">Excluir</a></p>'+
+                                                                      '<li class="item-content"><div class="item-title">País</div><div class="item-after">'+endereco[0].pais+'</div></li>'+
+                                                                    '</ul>'+
+                                                                    '<div id="bot'+usuario_has_endereco[i].id+'"></div>'+
+                                                                    '<p><a style="width:90%;margin-left:5%;" onclick="myApp.closeModal(`.popup-endereco-'+usuario_has_endereco[i].id+'`);" href="addendereco.html?id='+usuario_has_endereco[i].endereco_id+'&nome='+usuario_has_endereco[i].nome+'" class="button button-raised button-fill color-orange">Editar</a></p>'+
+                                                                    '<p><a style="width:90%;margin-left:5%;" onclick="myApp.closeModal(`.popup-endereco-'+usuario_has_endereco[i].id+'`); excluir_endereco('+usuario_has_endereco[i].endereco_id+')" class="button button-raised button-fill color-red">Excluir</a></p>'+
                                                                   '</div>'+
                                                                 '</div>'+
                                                               '</div>';
@@ -749,7 +752,9 @@ function login()
 
 function logout()
 {
-  localStorage.removeItem("login_id");  
+  localStorage.removeItem("login_id");
+  localStorage.removeItem("lat_padrao");
+  localStorage.removeItem("long_padrao");
   mainView.router.back();
   remover_menu();
   mostrar_tela_login();
@@ -998,8 +1003,9 @@ function cadastro()
 
 }
 
-function seleciona (lat,long)
+function seleciona (id,lat,long)
 {
+  myApp.closeModal('.popup-endereco-'+id);
   localStorage.setItem('lat_padrao',lat);
   localStorage.setItem('long_padrao',long);
   mainView.router.refreshPage();
