@@ -1,5 +1,5 @@
 var xhrTimeout=1000;
-var url="http://www.descartes.esy.es/";
+var url='http://descartes.esy.es/';
 var urn = 'urn:descartes';
 var empresa_id = 0;
 var markerCluster;
