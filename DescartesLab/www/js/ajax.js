@@ -646,6 +646,12 @@ function criar_menu()
                             '<div class="item-title">Notificações</div>'+
                           '</div>'+
                         '</div></a></li>'+
+                      '<li><a href="sobre.html" onclick="myApp.closePanel();" class="item-link">'+
+                        '<div class="item-content"> '+
+                          '<div class="item-inner">'+
+                            '<div class="item-title">Sobre</div>'+
+                          '</div>'+
+                        '</div></a></li>'+
                     '<li><a href="#" class="item-link" onclick="myApp.closePanel();logout();">'+
                         '<div class="item-content"> '+
                           '<div class="item-inner">'+
