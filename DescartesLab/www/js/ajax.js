@@ -1,5 +1,5 @@
 var xhrTimeout=1000;
-var url='http://descartes.esy.es/';
+var url='http://descarteslab.sc.senai.br/service/';
 var urn = 'urn:descartes';
 var empresa_id = 0;
 var markerCluster;
