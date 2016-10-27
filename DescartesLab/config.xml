@@ -33,23 +33,23 @@
     <icon src="icon.png" />
     <platform name="android">
         <icon density="ldpi" src="" />
-        <icon density="mdpi" src="imagens/logobase.png" />
-        <icon density="hdpi" src="imagens/logobase.png" />
-        <icon density="xhdpi" src="imagens/logobase.png" />
-        <icon density="xxhdpi" src="imagens/logobase.png" />
-        <icon density="xxxhdpi" src="imagens/logobase.png" />
-        <splash density="land-ldpi" src="imagens/logo37.png" />
-        <splash density="land-mdpi" src="imagens/logo37.png" />
-        <splash density="land-hdpi" src="imagens/logo37.png" />
-        <splash density="land-xhdpi" src="imagens/logo37.png" />
-        <splash density="land-xxhdpi" src="imagens/logo37.png" />
-        <splash density="land-xxxhdpi" src="imagens/logo37.png" />
-        <splash density="port-ldpi" src="imagens/logo37.png" />
-        <splash density="port-mdpi" src="imagens/logo37.png" />
-        <splash density="port-hdpi" src="imagens/logo37.png" />
-        <splash density="port-xhdpi" src="imagens/logo37.png" />
-        <splash density="port-xxhdpi" src="imagens/logo37.png" />
-        <splash density="port-xxxhdpi" src="imagens/logo37.png" />
+        <icon density="mdpi" src="imagens/logo.png" />
+        <icon density="hdpi" src="imagens/logo.png" />
+        <icon density="xhdpi" src="imagens/logo.png" />
+        <icon density="xxhdpi" src="imagens/logo.png" />
+        <icon density="xxxhdpi" src="imagens/logo.png" />
+        <splash density="land-ldpi" src="imagens/splash.png" />
+        <splash density="land-mdpi" src="imagens/splash.png" />
+        <splash density="land-hdpi" src="imagens/splash.png" />
+        <splash density="land-xhdpi" src="imagens/splash.png" />
+        <splash density="land-xxhdpi" src="imagens/splash.png" />
+        <splash density="land-xxxhdpi" src="imagens/splash.png" />
+        <splash density="port-ldpi" src="imagens/splash.png" />
+        <splash density="port-mdpi" src="imagens/splash.png" />
+        <splash density="port-hdpi" src="imagens/splash.png" />
+        <splash density="port-xhdpi" src="imagens/splash.png" />
+        <splash density="port-xxhdpi" src="imagens/splash.png" />
+        <splash density="port-xxxhdpi" src="imagens/splash.png" />
     </platform>
     <platform name="ios">
         <icon height="57" platform="ios" src="www/res/icon/ios/icon.png" width="57" />
