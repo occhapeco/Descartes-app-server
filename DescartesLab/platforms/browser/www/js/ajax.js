@@ -331,7 +331,7 @@ function carregar_agendamentos()
                  '</li>';
 
       var justificativa = '<li class="item-content"><div class="item-title">Justificativa</div><div class="item-after">'+agendamento[i].justificativa+'</div></li>';
-
+      var vaijus = '<li class="item-content" id="liberg_'+agendamento[i].id+'"><div class="item-input"><input type="text" id="just_'+agendamento[i].id+'" placeholder="Digite aqui a justificativa caso vá cancelar"></div></li>';
       if(agendamento[i].justificativa == null)
         justificativa = "";
       var btn = '<p id="btn-cancelar-'+agendamento[i].id+'"><a onclick="cancelar_agendamento('+agendamento[i].id+',`'+empresa[0].nome_fantasia+'`,`'+usuario_has_endereco[0].nome+'`);" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-red swipeout-delete">Cancelar agendamento</a></p>';
@@ -345,11 +345,13 @@ function carregar_agendamentos()
       {
         document.getElementById('realizados').innerHTML += html;
         btn = "";
+        vaijus='';
       }
       else if((agendamento[i].aceito == 0) && (agendamento[i].realizado == 1))
       {
         document.getElementById('cancelados').innerHTML += html;
         btn = "";
+        vaijus='';
       }
 
       json_dados = ajax_method(false,'agendamento_has_tipo_lixo.select_by_agendamento',agendamento[i].id);
@@ -391,7 +393,7 @@ function carregar_agendamentos()
                                                                       '<li class="item-content"><div class="item-title">Empresa</div><div class="item-after">'+empresa[0].nome_fantasia+'</div></li>'+
                                                                       '<li class="item-content"><div class="item-title">Endereço</div><div class="item-after">'+usuario_has_endereco[0].nome+'</div></li>'+
                                                                       '<li class="item-content"><div class="item-title">Data agendada</div><div class="item-after">'+agendamento[i].data_agendamento+'</div></li>'+
-                                                                      '<li class="item-content"><div class="item-title">Horário agendado</div><div class="item-after">'+agendamento[i].horario+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Horário agendado</div><div class="item-after">'+agendamento[i].horario+'</div></li>'+vaijus+
                                                                       justificativa+
                                                                     '</ul>'+
                                                                     btn+
@@ -407,24 +409,29 @@ function carregar_agendamentos()
 
 function cancelar_agendamento(id,empresa,endereco)
 {
-  myApp.prompt(`Qual a justificativa do cancelamento?`, function (value) {
-    myApp.closeModal('.popup-agendamento-'+id);
-    var json = ajax_method(false,'agendamento.cancelar',id,value);
-    var html = '<li id="li-agendamento-'+id+'">'+
-                  '<a href="#" class="item-link open-popup" data-popup=".popup-agendamento-'+id+'">'+
-                    '<div class="item-content">' +
-                      '<div class="item-inner">'+
-                        '<div class="item-title">'+empresa+' - '+endereco+'</div>'+
-                      '</div>'+
-                   '</div>'+
-                   '</a>'+
-                 '</li>';
-    document.getElementById('li-agendamento-'+id).remove();
-    document.getElementById('cancelados').innerHTML += html;
-    document.getElementById("ul-agendamento-"+id).innerHTML += '<li class="item-content"><div class="item-title">Justificativa</div><div class="item-after">'+value+'</div></li>';
-    myApp.showTab('#cancelados');
-    $$("#btn-cancelar-"+id).remove();
-  });
+  var pip = document.getElementById('just_'+id).value;
+  if (pip.length > 3) {
+      myApp.closeModal('.popup-agendamento-'+id);
+      var json = ajax_method(false,'agendamento.cancelar',id,document.getElementById('just_'+id).value);
+      var html = '<li id="li-agendamento-'+id+'">'+
+                    '<a href="#" class="item-link open-popup" data-popup=".popup-agendamento-'+id+'">'+
+                      '<div class="item-content">' +
+                        '<div class="item-inner">'+
+                          '<div class="item-title">'+empresa+' - '+endereco+'</div>'+
+                        '</div>'+
+                     '</div>'+
+                     '</a>'+
+                   '</li>';
+      document.getElementById('li-agendamento-'+id).remove();
+      document.getElementById('cancelados').innerHTML += html;
+      document.getElementById("ul-agendamento-"+id).innerHTML += '<li class="item-content"><div class="item-title">Justificativa</div><div class="item-after">'+document.getElementById('just_'+id).value+'</div></li>';
+      document.getElementById('liberg_'+id).remove();
+      myApp.showTab('#cancelados');
+      $$("#btn-cancelar-"+id).remove();
+  }else{
+    myApp.alert("Por favor, dê uma justificativa para o cancelamento do agendamento.");
+  }
+    
 }
 
 function adicionar_endereco()
