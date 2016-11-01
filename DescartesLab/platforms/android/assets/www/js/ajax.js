@@ -20,7 +20,10 @@ var myApp = new Framework7({
     init: false,
     preloadPreviousPage: false,
     uniqueHistory: true,
-    fastclick:false
+    fastclick:false,
+    modalCloseByOutside : true,
+    popupCloseByOutside : true,
+    actionsCloseByOutside : true
 });
 
 var $$ = Dom7;
