@@ -21,8 +21,8 @@ var myApp = new Framework7({
     preloadPreviousPage: false,
     uniqueHistory: true,
     fastclick:false,
-    modalCloseByOutside : true,
     popupCloseByOutside : true,
+    modalCloseByOutside : true,
     actionsCloseByOutside : true
 });
 
@@ -45,7 +45,7 @@ function inverte () {
         $$("#refresh").hide();
         $$("#hc").css('width',swidth );
         $$("#hc").toggleClass('hi');
-        $$("#hd").toggleClass('hi');
+        $$(".hddd").toggleClass('hi');
         $$("#loc").toggleClass('fa-search, fa-remove');
         $$("#pac-input").focus();
         o = false;
@@ -53,7 +53,7 @@ function inverte () {
     {
         $$("#refresh").show();
         $$("#hc").css('width',swidth);
-        $$("#hd").toggleClass('hi');
+        $$(".hddd").toggleClass('hi');
         $$("#hc").toggleClass('hi');
         $$("#loc").toggleClass('fa-search, fa-remove');
         o = true;
@@ -85,7 +85,7 @@ function realiza_rota()
     $$("#searche").hide();
     $$("#hb").removeClass('hi');
     $$("#refresh").hide();
-    $$("#hd").addClass('hi');
+    $$(".hddd").addClass('hi');
     $$("#hc").addClass('hi');
     infowindow.close();
 
@@ -678,7 +678,7 @@ function mostrar_tela_mapa()
                                                         '<div class="navbar-inner">'+
                                                           '<div class="left">'+
                                                             '<a href="#" class="link icon-only open-panel" id="bc"> <i class="icon icon-bars"></i></a>'+
-                                                            '<div id="hd">'+
+                                                            '<div class="hddd" id="hd">'+
                                                               'DescartesLab'+
                                                             '</div>'+
                                                           '</div>'+
