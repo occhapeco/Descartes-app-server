@@ -2,6 +2,7 @@ var xhrTimeout=1000;
 var url='http://descarteslab.sc.senai.br/service/';
 var urn = 'urn:descartes';
 var empresa_id = 0;
+var ponto_id = 0;
 var markerCluster;
 
 var myApp = new Framework7({
@@ -823,11 +824,19 @@ function select_pontos()
       
       if(tipo_lixo_has_ponto.length > 0)
       {
+        json_dados = ajax_method(false,'tipo_lixo_has_ponto.select'," ponto_id = "+ponto[i].id);
+        tipo_lixo_has_ponto = JSON.parse(json_dados);
         var tipos_lixo = '';
         for(j=0;j<tipo_lixo.length;j++)
+        {
+          var add = false;
           for(var h=0;h<tipo_lixo_has_ponto.length;h++)
-            if(tipo_lixo[j].id == tipo_lixo_has_ponto[h].tipo_lixo_id)
+            if(!add && (tipo_lixo[j].id == tipo_lixo_has_ponto[h].tipo_lixo_id))
+            {
               tipos_lixo += '<li class="item-content"><div class="item-title">'+tipo_lixo[j].nome+'</div></li>';
+              add = true;
+            }
+        }
         json_dados = ajax_method(false,'endereco.select_by_id',ponto[i].endereco_id);
         document.getElementById("popups").innerHTML += '<div class="popup popup-ponto_'+ponto[i].id+'">'+
                                                           '<div class="navbar">'+
@@ -849,11 +858,14 @@ function select_pontos()
                                                         '</div>'+
                                                       '</div>';
         var endereco = JSON.parse(json_dados);
+        json_dados = ajax_method(false,'empresa.select_by_id',ponto[i].empresa_id);
+        var empresa = JSON.parse(json_dados);
         var features = [];
         features["type"] = "mark1";
         features["position"] = new google.maps.LatLng(endereco[0].latitude,endereco[0].longitude);
         features["info"] = '<div class="list-block">'+
                              '<ul>'+
+                                '<li><div class="item-content"><div class="item-title">'+empresa[0].nome_fantasia+'</div></div></li>'+
                                 '<li>'+
                                   '<a href="#" class="item-link open-popup" data-popup=".popup-ponto_'+ponto[i].id+'">'+
                                     '<div class="item-content">' +
@@ -862,11 +874,11 @@ function select_pontos()
                                       '</div>'+
                                    '</div>'+
                                    '</a>'+
-                                 '</li>'+
-                                '<li><div class="item-content"><div class="item-title">Funcionamento</div><div class="item-after">'+ponto[i].atendimento_ini+' - '+ponto[i].atendimento_fim+'</div></div></li>'+
+                                  '</li>'+
+                                  '<li><div class="item-content"><div class="item-title">'+ponto[i].atendimento_ini+' - '+ponto[i].atendimento_fim+'</div></div></li>'+
                              '</ul>'+
                              '<p class="buttons-row">'+
-                               '<a href="agendar.html" onclick="empresa_id='+ponto[i].empresa_id+';" style="width:100%" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
+                               '<a href="agendar.html" onclick="empresa_id='+ponto[i].empresa_id+';ponto_id='+ponto[i].id+'" style="width:100%" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
                              '</p>'+
                              '<p class="buttons-row">'+
                                '<a href="#" style="width:100%" class="button button-raised button-fill color-blue" onclick ="calculateAndDisplayRoute'+
@@ -901,8 +913,18 @@ function criar_tipos_lixo()
   var tipo_lixo = JSON.parse(json_dados);
   var html = "";
 
+  json_dados = ajax_method(false,'tipo_lixo_has_ponto.select'," ponto_id = "+ponto_id);
+  tipo_lixo_has_ponto = JSON.parse(json_dados);
   for(var i=0;i<tipo_lixo.length;i++)
-    html += '<option value='+tipo_lixo[i].id+'>'+tipo_lixo[i].nome+'</option>';
+  {
+    var add = false;
+    for(var h=0;h<tipo_lixo_has_ponto.length;h++)
+      if(!add && (tipo_lixo[i].id == tipo_lixo_has_ponto[h].tipo_lixo_id))
+      {
+        html += '<option value='+tipo_lixo[i].id+'>'+tipo_lixo[i].nome+'</option>';
+        add = true;
+      }
+  }
   document.getElementById("tipos_lixo_agendamento").innerHTML = html;
 }
 
@@ -917,7 +939,7 @@ function criar_popover()
   for(var i=0;i<tipo_lixo.length;i++)
     html += '<li>'+
               '<label class="label-checkbox item-content">'+
-                '<input type="checkbox" id="tipo_lixo_'+tipo_lixo[i].id+'"  name="tipo_lixo_'+tipo_lixo[i].id+'" value="'+tipo_lixo[i].id+'" checked="false">'+
+                '<input type="checkbox" id="tipo_lixo_'+tipo_lixo[i].id+'"  name="tipo_lixo_'+tipo_lixo[i].id+'" value="'+tipo_lixo[i].id+'">'+
                 '<div class="item-media">'+
                   '<i class="icon icon-form-checkbox"></i>'+
                 '</div>'+
