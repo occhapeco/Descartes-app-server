@@ -22,7 +22,6 @@ var myApp = new Framework7({
     uniqueHistory: true,
     fastclick:false,
     popupCloseByOutside : true,
-    modalCloseByOutside : true,
     actionsCloseByOutside : true
 });
 
