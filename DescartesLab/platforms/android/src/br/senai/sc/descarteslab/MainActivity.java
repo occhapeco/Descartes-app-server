@@ -17,7 +17,7 @@
        under the License.
  */
 
-package cc.descarteslab;
+package br.senai.sc.descarteslab;
 
 import android.os.Bundle;
 import org.apache.cordova.*;
