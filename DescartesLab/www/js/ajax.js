@@ -168,7 +168,8 @@ $$(document).on('pageInit', function (e) {
           ]
       });
     }
-    
+    // TRADUZINDO AS PÁGINAS //
+    traduzir(page.name);
 });
 
 function mapa_refresh()
@@ -198,16 +199,19 @@ function aplicar_filtro()
 function inicializar()
 {
   myApp.onPageInit('index', function (page) {
-     if(localStorage.getItem("login_id") == null)
-      {
-        remover_menu();
-        mostrar_tela_login();
-      }
-      else
-      {
-        criar_menu();
-        mostrar_tela_mapa();
-      }
+    if(localStorage.getItem("login_id") == null)
+    {
+      remover_menu();
+      mostrar_tela_login();
+    }
+    else
+    {
+      criar_menu();
+      mostrar_tela_mapa();
+    }
+    if(localStorage.getItem("idioma") == null)
+      localStorage.setItem("idioma","pt");
+
   }).trigger();
   myApp.init();
   if(localStorage.getItem("login_id") != null)
@@ -215,6 +219,7 @@ function inicializar()
     inicializar_map();
     mapa_refresh();
   }
+  traduzir();
   //localStorage.removeItem("tutorial");
 }
 
