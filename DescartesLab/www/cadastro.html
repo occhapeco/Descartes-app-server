@@ -5,7 +5,7 @@
         <ul>
           <li class="item-content">
             <div class="item-inner">
-              <div class="item-title label">Nome</div>
+              <div class="item-title label" id="cadastro_nome">Nome</div>
               <div class="item-input">
                 <input type="text" name="cad_nome" id="cad_nome" placeholder="Ex: João da Silva" required>
               </div>
@@ -15,13 +15,13 @@
             <div class="item-inner">
               <div class="item-title label">Email</div>
               <div class="item-input">
-                <input type="email" name="cad_email" id="cad_email" placeholder="ex: joão@batata.com" required>
+                <input type="email" name="cad_email" id="cad_email" placeholder="ex: joão@servidor.com" required>
               </div>
             </div>
           </li>
           <li class="item-content">
             <div class="item-inner">
-              <div class="item-title label">Senha</div>
+              <div class="item-title label" id="cadastro_senha">Senha</div>
               <div class="item-input">
                 <input type="password" name="cad_senha" id="cad_senha" placeholder="ex: *******" required>
               </div>
@@ -29,7 +29,7 @@
           </li>
           <li class="item-content">
             <div class="item-inner">
-              <div class="item-title label">Senha novamente</div>
+              <div class="item-title label" id="cadastro_senha_novamente">Senha novamente</div>
               <div class="item-input">
                 <input type="password" name="cad_senha2" id="cad_senha2" placeholder="ex: *******" required>
               </div>
@@ -45,7 +45,7 @@
           </li>
           <li class="item-content">
             <div class="item-inner">
-              <div class="item-title label">Telefone</div>
+              <div class="item-title label" id="cadastro_telefone">Telefone</div>
               <div class="item-input">
                 <input type="number" name="cad_telefone" id="cad_telefone" placeholder="ex: 12348888" required>
               </div>
@@ -56,11 +56,11 @@
       <div class="list-block">
         <ul>
           <li>
-            <center><button onclick="cadastro();" class="item-link button" style="width: 90%;">Cadastrar</button></center>
+            <center><button onclick="cadastro();" class="item-link button" style="width: 90%;" id="cadastro_cadastrar">Cadastrar</button></center>
           </li>
         </ul>
         <div class="list-block-label">
-          <p><a href="#" class="back button">Já possui cadastro? Clique aqui!</a></p>
+          <p><a href="#" class="back button" id="cadastro_login">Já possui cadastro? Clique aqui!</a></p>
         </div>
       </div>
   </div>

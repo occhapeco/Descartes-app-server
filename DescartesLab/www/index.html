@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="framework7/css/my-app.css">
   <script type="text/javascript" src="mapa/js/markerclusterer.js"></script>
 
-  <title>Descartes Lab</title>
+  <title>DescartesLab</title>
 
   <style type="text/css">
 
@@ -81,7 +81,7 @@
       <div class="panel panel-left panel-cover" style="background-color:#FAFAFA;">
         <div class="list-block" style="margin:0 !important;">
           <ul id="local_panel">
-            <p>Você não realizou o login!</p>
+            <p id="index_login_nao_realizado">Você não realizou o login!</p>
           </ul>
         </div>
       </div>
@@ -109,7 +109,7 @@
             <li>
               <div class="item-content">
                 <div class="item-inner">
-                  <div class="item-title">Filtros</div>
+                  <div class="item-title" id="index_filtros">Filtros</div>
                 </div>
              </div>
             </li>
@@ -123,7 +123,7 @@
             <li>
                 <div class="item-content">
                   <div class="item-inner">
-                    <a onclick="aplicar_filtro();" style="width:100%;" class="button button-raised button-fill color-bluegray">Aplicar</a>
+                    <a onclick="aplicar_filtro();" style="width:100%;" class="button button-raised button-fill color-bluegray" id="index_aplicar">Aplicar</a>
                   </div>
                </div>
             </li>
