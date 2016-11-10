@@ -1,30 +1,56 @@
 var xhrTimeout=1000;
-var url='http://descarteslab.sc.senai.br/service/';
+var url='http://192.168.1.138/descarteslab/service/';
 var urn = 'urn:descartes';
 var empresa_id = 0;
 var ponto_id = 0;
 var markerCluster;
 
-var myApp = new Framework7({
-    material: true,
-    pushState: true,
-    animatePages: true,
-    modalTitle: "DescartesLab",
-    modalButtonCancel: "Cancelar",
-    modalPreloaderTitle: "Carregando...",
-    smartSelectBackText: 'Voltar',
-    smartSelectPopupCloseText: 'Fechar',
-    reload: true,
-    smartSelectPickerCloseText: 'Definir',
-    swipePanel: "left",
-    swipePanelActiveArea: 20,
-    init: false,
-    preloadPreviousPage: false,
-    uniqueHistory: true,
-    fastclick:false,
-    popupCloseByOutside : true,
-    actionsCloseByOutside : true
-});
+var myApp;
+
+if(localStorage.getItem("idioma") == "eng")
+{
+    myApp = new Framework7({
+        material: true,
+        pushState: true,
+        animatePages: true,
+        modalTitle: "DescartesLab",
+        modalButtonCancel: "Cancel",
+        modalPreloaderTitle: "Loading...",
+        smartSelectBackText: 'Back',
+        smartSelectPopupCloseText: 'Close',
+        reload: true,
+        smartSelectPickerCloseText: 'Done',
+        swipePanel: "left",
+        swipePanelActiveArea: 20,
+        init: false,
+        preloadPreviousPage: false,
+        uniqueHistory: true,
+        fastclick:false,
+        popupCloseByOutside : true,
+        actionsCloseByOutside : true
+    });
+}else{
+   myApp = new Framework7({
+        material: true,
+        pushState: true,
+        animatePages: true,
+        modalTitle: "DescartesLab",
+        modalButtonCancel: "Cancelar",
+        modalPreloaderTitle: "Carregando...",
+        smartSelectBackText: 'Voltar',
+        smartSelectPopupCloseText: 'Fechar',
+        reload: true,
+        smartSelectPickerCloseText: 'Definir',
+        swipePanel: "left",
+        swipePanelActiveArea: 20,
+        init: false,
+        preloadPreviousPage: false,
+        uniqueHistory: true,
+        fastclick:false,
+        popupCloseByOutside : true,
+        actionsCloseByOutside : true
+    });
+}
 
 var $$ = Dom7;
 
@@ -168,7 +194,8 @@ $$(document).on('pageInit', function (e) {
           ]
       });
     }
-    
+    // TRADUZINDO AS PÁGINAS //
+    traduzir(page.name);
 });
 
 function mapa_refresh()
@@ -198,16 +225,19 @@ function aplicar_filtro()
 function inicializar()
 {
   myApp.onPageInit('index', function (page) {
-     if(localStorage.getItem("login_id") == null)
-      {
-        remover_menu();
-        mostrar_tela_login();
-      }
-      else
-      {
-        criar_menu();
-        mostrar_tela_mapa();
-      }
+    if(localStorage.getItem("login_id") == null)
+    {
+      remover_menu();
+      mostrar_tela_login();
+    }
+    else
+    {
+      criar_menu();
+      mostrar_tela_mapa();
+    }
+    if(localStorage.getItem("idioma") == null)
+      localStorage.setItem("idioma","pt");
+
   }).trigger();
   myApp.init();
   if(localStorage.getItem("login_id") != null)
@@ -215,6 +245,7 @@ function inicializar()
     inicializar_map();
     mapa_refresh();
   }
+  traduzir();
   //localStorage.removeItem("tutorial");
 }
 
@@ -292,10 +323,20 @@ function criar_agendamento()
         mainView.router.loadPage('agendamentos.html');
       }
       else
-        myApp.alert("Erro ao fazer agendamento.");
+      {
+        if (localStorage.getItem('idioma') == "eng")
+          myApp.alert("Error while registering the scheduling.");
+        else
+          myApp.alert("Erro ao fazer agendamento.");
+      }
     }
     else
-      myApp.alert("Um ou mais campos foram deixados em branco.");
+    {
+      if (localStorage.getItem('idioma') == "eng")
+        myApp.alert("One or more fields were left in blank.");
+      else
+        myApp.alert("Um ou mais campos foram deixados em branco.");
+    }
     mainView.router.back();
     myApp.hidePreloader();
   },500);
@@ -333,12 +374,28 @@ function carregar_agendamentos()
                    '</a>'+
                  '</li>';
 
-      var justificativa = '<li class="item-content"><div class="item-title">Justificativa</div><div class="item-after">'+agendamento[i].justificativa+'</div></li>';
-      var vaijus = '<li class="item-content" id="liberg_'+agendamento[i].id+'"><div class="item-input"><input type="text" id="just_'+agendamento[i].id+'" placeholder="Digite aqui a justificativa caso vá cancelar"></div></li>';
-      if(agendamento[i].justificativa == null)
+      var justificativa;
+      var vaijus;
+      var btn1;
+      var btn2;
+
+      if(localStorage.getItem("idioma") == "eng")
+      {
+        justificativa = '<li class="item-content"><div class="item-title">Justification</div><div class="item-after">'+agendamento[i].justificativa+'</div></li>';
+        vaijus = '<li class="item-content" id="liberg_'+agendamento[i].id+'"><div class="item-input"><input type="text" id="just_'+agendamento[i].id+'" placeholder="Enter justification here if you cancel"></div></li>';
+        btn1 = '<p id="btn-cancelar-'+agendamento[i].id+'"><a onclick="cancelar_agendamento('+agendamento[i].id+',`'+empresa[0].nome_fantasia+'`,`'+usuario_has_endereco[0].nome+'`);" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-red swipeout-delete">Cancel schedule</a></p>';
+        btn2 = '<p id="btn-realizar-'+agendamento[i].id+'"><a onclick="realizar_agendamento('+agendamento[i].id+',`'+empresa[0].nome_fantasia+'`,`'+usuario_has_endereco[0].nome+'`);" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Perform scheduling</a></p>';
+      }
+      else
+      {
+        justificativa = '<li class="item-content"><div class="item-title">Justificativa</div><div class="item-after">'+agendamento[i].justificativa+'</div></li>';
+        vaijus = '<li class="item-content" id="liberg_'+agendamento[i].id+'"><div class="item-input"><input type="text" id="just_'+agendamento[i].id+'" placeholder="Digite aqui a justificativa caso vá cancelar"></div></li>';
+        btn1 = '<p id="btn-cancelar-'+agendamento[i].id+'"><a onclick="cancelar_agendamento('+agendamento[i].id+',`'+empresa[0].nome_fantasia+'`,`'+usuario_has_endereco[0].nome+'`);" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-red swipeout-delete">Cancelar agendamento</a></p>';
+        btn2 = '<p id="btn-realizar-'+agendamento[i].id+'"><a onclick="realizar_agendamento('+agendamento[i].id+',`'+empresa[0].nome_fantasia+'`,`'+usuario_has_endereco[0].nome+'`);" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Realizar agendamento</a></p>';
+      }
+
+       if(agendamento[i].justificativa == null)
         justificativa = "";
-      var btn1 = '<p id="btn-cancelar-'+agendamento[i].id+'"><a onclick="cancelar_agendamento('+agendamento[i].id+',`'+empresa[0].nome_fantasia+'`,`'+usuario_has_endereco[0].nome+'`);" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-red swipeout-delete">Cancelar agendamento</a></p>';
-      var btn2 = '<p id="btn-realizar-'+agendamento[i].id+'"><a onclick="realizar_agendamento('+agendamento[i].id+',`'+empresa[0].nome_fantasia+'`,`'+usuario_has_endereco[0].nome+'`);" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Realizar agendamento</a></p>';
 
       if((agendamento[i].aceito == 0) && (agendamento[i].realizado == 0))
       {
@@ -462,7 +519,10 @@ function cancelar_agendamento(id,empresa,endereco)
       $$("#btn-cancelar-"+id).remove();
       $$("#btn-realizar-"+id).remove();
   }else{
-    myApp.alert("Por favor, dê uma justificativa para o cancelamento do agendamento.");
+    if (localStorage.getItem('idioma') == "eng")
+      myApp.alert("Please, report a justification for the cancelling of the scheduling.");
+    else
+      myApp.alert("Por favor, dê uma justificativa para o cancelamento do agendamento.");
   }
     
 }
@@ -478,7 +538,10 @@ function adicionar_endereco()
       if(usuario_has_endereco_id == 0)
       {
         var retorno = ajax_method(false,'endereco.delete',retorno);
-        myApp.alert("Seu endereco não pôde ser criado, reveja suas informações ou sua conexão por favor.");
+        if (localStorage.getItem('idioma') == "eng")
+          myApp.alert("Your address couldn't be created, revise your informations or your network connection please.");
+        else
+          myApp.alert("Seu endereco não pôde ser criado, reveja suas informações ou sua conexão por favor.");
       }
       else
       {
@@ -486,8 +549,12 @@ function adicionar_endereco()
         carregar_enderecos();
       }
     }
-    else
-      myApp.alert("Seu endereco não pôde ser criado, reveja suas informações ou sua conexão por favor.");
+    else{
+      if (localStorage.getItem('idioma') == "eng")
+          myApp.alert("Your address couldn't be created, revise your informations or your network connection please.");
+        else
+          myApp.alert("Seu endereco não pôde ser criado, reveja suas informações ou sua conexão por favor.");
+    }
     myApp.hidePreloader();
   },500);
 }
@@ -577,10 +644,18 @@ function alterar_perfil()
   setTimeout(function () {
     var json_dados = ajax_method(false,'usuario.update_perfil',localStorage.getItem("login_id"),document.getElementById("usuario_nome").value,document.getElementById("usuario_email").value,document.getElementById("usuario_telefone").value);
     var retorno = JSON.parse(json_dados);
-    if(retorno)
-      myApp.alert("Perfil alterado com sucesso.");
-    else
-      myApp.alert("Erro ao alterar perfil.");
+    if(retorno){
+      if (localStorage.getItem('idioma') == "eng")
+        myApp.alert("Profile sucessfully edited.");
+      else
+        myApp.alert("Perfil alterado com sucesso.");
+    }
+    else{
+      if (localStorage.getItem('idioma') == "eng")
+          myApp.alert("Error while editing your profile.");
+        else
+          myApp.alert("Erro ao editar perfil.");
+    }
   myApp.hidePreloader();
   },100);
 
@@ -596,18 +671,32 @@ function alterar_senha()
       var retorno = JSON.parse(json_dados);
       if(retorno)
       {
-        myApp.alert("Senha alterada com sucesso.");
+        if (localStorage.getItem('idioma') == "eng")
+          myApp.alert("Password sucessfully edited.");
+        else
+          myApp.alert("Senha alterada com sucesso.");
         mainView.router.loadPage('perfil.html');
       }
-      else
-        myApp.alert("Erro ao alterar senha.");
+      else{
+        if (localStorage.getItem('idioma') == "eng")
+          myApp.alert("Error while editing your password.");
+        else
+          myApp.alert("Erro ao alterar a senha.");
+      }
     }
-    else
-      myApp.alert("Senhas não coincidem.");
+    else{
+      if (localStorage.getItem('idioma') == "eng")
+          myApp.alert("Passwords are not equal.");
+        else
+          myApp.alert("As senhas não coincidem.");
+    }
   }
   else
   {
-    myApp.alert("Um ou mais campos foram deixados em branco.");
+    if (localStorage.getItem('idioma') == "eng")
+        myApp.alert("One or more fields were left in blank.");
+      else
+        myApp.alert("Um ou mais campos foram deixados em branco.");
   }
 }
 
@@ -618,7 +707,10 @@ function excluir_notificacao(id)
       if (json_dados) {
       }
       else{
-        myApp.alert("Não foi possível excluir sua notificação, por favor, reveja sua conexão.");
+        if (localStorage.getItem('idioma') == "eng")
+        myApp.alert("Your notification couldn't be deleted, please, check your connection.");
+      else
+        myApp.alert("Sua notificacao não pode ser deletada, por favor, reveja sua conexão.");
       }
     },500);
 }
@@ -802,7 +894,10 @@ function login()
     }
     else
     {
-      myApp.alert('Email ou senha não correspondem!');
+      if (localStorage.getItem('idioma') == "eng")
+        myApp.alert("Email or password are wrong.");
+      else
+        myApp.alert("Email ou senha não correspondem.");
     }
     myApp.hidePreloader();
   },100);
@@ -926,7 +1021,10 @@ function select_pontos()
     markerCluster = new MarkerClusterer(map, markers, options); 
   }
   else{
-    myApp.alert("Não pudemos carregar os pontos próximos a você pois você ainda não adicionou ou definiu um endereço como principal. Por favor faça-o.")
+    if (localStorage.getItem('idioma') == "eng")
+        myApp.alert("We couldn't load the nearest points to you because you haven't added or defined an address as a principal address. Please, do it.");
+      else
+        myApp.alert("Não pudemos carregar os pontos próximos a você pois você ainda não adicionou ou definiu um endereço como principal. Por favor faça-o.");    
   }
 }
 
@@ -1041,7 +1139,10 @@ function codeAddress() {
             document.getElementById( 'long' ).value = results[0].geometry.location.lng();
             adicionar_endereco();
         } else {
-            myApp.alert( 'Não podemos encontrar sua localização corretamente, por favor, reveja os dados.');
+           if (localStorage.getItem('idioma') == "eng")
+              myApp.alert("We couldn't find your location correctly, please, check your data.");
+            else
+              myApp.alert('Não podemos encontrar sua localização corretamente, por favor, reveja os dados.');
         }
     } );
 }
@@ -1054,7 +1155,10 @@ function codeAddressa() {
             document.getElementById( 'long' ).value = results[0].geometry.location.lng();
             editar_endereco();
         } else {
-            myApp.alert( 'Não podemos encontrar sua localização corretamente, por favor, reveja os dados.');
+            if (localStorage.getItem('idioma') == "eng")
+              myApp.alert("We couldn't find your location correctly, please, check your data.");
+            else
+              myApp.alert('Não podemos encontrar sua localização corretamente, por favor, reveja os dados.');
         }
     } );
 }
@@ -1075,13 +1179,22 @@ function cadastro()
         mostrar_tela_mapa();
         mapa_refresh();
       }
-      else
-        myApp.alert("Seu perfil não pôde ser criado, reveja suas informações ou sua conexão por favor.");
+      else{
+        if (localStorage.getItem('idioma') == "eng")
+          myApp.alert("Your profile couldn't be created, check your information or your connection please.");
+        else
+           myApp.alert("Seu perfil não pôde ser criado, reveja suas informações ou sua conexão por favor.");
+      }
       myApp.hidePreloader();
     },500);
   }
-  else
-    myApp.alert("Senhas não correspondem!");
+  else{
+    if (localStorage.getItem('idioma') == "eng")
+      myApp.alert("The passwords are not equal.");
+    else
+      myApp.alert("Senhas não correspondem!");
+
+  }
 }
 
 function seleciona (id,lat,long)
@@ -1131,7 +1244,10 @@ function editar_endereco()
       }
       else{
         myApp.hidePreloader();
-        myApp.alert("Não foi possível editar seu endereço, por favor, reveja sua conexão ou dados.")
+        if (localStorage.getItem('idioma') == "eng")
+          myApp.alert("We couldn't edit your profile, please, check your connection or data.");
+        else
+          myApp.alert("Não pudemos alterar seu endereço, por favor, reveja sua conexão ou dados.");
       }
     },500);
 }
@@ -1143,7 +1259,10 @@ function excluir_endereco(id)
     var json_dados = ajax_method(false,'endereco.delete',id);
     if (!json_dados)
     {
-      myApp.alert("Não foi possível excluir seu endereço. Por favor, reveja sua conexão.");
+      if (localStorage.getItem('idioma') == "eng")
+        myApp.alert("We couldn't delete your profile, please, check your connection.");
+      else
+        myApp.alert("Não foi possível excluir seu endereço. Por favor, reveja sua conexão.");
     }
     else
     {
@@ -1166,4 +1285,204 @@ function obter_select(select) {
     }
   }
   return resultado;
+}
+
+function traduzir(page)
+{
+  if(localStorage.getItem("idioma") == "pt")
+  {
+    if(page == "addendereco")
+    {
+      document.getElementById(page+"_nav").innerHTML = "Cadastrar endereço";
+
+      document.getElementById("nome").placeholder = "Nome do endereço";
+      document.getElementById("rua").placeholder = "Rua";
+      document.getElementById("numero").placeholder = "Número";
+      document.getElementById("complemento").placeholder = "Complemento";
+      document.getElementById("cep").placeholder = "CEP";
+      document.getElementById("bairro").placeholder = "Bairro";
+      document.getElementById("estado").placeholder = "Estado";
+      document.getElementById("cidade").placeholder = "Cidade";
+      document.getElementById("pais").placeholder = "País";
+    }
+    else if(page == "agendamentos")
+    {
+      document.getElementById(page+"_nav").innerHTML = "Agendamentos";
+
+      document.getElementById(page+"_espera").innerHTML = "Em espera";
+      document.getElementById(page+"_aceitos").innerHTML = "Aceitos";
+      document.getElementById(page+"_atrasados").innerHTML = "Atrasados";
+      document.getElementById(page+"_realizados").innerHTML = "Realizados";
+      document.getElementById(page+"_cancelados").innerHTML = "Cancelados";
+    }
+    else if(page == "agendar")
+    {
+      document.getElementById(page+"_nav").innerHTML = "Agendar coleta";
+
+      document.getElementById("data_agendamento").placeholder = "Data da coleta";
+      document.getElementById("horario_agendamento").placeholder = "Horário da coleta";
+      document.getElementById("quantidade_agendamento").placeholder = "Quantidade média (em Kg)";
+      document.getElementById("agendar_nada_selecionado").innerHTML = "Nada selecionado";
+      document.getElementById("agendar_endereco").innerHTML = "Endereço";
+      document.getElementById("agendar_nada_selecionado1").innerHTML = "Nada selecionado";
+      document.getElementById("agendar_tipo_lixo").innerHTML = "Tipos de lixo";
+      document.getElementById("agendar_cancelar").innerHTML = "Cancelar";
+      document.getElementById("agendar_agendar").innerHTML = "Agendar";
+    }
+    else if(page == "altsenha")
+    {
+      document.getElementById(page+"_nav").innerHTML = "Alterar Senha";
+
+      document.getElementById("usuario_senha_antiga").placeholder = "Senha atual";
+      document.getElementById("usuario_senha1").placeholder = "Nova senha";
+      document.getElementById("usuario_senha2").placeholder = "Repita a senha";
+      document.getElementById("altsenha_cancelar").innerHTML = "Cancelar";
+      document.getElementById("altsenha_salvar").innerHTML = "Salvar";
+    }
+    else if(page == "cadastro")
+    {
+      document.getElementById("cadastro_nome").innerHTML = "Nome";
+      document.getElementById("cad_nome").placeholder = "Ex: João da Silva";
+      document.getElementById("cad_email").placeholder = "Ex: joão@servidor.com";
+      document.getElementById("cadastro_senha").innerHTML = "Senha";
+      document.getElementById("cad_senha").placeholder = "Ex: *******";
+      document.getElementById("cadastro_senha_novamente").innerHTML = "Senha novamente";
+      document.getElementById("cad_senha2").placeholder = "Ex: *******";
+      document.getElementById("cad_cpf").placeholder = "ex: 12345678911";document.getElementById("cadastro_nome").innerHTML = "";
+      document.getElementById("cadastro_telefone").innerHTML = "Telefone";
+      document.getElementById("cad_telefone").placeholder = "Ex: 554995965584";
+      document.getElementById("cadastro_cadastrar").innerHTML = "Cadastrar";
+      document.getElementById("cadastro_login").innerHTML = "Já possui cadastro? Clique aqui!";
+    }
+    else if(page == "enderecos")
+    {
+      document.getElementById(page+"_nav").innerHTML = "Endereços";
+    }
+    else if(page == "index")
+    {
+      document.getElementById("index_filtros").innerHTML = "Filters";
+    }
+    else if(page == "notificacoes")
+    {
+      document.getElementById(page+"_nav").innerHTML = "Notificações";
+    }
+    else if(page == "perfil")
+    {
+      document.getElementById(page+"_nav").innerHTML = "Perfil";
+
+      document.getElementById("usuario_nome").placeholder = "Seu nome";
+      document.getElementById("usuario_telefone").placeholder = "Telefone";
+      document.getElementById("perfil_salvar").innerHTML = "Salvar";
+      document.getElementById("perfil_alterar_senha").innerHTML = "Alterar senha";
+    }
+    else if(page == "sobre")
+    {
+      document.getElementById(page+"_nav").innerHTML = "Sobre";
+
+      document.getElementById("sobre_descricao").innerHTML = "Desenvolvido pela equipe que representa Santa Catarina no desafio por equipe, na área de Tecnologia da Informação e Comunicação na Olimpíada do Conhecimento 2016.";
+      document.getElementById("sobre_membros").innerHTML = "Membros da equipe";
+      document.getElementById("sobre_solucoes").innerHTML = "Soluções de softwares para negócios";
+      document.getElementById("sobre_infra").innerHTML = "Infraestrutura e redes locais";
+      document.getElementById("sobre_solucoes1").innerHTML = "Soluções de softwares para negócios";
+      document.getElementById("sobre_gestor").innerHTML = "Gestor do projeto";
+    }
+  }
+  else
+  {
+    if(page == "addendereco")
+    {
+      document.getElementById(page+"_nav").innerHTML = "Create new address";
+
+      document.getElementById("nome").placeholder = "Address name";
+      document.getElementById("rua").placeholder = "Street";
+      document.getElementById("numero").placeholder = "Number";
+      document.getElementById("complemento").placeholder = "Complement";
+      document.getElementById("cep").placeholder = "Postal Code";
+      document.getElementById("bairro").placeholder = "Neighbourhood";
+      document.getElementById("estado").placeholder = "State";
+      document.getElementById("cidade").placeholder = "City";
+      document.getElementById("pais").placeholder = "Country";
+    }
+    else if(page == "agendamentos")
+    {
+      document.getElementById(page+"_nav").innerHTML = "Schedulings";
+
+      document.getElementById(page+"_espera").innerHTML = "Waiting";
+      document.getElementById(page+"_aceitos").innerHTML = "Accepted";
+      document.getElementById(page+"_atrasados").innerHTML = "Late";
+      document.getElementById(page+"_realizados").innerHTML = "Accomplished";
+      document.getElementById(page+"_cancelados").innerHTML = "Canceled";
+    }
+    else if(page == "agendar")
+    {
+      document.getElementById(page+"_nav").innerHTML = "Schedule pickup";
+
+      document.getElementById("data_agendamento").placeholder = "Pickup date";
+      document.getElementById("horario_agendamento").placeholder = "Pickup time";
+      document.getElementById("quantidade_agendamento").placeholder = "Amount of trash to be picked (Kg)";
+      document.getElementById("agendar_nada_selecionado").innerHTML = "Nothing selected";
+      document.getElementById("agendar_endereco").innerHTML = "Address";
+      document.getElementById("agendar_nada_selecionado1").innerHTML = "Nothing selected";
+      document.getElementById("agendar_tipo_lixo").innerHTML = "Trash type";
+      document.getElementById("agendar_cancelar").innerHTML = "Cancel";
+      document.getElementById("agendar_agendar").innerHTML = "Confirm";
+    }
+    else if(page == "altsenha")
+    {
+      document.getElementById(page+"_nav").innerHTML = "Password update";
+
+      document.getElementById("usuario_senha_antiga").placeholder = "Atual password";
+      document.getElementById("usuario_senha1").placeholder = "New password";
+      document.getElementById("usuario_senha2").placeholder = "Repeat the password";
+      document.getElementById("altsenha_cancelar").innerHTML = "Cancel";
+      document.getElementById("altsenha_salvar").innerHTML = "Save";
+    }
+    else if(page == "cadastro")
+    {
+      document.getElementById("cadastro_nome").innerHTML = "Name";
+      document.getElementById("cad_nome").placeholder = "Ex: Jhon Titor";
+      document.getElementById("cad_email").placeholder = "Ex: jhon@server.com";
+      document.getElementById("cadastro_senha").innerHTML = "Password";
+      document.getElementById("cad_senha").placeholder = "Ex: *******";
+      document.getElementById("cadastro_senha_novamente").innerHTML = "Password again";
+      document.getElementById("cad_senha2").placeholder = "Ex: *******";
+      document.getElementById("cad_cpf").placeholder = "ex: 12345678911";document.getElementById("cadastro_nome").innerHTML = "";
+      document.getElementById("cadastro_telefone").innerHTML = "Telephone";
+      document.getElementById("cad_telefone").placeholder = "Ex: 554995965584";
+      document.getElementById("cadastro_cadastrar").innerHTML = "Register";
+      document.getElementById("cadastro_login").innerHTML = "Already registered? Click here!";
+    }
+    else if(page == "enderecos")
+    {
+      document.getElementById(page+"_nav").innerHTML = "Addresses";
+    }
+    else if(page == "index")
+    {
+      document.getElementById("index_filtros").innerHTML = "Filters";
+    }
+    else if(page == "notificacoes")
+    {
+      document.getElementById(page+"_nav").innerHTML = "Notifications";
+    }
+    else if(page == "perfil")
+    {
+      document.getElementById(page+"_nav").innerHTML = "Profile";
+
+      document.getElementById("usuario_nome").placeholder = "Your name";
+      document.getElementById("usuario_telefone").placeholder = "Telephone";
+      document.getElementById("perfil_salvar").innerHTML = "Save";
+      document.getElementById("perfil_alterar_senha").innerHTML = "Password update";
+    }
+    else if(page == "sobre")
+    {
+      document.getElementById(page+"_nav").innerHTML = "About";
+
+      document.getElementById("sobre_descricao").innerHTML = "Developed by the team that represents Santa Catarina in the team challenge, in the area of ​​Information and Communication Technology at the 2016's Olimpíada do Conhecimento.";
+      document.getElementById("sobre_membros").innerHTML = "Team members";
+      document.getElementById("sobre_solucoes").innerHTML = "Business Software Solutions";
+      document.getElementById("sobre_infra").innerHTML = "Infrastructure and local area networks";
+      document.getElementById("sobre_solucoes1").innerHTML = "Business Software Solutions";
+      document.getElementById("sobre_gestor").innerHTML = "Project manager";
+    }
+  }
 }
