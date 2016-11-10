@@ -1421,7 +1421,7 @@ function traduzir(page)
       document.getElementById("horario_agendamento").placeholder = "Pickup time";
       document.getElementById("quantidade_agendamento").placeholder = "Amount of trash to be picked (Kg)";
       document.getElementById("agendar_nada_selecionado").innerHTML = "Nothing selected";
-      document.getElementById("agendar_endereco").innerHTML = "Endereço";
+      document.getElementById("agendar_endereco").innerHTML = "Address";
       document.getElementById("agendar_nada_selecionado1").innerHTML = "Nothing selected";
       document.getElementById("agendar_tipo_lixo").innerHTML = "Trash type";
       document.getElementById("agendar_cancelar").innerHTML = "Cancel";
@@ -1450,7 +1450,7 @@ function traduzir(page)
       document.getElementById("cadastro_telefone").innerHTML = "Telephone";
       document.getElementById("cad_telefone").placeholder = "Ex: 554995965584";
       document.getElementById("cadastro_cadastrar").innerHTML = "Register";
-      document.getElementById("cadastro_login").innerHTML = "Already resgistered? Click here!";
+      document.getElementById("cadastro_login").innerHTML = "Already registered? Click here!";
     }
     else if(page == "enderecos")
     {
@@ -1477,7 +1477,7 @@ function traduzir(page)
     {
       document.getElementById(page+"_nav").innerHTML = "About";
 
-      document.getElementById("sobre_descricao").innerHTML = "Developed by the team that represents Santa Catarina in the team challenge, in the area of ​​Information and Communication Technology at the 2016 Olimpíada do Conhecimento.";
+      document.getElementById("sobre_descricao").innerHTML = "Developed by the team that represents Santa Catarina in the team challenge, in the area of ​​Information and Communication Technology at the 2016's Olimpíada do Conhecimento.";
       document.getElementById("sobre_membros").innerHTML = "Team members";
       document.getElementById("sobre_solucoes").innerHTML = "Business Software Solutions";
       document.getElementById("sobre_infra").innerHTML = "Infrastructure and local area networks";
