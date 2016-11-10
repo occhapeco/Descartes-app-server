@@ -297,10 +297,20 @@ function criar_agendamento()
         mainView.router.loadPage('agendamentos.html');
       }
       else
-        myApp.alert("Erro ao fazer agendamento.");
+      {
+        if (localStorage.getItem('idioma') == "eng")
+          myApp.alert("Error while registering the scheduling.");
+        else
+          myApp.alert("Erro ao fazer agendamento.");
+      }
     }
     else
-      myApp.alert("Um ou mais campos foram deixados em branco.");
+    {
+      if (localStorage.getItem('idioma') == "eng")
+        myApp.alert("One or more fields were left in blank.");
+      else
+        myApp.alert("Um ou mais campos foram deixados em branco.");
+    }
     mainView.router.back();
     myApp.hidePreloader();
   },500);
@@ -467,7 +477,10 @@ function cancelar_agendamento(id,empresa,endereco)
       $$("#btn-cancelar-"+id).remove();
       $$("#btn-realizar-"+id).remove();
   }else{
-    myApp.alert("Por favor, dê uma justificativa para o cancelamento do agendamento.");
+    if (localStorage.getItem('idioma') == "eng")
+      myApp.alert("Please, report a justification for the cancelling of the scheduling.");
+    else
+      myApp.alert("Por favor, dê uma justificativa para o cancelamento do agendamento.");
   }
     
 }
@@ -483,7 +496,10 @@ function adicionar_endereco()
       if(usuario_has_endereco_id == 0)
       {
         var retorno = ajax_method(false,'endereco.delete',retorno);
-        myApp.alert("Seu endereco não pôde ser criado, reveja suas informações ou sua conexão por favor.");
+        if (localStorage.getItem('idioma') == "eng")
+          myApp.alert("Your address couldn't be created, revise your informations or your network connection please.");
+        else
+          myApp.alert("Seu endereco não pôde ser criado, reveja suas informações ou sua conexão por favor.");
       }
       else
       {
@@ -491,8 +507,12 @@ function adicionar_endereco()
         carregar_enderecos();
       }
     }
-    else
-      myApp.alert("Seu endereco não pôde ser criado, reveja suas informações ou sua conexão por favor.");
+    else{
+      if (localStorage.getItem('idioma') == "eng")
+          myApp.alert("Your address couldn't be created, revise your informations or your network connection please.");
+        else
+          myApp.alert("Seu endereco não pôde ser criado, reveja suas informações ou sua conexão por favor.");
+    }
     myApp.hidePreloader();
   },500);
 }
@@ -582,10 +602,18 @@ function alterar_perfil()
   setTimeout(function () {
     var json_dados = ajax_method(false,'usuario.update_perfil',localStorage.getItem("login_id"),document.getElementById("usuario_nome").value,document.getElementById("usuario_email").value,document.getElementById("usuario_telefone").value);
     var retorno = JSON.parse(json_dados);
-    if(retorno)
-      myApp.alert("Perfil alterado com sucesso.");
-    else
-      myApp.alert("Erro ao alterar perfil.");
+    if(retorno){
+      if (localStorage.getItem('idioma') == "eng")
+        myApp.alert("Profile sucessfully edited.");
+      else
+        myApp.alert("Perfil alterado com sucesso.");
+    }
+    else{
+      if (localStorage.getItem('idioma') == "eng")
+          myApp.alert("Error while editing your profile.");
+        else
+          myApp.alert("Erro ao editar perfil.");
+    }
   myApp.hidePreloader();
   },100);
 
@@ -601,18 +629,32 @@ function alterar_senha()
       var retorno = JSON.parse(json_dados);
       if(retorno)
       {
-        myApp.alert("Senha alterada com sucesso.");
+        if (localStorage.getItem('idioma') == "eng")
+          myApp.alert("Password sucessfully edited.");
+        else
+          myApp.alert("Senha alterada com sucesso.");
         mainView.router.loadPage('perfil.html');
       }
-      else
-        myApp.alert("Erro ao alterar senha.");
+      else{
+        if (localStorage.getItem('idioma') == "eng")
+          myApp.alert("Error while editing your password.");
+        else
+          myApp.alert("Erro ao alterar a senha.");
+      }
     }
-    else
-      myApp.alert("Senhas não coincidem.");
+    else{
+      if (localStorage.getItem('idioma') == "eng")
+          myApp.alert("Passwords are not equal.");
+        else
+          myApp.alert("As senhas não coincidem.");
+    }
   }
   else
   {
-    myApp.alert("Um ou mais campos foram deixados em branco.");
+    if (localStorage.getItem('idioma') == "eng")
+        myApp.alert("One or more fields were left in blank.");
+      else
+        myApp.alert("Um ou mais campos foram deixados em branco.");
   }
 }
 
@@ -623,7 +665,10 @@ function excluir_notificacao(id)
       if (json_dados) {
       }
       else{
-        myApp.alert("Não foi possível excluir sua notificação, por favor, reveja sua conexão.");
+        if (localStorage.getItem('idioma') == "eng")
+        myApp.alert("Your notification couldn't be deleted, please, check your connection.");
+      else
+        myApp.alert("Sua notificacao não pode ser deletada, por favor, reveja sua conexão.");
       }
     },500);
 }
@@ -807,7 +852,10 @@ function login()
     }
     else
     {
-      myApp.alert('Email ou senha não correspondem!');
+      if (localStorage.getItem('idioma') == "eng")
+        myApp.alert("Email or password are wrong.");
+      else
+        myApp.alert("Email ou senha não correspondem.");
     }
     myApp.hidePreloader();
   },100);
@@ -931,7 +979,10 @@ function select_pontos()
     markerCluster = new MarkerClusterer(map, markers, options); 
   }
   else{
-    myApp.alert("Não pudemos carregar os pontos próximos a você pois você ainda não adicionou ou definiu um endereço como principal. Por favor faça-o.")
+    if (localStorage.getItem('idioma') == "eng")
+        myApp.alert("We couldn't load the nearest points to you because you haven't added or defined an address as a principal address. Please, do it.");
+      else
+        myApp.alert("Não pudemos carregar os pontos próximos a você pois você ainda não adicionou ou definiu um endereço como principal. Por favor faça-o.");    
   }
 }
 
@@ -1046,7 +1097,10 @@ function codeAddress() {
             document.getElementById( 'long' ).value = results[0].geometry.location.lng();
             adicionar_endereco();
         } else {
-            myApp.alert( 'Não podemos encontrar sua localização corretamente, por favor, reveja os dados.');
+           if (localStorage.getItem('idioma') == "eng")
+              myApp.alert("We couldn't find your location correctly, please, check your data.");
+            else
+              myApp.alert('Não podemos encontrar sua localização corretamente, por favor, reveja os dados.');
         }
     } );
 }
@@ -1059,7 +1113,10 @@ function codeAddressa() {
             document.getElementById( 'long' ).value = results[0].geometry.location.lng();
             editar_endereco();
         } else {
-            myApp.alert( 'Não podemos encontrar sua localização corretamente, por favor, reveja os dados.');
+            if (localStorage.getItem('idioma') == "eng")
+              myApp.alert("We couldn't find your location correctly, please, check your data.");
+            else
+              myApp.alert('Não podemos encontrar sua localização corretamente, por favor, reveja os dados.');
         }
     } );
 }
@@ -1080,13 +1137,22 @@ function cadastro()
         mostrar_tela_mapa();
         mapa_refresh();
       }
-      else
-        myApp.alert("Seu perfil não pôde ser criado, reveja suas informações ou sua conexão por favor.");
+      else{
+        if (localStorage.getItem('idioma') == "eng")
+          myApp.alert("Your profile couldn't be created, check your information or your connection please.");
+        else
+           myApp.alert("Seu perfil não pôde ser criado, reveja suas informações ou sua conexão por favor.");
+      }
       myApp.hidePreloader();
     },500);
   }
-  else
-    myApp.alert("Senhas não correspondem!");
+  else{
+    if (localStorage.getItem('idioma') == "eng")
+      myApp.alert("The passwords are not equal.");
+    else
+      myApp.alert("Senhas não correspondem!");
+
+  }
 }
 
 function seleciona (id,lat,long)
@@ -1136,7 +1202,10 @@ function editar_endereco()
       }
       else{
         myApp.hidePreloader();
-        myApp.alert("Não foi possível editar seu endereço, por favor, reveja sua conexão ou dados.")
+        if (localStorage.getItem('idioma') == "eng")
+          myApp.alert("We couldn't edit your profile, please, check your connection or data.");
+        else
+          myApp.alert("Não pudemos alterar seu endereço, por favor, reveja sua conexão ou dados.");
       }
     },500);
 }
@@ -1148,7 +1217,10 @@ function excluir_endereco(id)
     var json_dados = ajax_method(false,'endereco.delete',id);
     if (!json_dados)
     {
-      myApp.alert("Não foi possível excluir seu endereço. Por favor, reveja sua conexão.");
+      if (localStorage.getItem('idioma') == "eng")
+        myApp.alert("We couldn't delete your profile, please, check your connection.");
+      else
+        myApp.alert("Não foi possível excluir seu endereço. Por favor, reveja sua conexão.");
     }
     else
     {
