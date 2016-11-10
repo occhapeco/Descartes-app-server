@@ -245,7 +245,7 @@ function inicializar()
     inicializar_map();
     mapa_refresh();
   }
-  traduzir();
+  traduzir("index");
   //localStorage.removeItem("tutorial");
 }
 
@@ -308,7 +308,10 @@ function tutorial()
 
 function criar_agendamento()
 {
-  myApp.showPreloader("Agendando coleta...");
+  if (localStorage.getItem('idioma') == "eng")
+    myApp.showPreloader("Scheduling...");
+  else
+    myApp.showPreloader("Agendando coleta...");
   setTimeout(function () {
     var tipo_lixo_id = obter_select(document.getElementById("tipos_lixo_agendamento"));
     if ((document.getElementById("data_agendamento").value != "") && (document.getElementById("horario_agendamento").value != "") && (document.getElementById("quantidade_agendamento").value != "" && tipo_lixo_id.length != 0)) 
@@ -424,8 +427,12 @@ function carregar_agendamentos()
       json_dados = ajax_method(false,'agendamento_has_tipo_lixo.select_by_agendamento',agendamento[i].id);
       var agendamento_has_tipo_lixo = JSON.parse(json_dados);
       var tipos_lixo = "";
-      if(agendamento_has_tipo_lixo.length == 0)
-        tipos_lixo = "Nenhum";
+      if(agendamento_has_tipo_lixo.length == 0){
+        if(localStorage.getItem("idioma") == "eng")
+            tipos_lixo = "None";
+        else
+           tipos_lixo = "Nenhum";
+      }
 
       for(var j=0;j<agendamento_has_tipo_lixo.length;j++)
       {
@@ -438,36 +445,68 @@ function carregar_agendamentos()
       var quantidade = "";
       if(agendamento_has_tipo_lixo.length > 0)
       {
-        quantidade = '<li class="item-content"><div class="item-title">Quantidade média (Kg)</div><div class="item-after">'+agendamento_has_tipo_lixo[0].quantidade+'</div></li>';
+        if(localStorage.getItem("idioma") == "eng")
+          quantidade = '<li class="item-content"><div class="item-title">Average amount (Kg)</div><div class="item-after">'+agendamento_has_tipo_lixo[0].quantidade+'</div></li>';
+        else
+          quantidade = '<li class="item-content"><div class="item-title">Quantidade média (Kg)</div><div class="item-after">'+agendamento_has_tipo_lixo[0].quantidade+'</div></li>';
       }
 
-      document.getElementById("popups-agendamentos").innerHTML += '<div class="popup popup-agendamento-'+agendamento[i].id+'">'+
-                                                                  '<div class="navbar">'+
-                                                                    '<div class="navbar-inner">'+
-                                                                      '<div class="left">'+
-                                                                        '<a href="#" class="link icon-only close-popup" id="bc"><i class="icon icon-back"></i></a>'+
-                                                                        '<div id="hd">'+
-                                                                          'Detalhes do agendamento'+
+      if(localStorage.getItem("idioma") == "eng")
+        document.getElementById("popups-agendamentos").innerHTML += '<div class="popup popup-agendamento-'+agendamento[i].id+'">'+
+                                                                    '<div class="navbar">'+
+                                                                      '<div class="navbar-inner">'+
+                                                                        '<div class="left">'+
+                                                                          '<a href="#" class="link icon-only close-popup" id="bc"><i class="icon icon-back"></i></a>'+
+                                                                          '<div id="hd">'+
+                                                                            'Scheduling details'+
+                                                                          '</div>'+
                                                                         '</div>'+
                                                                       '</div>'+
                                                                     '</div>'+
+                                                                  '<div class="content-block">'+
+                                                                    '<div class="list-block">'+
+                                                                      '<ul id="ul-agendamento-'+agendamento[i].id+'">'+
+                                                                        '<li class="item-content"><div class="item-title">Trash types</div><div class="item-after">'+tipos_lixo+'</div></li>'+
+                                                                        quantidade+
+                                                                        '<li class="item-content"><div class="item-title">Company</div><div class="item-after">'+empresa[0].nome_fantasia+'</div></li>'+
+                                                                        '<li class="item-content"><div class="item-title">Address</div><div class="item-after">'+usuario_has_endereco[0].nome+'</div></li>'+
+                                                                        '<li class="item-content"><div class="item-title">Scheduled date</div><div class="item-after">'+agendamento[i].data_agendamento+'</div></li>'+
+                                                                        '<li class="item-content"><div class="item-title">Scheduled time</div><div class="item-after">'+agendamento[i].horario+'</div></li>'+vaijus+
+                                                                        justificativa+
+                                                                      '</ul>'+
+                                                                      btn2+
+                                                                      btn1+
+                                                                    '</div>'+
                                                                   '</div>'+
-                                                                '<div class="content-block">'+
-                                                                  '<div class="list-block">'+
-                                                                    '<ul id="ul-agendamento-'+agendamento[i].id+'">'+
-                                                                      '<li class="item-content"><div class="item-title">Tipos de lixo</div><div class="item-after">'+tipos_lixo+'</div></li>'+
-                                                                      quantidade+
-                                                                      '<li class="item-content"><div class="item-title">Empresa</div><div class="item-after">'+empresa[0].nome_fantasia+'</div></li>'+
-                                                                      '<li class="item-content"><div class="item-title">Endereço</div><div class="item-after">'+usuario_has_endereco[0].nome+'</div></li>'+
-                                                                      '<li class="item-content"><div class="item-title">Data agendada</div><div class="item-after">'+agendamento[i].data_agendamento+'</div></li>'+
-                                                                      '<li class="item-content"><div class="item-title">Horário agendado</div><div class="item-after">'+agendamento[i].horario+'</div></li>'+vaijus+
-                                                                      justificativa+
-                                                                    '</ul>'+
-                                                                    btn2+
-                                                                    btn1+
+                                                                '</div>';
+      else
+        document.getElementById("popups-agendamentos").innerHTML += '<div class="popup popup-agendamento-'+agendamento[i].id+'">'+
+                                                                    '<div class="navbar">'+
+                                                                      '<div class="navbar-inner">'+
+                                                                        '<div class="left">'+
+                                                                          '<a href="#" class="link icon-only close-popup" id="bc"><i class="icon icon-back"></i></a>'+
+                                                                          '<div id="hd">'+
+                                                                            'Detalhes do agendamento'+
+                                                                          '</div>'+
+                                                                        '</div>'+
+                                                                      '</div>'+
+                                                                    '</div>'+
+                                                                  '<div class="content-block">'+
+                                                                    '<div class="list-block">'+
+                                                                      '<ul id="ul-agendamento-'+agendamento[i].id+'">'+
+                                                                        '<li class="item-content"><div class="item-title">Tipos de lixo</div><div class="item-after">'+tipos_lixo+'</div></li>'+
+                                                                        quantidade+
+                                                                        '<li class="item-content"><div class="item-title">Empresa</div><div class="item-after">'+empresa[0].nome_fantasia+'</div></li>'+
+                                                                        '<li class="item-content"><div class="item-title">Endereço</div><div class="item-after">'+usuario_has_endereco[0].nome+'</div></li>'+
+                                                                        '<li class="item-content"><div class="item-title">Data agendada</div><div class="item-after">'+agendamento[i].data_agendamento+'</div></li>'+
+                                                                        '<li class="item-content"><div class="item-title">Horário agendado</div><div class="item-after">'+agendamento[i].horario+'</div></li>'+vaijus+
+                                                                        justificativa+
+                                                                      '</ul>'+
+                                                                      btn2+
+                                                                      btn1+
+                                                                    '</div>'+
                                                                   '</div>'+
-                                                                '</div>'+
-                                                              '</div>';
+                                                                '</div>';
 
       
     }
@@ -513,7 +552,10 @@ function cancelar_agendamento(id,empresa,endereco)
                    '</li>';
       document.getElementById('li-agendamento-'+id).remove();
       document.getElementById('cancelados').innerHTML += html;
-      document.getElementById("ul-agendamento-"+id).innerHTML += '<li class="item-content"><div class="item-title">Justificativa</div><div class="item-after">'+document.getElementById('just_'+id).value+'</div></li>';
+      if(localStorage.getItem("idioma") == "eng")
+        document.getElementById("ul-agendamento-"+id).innerHTML += '<li class="item-content"><div class="item-title">Justification</div><div class="item-after">'+document.getElementById('just_'+id).value+'</div></li>';
+      else
+        document.getElementById("ul-agendamento-"+id).innerHTML += '<li class="item-content"><div class="item-title">Justificativa</div><div class="item-after">'+document.getElementById('just_'+id).value+'</div></li>';
       document.getElementById('liberg_'+id).remove();
       myApp.showTab('#cancelados');
       $$("#btn-cancelar-"+id).remove();
@@ -588,7 +630,38 @@ function carregar_enderecos()
                  '</li>';
       botaum = "seleciona("+usuario_has_endereco[i].id+","+endereco[0].latitude+","+endereco[0].longitude+");"; 
 
-      document.getElementById("popups-enderecos").innerHTML += '<div class="popup popup-endereco-'+usuario_has_endereco[i].id+'">'+
+       if(localStorage.getItem("idioma") == "eng")
+        document.getElementById("popups-enderecos").innerHTML += '<div class="popup popup-endereco-'+usuario_has_endereco[i].id+'">'+
+                                                                  '<div class="navbar">'+
+                                                                    '<div class="navbar-inner">'+
+                                                                      '<div class="left">'+
+                                                                        '<a href="#" class="link icon-only close-popup" id="bc"><i class="icon icon-back"></i></a>'+
+                                                                        '<div id="hd">'+
+                                                                          'Address details'+
+                                                                        '</div>'+
+                                                                      '</div>'+
+                                                                    '</div>'+
+                                                                  '</div>'+
+                                                                '<div class="content-block">'+
+                                                                  '<div class="list-block">'+
+                                                                    '<ul id="ul-endereco-'+usuario_has_endereco[i].id+'">'+
+                                                                      '<li class="item-content"><div class="item-title">Address name</div><div class="item-after">'+usuario_has_endereco[i].nome+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Street</div><div class="item-after">'+endereco[0].rua+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Number</div><div class="item-after">'+endereco[0].num+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Complement</div><div class="item-after">'+endereco[0].complemento+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">State</div><div class="item-after">'+endereco[0].uf+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">City</div><div class="item-after">'+endereco[0].cidade+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Neighborhood</div><div class="item-after">'+endereco[0].bairro+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Country</div><div class="item-after">'+endereco[0].pais+'</div></li>'+
+                                                                    '</ul>'+
+                                                                    '<div id="bot'+usuario_has_endereco[i].id+'"></div>'+
+                                                                    '<p><a style="width:90%;margin-left:5%;" onclick="myApp.closeModal(`.popup-endereco-'+usuario_has_endereco[i].id+'`);" href="addendereco.html?id='+usuario_has_endereco[i].endereco_id+'&nome='+usuario_has_endereco[i].nome+'" class="button button-raised button-fill color-orange">Edit</a></p>'+
+                                                                    '<p><a style="width:90%;margin-left:5%;" onclick="myApp.closeModal(`.popup-endereco-'+usuario_has_endereco[i].id+'`); excluir_endereco('+usuario_has_endereco[i].endereco_id+')" class="button button-raised button-fill color-red">Delete</a></p>'+
+                                                                  '</div>'+
+                                                                '</div>'+
+                                                              '</div>';
+      else
+        document.getElementById("popups-enderecos").innerHTML += '<div class="popup popup-endereco-'+usuario_has_endereco[i].id+'">'+
                                                                   '<div class="navbar">'+
                                                                     '<div class="navbar-inner">'+
                                                                       '<div class="left">'+
@@ -619,7 +692,10 @@ function carregar_enderecos()
                                                               '</div>';
     document.getElementById("ulenderecos").innerHTML += html;
     if (localStorage.getItem("lat_padrao")!=endereco[0].latitude && localStorage.getItem("long_padrao")!=endereco[0].longitude)
-      document.getElementById('bot'+usuario_has_endereco[i].id).innerHTML ='<p><a onclick="seleciona('+usuario_has_endereco[i].id+','+endereco[0].latitude+','+endereco[0].longitude+');" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Definir como principal</a><p>';
+      if(localStorage.getItem("idioma") == "eng")
+        document.getElementById('bot'+usuario_has_endereco[i].id).innerHTML ='<p><a onclick="seleciona('+usuario_has_endereco[i].id+','+endereco[0].latitude+','+endereco[0].longitude+');" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Set as primary</a><p>';
+      else
+        document.getElementById('bot'+usuario_has_endereco[i].id).innerHTML ='<p><a onclick="seleciona('+usuario_has_endereco[i].id+','+endereco[0].latitude+','+endereco[0].longitude+');" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Definir como principal</a><p>';
     }
     myApp.hidePreloader();
   },500);
@@ -645,6 +721,16 @@ function alterar_perfil()
     var json_dados = ajax_method(false,'usuario.update_perfil',localStorage.getItem("login_id"),document.getElementById("usuario_nome").value,document.getElementById("usuario_email").value,document.getElementById("usuario_telefone").value);
     var retorno = JSON.parse(json_dados);
     if(retorno){
+      var radios = document.getElementsByName('my-radio');
+
+      for (var i = 0, length = radios.length; i < length; i++) {
+          if (radios[i].checked) {
+              // do whatever you want with the checked radio
+              localStorage.setItem("idioma",radios[i].value);
+              // only one radio can be logically checked, don't check the rest
+              break;
+          }
+      }
       if (localStorage.getItem('idioma') == "eng")
         myApp.alert("Profile sucessfully edited.");
       else
@@ -731,10 +817,23 @@ function carregar_notificacoes()
         html += '<li class="item-link swipeout">'+
                     '<div class="swipeout-content item-content">';
         if (retorno[i].tipo == 0)
-          html += '<div class="item-media"><i class="fa fa-hourglass-2"></i></div><div class="item-inner">'+empresa[0].nome_fantasia+' aceitou o agendamento.</div>';
+        {
+          if(localStorage.getItem("idioma") == "eng")
+            html += '<div class="item-media"><i class="fa fa-hourglass-2"></i></div><div class="item-inner">'+empresa[0].nome_fantasia+' accepted the schedule.</div>';
+          else
+            html += '<div class="item-media"><i class="fa fa-hourglass-2"></i></div><div class="item-inner">'+empresa[0].nome_fantasia+' aceitou o agendamento.</div>';
+        }
         if (retorno[i].tipo == 1)
-          html += '<div class="item-media"><i class="fa fa-calendar-times-o"></i></div><div class="item-inner">'+empresa[0].nome_fantasia+' recusou o agendamento.</div>';
-        html +='</div><div class="swipeout-actions-right"><a onclick="excluir_notificacao('+retorno[i].id+');" class="bg-red swipeout-delete">Excluir</a></div></li>';
+        {
+          if(localStorage.getItem("idioma") == "eng")
+            html += '<div class="item-media"><i class="fa fa-hourglass-2"></i></div><div class="item-inner">'+empresa[0].nome_fantasia+' refused the schedule.</div>';
+          else
+            html += '<div class="item-media"><i class="fa fa-calendar-times-o"></i></div><div class="item-inner">'+empresa[0].nome_fantasia+' recusou o agendamento.</div>';
+        }
+        if(localStorage.getItem("idioma") == "eng")
+          html += '</div><div class="swipeout-actions-right"><a onclick="excluir_notificacao('+retorno[i].id+');" class="bg-red swipeout-delete">Excluir</a></div></li>';
+        else
+          html += '</div><div class="swipeout-actions-right"><a onclick="excluir_notificacao('+retorno[i].id+');" class="bg-red swipeout-delete">Delete</a></div></li>';
       }
     }
     document.getElementById('ulnotificacoes').innerHTML = html;
@@ -749,42 +848,87 @@ function remover_menu()
 
 function criar_menu()
 {
-  var panel_html = '<li><a href="index.html" onclick="myApp.closePanel();" class="item-link">'+
+  var panel_html;
+
+  if(localStorage.getItem("idioma") == "eng")
+    panel_html = '<li><a href="index.html" onclick="myApp.closePanel();" class="item-link">'+
                         '<div class="item-content">' +
                           '<div class="item-inner">'+
-                            '<div class="item-title">Mapa</div>'+
+                            '<div class="item-title">Map</div>'+
                           '</div>'+
-                       ' </div></a></li>'+'<li><a href="perfil.html" onclick="myApp.closePanel();" class="item-link">'+
+                      '<li><a href="perfil.html" onclick="myApp.closePanel();" class="item-link">'+
                         '<div class="item-content">' +
                           '<div class="item-inner">'+
-                            '<div class="item-title">Perfil</div>'+
+                            '<div class="item-title">Profile</div>'+
                           '</div>'+
                        ' </div></a></li>'+
                       '<li><a href="agendamentos.html" onclick="myApp.closePanel();" class="item-link">'+
                         '<div class="item-content"> '+
                           '<div class="item-inner">'+
-                            '<div class="item-title">Agendamentos</div>'+
+                            '<div class="item-title">Schedules</div>'+
                           '</div>'+
                         '</div></a></li>'+
                     '<li><a href="enderecos.html" onclick="myApp.closePanel();" class="item-link">'+
                         '<div class="item-content"> '+
                           '<div class="item-inner">'+
+                            '<div class="item-title">Address</div>'+
+                          '</div>'+
+                        '</div></a></li>'+
+                    '<li><a href="notificacoes.html" onclick="myApp.closePanel();" class="item-link">'+
+                        '<div class="item-content"> '+
+                          '<div class="item-inner">'+
+                            '<div class="item-title">Notifications</div>'+
+                          '</div>'+
+                        '</div></a></li>'+
+                    '<li><a href="sobre.html" class="item-link" onclick="myApp.closePanel();">'+
+                      '<div class="item-content">'+
+                        '<div class="item-inner"> '+
+                          '<div class="item-title">About</div>'+
+                        '</div>'+
+                      '</div></a></li>'+
+                    '<li><a href="#" class="item-link" onclick="logout();myApp.closePanel();" >'+
+                        '<div class="item-content"> '+
+                          '<div class="item-inner">'+
+                            '<div class="item-title">Logout</div>'+
+                          '</div>'+
+                        '</div></a></li>';
+  else
+    panel_html = '<li><a href="index.html" onclick="myApp.closePanel();" class="item-link">'+
+                        '<div class="item-content">' +
+                          '<div class="item-inner">'+
+                            '<div class="item-title">Mapa</div>'+
+                          '</div>'+
+                    '<li><a href="perfil.html" class="item-link" onclick="myApp.closePanel();">'+
+                        '<div class="item-content">' +
+                          '<div class="item-inner">'+
+                            '<div class="item-title">Perfil</div>'+
+                          '</div>'+
+                       ' </div></a></li>'+
+                      '<li><a href="agendamentos.html" class="item-link" onclick="myApp.closePanel();">'+
+                        '<div class="item-content"> '+
+                          '<div class="item-inner">'+
+                            '<div class="item-title">Agendamentos</div>'+
+                          '</div>'+
+                        '</div></a></li>'+
+                    '<li><a href="enderecos.html" class="item-link" onclick="myApp.closePanel();"> '+
+                        '<div class="item-content"> '+
+                          '<div class="item-inner">'+
                             '<div class="item-title">Endereços</div>'+
                           '</div>'+
                         '</div></a></li>'+
-                      '<li><a href="notificacoes.html" onclick="myApp.closePanel();" class="item-link">'+
+                    '<li><a href="notificacoes.html" class="item-link" onclick="myApp.closePanel();">'+
                         '<div class="item-content"> '+
                           '<div class="item-inner">'+
                             '<div class="item-title">Notificações</div>'+
                           '</div>'+
                         '</div></a></li>'+
-                      '<li><a href="sobre.html" onclick="myApp.closePanel();" class="item-link">'+
-                        '<div class="item-content"> '+
-                          '<div class="item-inner">'+
-                            '<div class="item-title">Sobre</div>'+
-                          '</div>'+
-                        '</div></a></li>'+
-                    '<li><a href="#" class="item-link" onclick="myApp.closePanel();logout();">'+
+                    '<li><a href="sobre.html" class="item-link" onclick="myApp.closePanel();">'+
+                      '<div class="item-content">'+
+                        '<div class="item-inner"> '+
+                          '<div class="item-title">Sobre</div>'+
+                        '</div>'+
+                      '</div></a></li>'+
+                    '<li><a href="#" class="item-link" onclick="logout(); myApp.closePanel();">'+
                         '<div class="item-content"> '+
                           '<div class="item-inner">'+
                             '<div class="item-title">Logout</div>'+
@@ -800,7 +944,7 @@ function mostrar_tela_mapa()
                                                         '<div class="navbar-inner">'+
                                                           '<div class="left">'+
                                                             '<a href="#" class="link icon-only open-panel" id="bc"> <i class="icon icon-bars"></i></a>'+
-                                                            '<div class="hddd" id="hd">'+
+                                                            '<div class="hddd">'+
                                                               'DescartesLab'+
                                                             '</div>'+
                                                           '</div>'+
@@ -813,7 +957,7 @@ function mostrar_tela_mapa()
                                                           '</div>'+
                                                           '<div class="center" style="margin:0!important">'+
                                                             '<div id="hb" class="hi" onclick="cancela_rota();">'+
-                                                              'Apagar Rota  <i class="fa fa-remove"></i>'+
+                                                              '<div id="index_apagar">Apagar Rota</div>  <i class="fa fa-remove"></i>'+
                                                             '</div>'+
                                                           '</div>'+
                                                           '<div class="right">'+
@@ -958,68 +1102,124 @@ function select_pontos()
           for(var h=0;h<tipo_lixo_has_ponto.length;h++)
             if(!add && (tipo_lixo[j].id == tipo_lixo_has_ponto[h].tipo_lixo_id))
             {
-              tipos_lixo += '<li class="item-content"><div class="item-title">'+tipo_lixo[j].nome+'</div></li>';
+             if(localStorage.getItem("idioma") == "eng")
+                tipos_lixo += '<li class="item-content"><div class="item-title">'+tipo_lixo[j].nome_eng+'</div></li>';
+              else
+                tipos_lixo += '<li class="item-content"><div class="item-title">'+tipo_lixo[j].nome+'</div></li>';
               add = true;
             }
         }
         json_dados = ajax_method(false,'endereco.select_by_id',ponto[i].endereco_id);
-        document.getElementById("popups").innerHTML += '<div class="popup popup-ponto_'+ponto[i].id+'">'+
-                                                          '<div class="navbar">'+
-                                                            '<div class="navbar-inner">'+
-                                                              '<div class="left">'+
-                                                                '<a href="#" class="link icon-only close-popup" id="bc"><i class="icon icon-back"></i></a>'+
-                                                                '<div id="hd">'+
-                                                                  'Tipos de lixo do ponto'+
+        if(localStorage.getItem("idioma") == "eng")
+          document.getElementById("popups").innerHTML += '<div class="popup popup-ponto_'+ponto[i].id+'">'+
+                                                            '<div class="navbar">'+
+                                                              '<div class="navbar-inner">'+
+                                                                '<div class="left">'+
+                                                                  '<a href="#" class="link icon-only close-popup" id="bc"><i class="icon icon-back"></i></a>'+
+                                                                  '<div id="hd">'+
+                                                                    'Trash types of point'+
+                                                                  '</div>'+
                                                                 '</div>'+
                                                               '</div>'+
                                                             '</div>'+
+                                                          '<div class="content-block">'+
+                                                            '<div class="list-block">'+
+                                                              '<ul>'+
+                                                                tipos_lixo+
+                                                              '</ul>'+
+                                                            '</div>'+
                                                           '</div>'+
-                                                        '<div class="content-block">'+
-                                                          '<div class="list-block">'+
-                                                            '<ul>'+
-                                                              tipos_lixo+
-                                                            '</ul>'+
+                                                        '</div>';
+        else
+          document.getElementById("popups").innerHTML += '<div class="popup popup-ponto_'+ponto[i].id+'">'+
+                                                            '<div class="navbar">'+
+                                                              '<div class="navbar-inner">'+
+                                                                '<div class="left">'+
+                                                                  '<a href="#" class="link icon-only close-popup" id="bc"><i class="icon icon-back"></i></a>'+
+                                                                  '<div id="hd">'+
+                                                                    'Tipos de lixo do ponto'+
+                                                                  '</div>'+
+                                                                '</div>'+
+                                                              '</div>'+
+                                                            '</div>'+
+                                                          '<div class="content-block">'+
+                                                            '<div class="list-block">'+
+                                                              '<ul>'+
+                                                                tipos_lixo+
+                                                              '</ul>'+
+                                                            '</div>'+
                                                           '</div>'+
-                                                        '</div>'+
-                                                      '</div>';
+                                                        '</div>';
         var endereco = JSON.parse(json_dados);
         json_dados = ajax_method(false,'empresa.select_by_id',ponto[i].empresa_id);
         var empresa = JSON.parse(json_dados);
         var features = [];
         features["type"] = "mark1";
         features["position"] = new google.maps.LatLng(endereco[0].latitude,endereco[0].longitude);
-        features["info"] = '<div class="list-block">'+
+        if(localStorage.getItem("idioma") == "eng")
+          features["info"] = '<div class="list-block">'+
                              '<ul>'+
                                 '<li><div class="item-content"><div class="item-title">'+empresa[0].nome_fantasia+'</div></div></li>'+
                                 '<li>'+
                                   '<a href="#" class="item-link open-popup" data-popup=".popup-ponto_'+ponto[i].id+'">'+
                                     '<div class="item-content">' +
                                       '<div class="item-inner">'+
-                                        '<div class="item-title">Ver tipos de lixo</div>'+
+                                        '<div class="item-title">View trash types</div>'+
                                       '</div>'+
                                    '</div>'+
                                    '</a>'+
-                                  '</li>'+
+                                 '</li>'+
+                                '<li><div class="item-content"><div class="item-title">'+ponto[i].atendimento_ini+' - '+ponto[i].atendimento_fim+'</div></div></li>'+
+                            '</ul>';
+        else
+          features["info"] = '<div class="list-block">'+
+                               '<ul>'+
+                                  '<li><div class="item-content"><div class="item-title">'+empresa[0].nome_fantasia+'</div></div></li>'+
+                                  '<li>'+
+                                    '<a href="#" class="item-link open-popup" data-popup=".popup-ponto_'+ponto[i].id+'">'+
+                                      '<div class="item-content">' +
+                                        '<div class="item-inner">'+
+                                          '<div class="item-title">Ver tipos de lixo</div>'+
+                                        '</div>'+
+                                     '</div>'+
+                                     '</a>'+
+                                   '</li>'+
                                   '<li><div class="item-content"><div class="item-title">'+ponto[i].atendimento_ini+' - '+ponto[i].atendimento_fim+'</div></div></li>'+
-                             '</ul>';
+                              '</ul>';
         if(empresa[0].agendamento == 1)
         {
-          features["info"] += '<p class="buttons-row">'+
-                                  '<a href="agendar.html" onclick="empresa_id='+ponto[i].empresa_id+';ponto_id='+ponto[i].id+'" style="width:100%" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
+          if(localStorage.getItem("idioma") == "eng")
+            features["info"] += '<p class="buttons-row">'+
+                                  '<a href="agendar.html" onclick="empresa_id='+ponto[i].empresa_id+';ponto_id='+ponto[i].id+'" style="width:100%" class="button button-raised button-fill color-green">Schedule your collection</a>'+
                               '</p>';
+          else
+            features["info"] += '<p class="buttons-row">'+
+                                    '<a href="agendar.html" onclick="empresa_id='+ponto[i].empresa_id+';ponto_id='+ponto[i].id+'" style="width:100%" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
+                                '</p>';
         }
-                             
+        if(localStorage.getItem("idioma") == "eng")
+        {
           features["info"] +='<p class="buttons-row">'+
                                '<a href="#" style="width:100%" class="button button-raised button-fill color-blue" onclick ="calculateAndDisplayRoute'+
                                '('+endereco[0].latitude+','+endereco[0].longitude+')">Criar rota</a>'+
                              '</p>'
                            '</div>';
+        }
+        else
+        {
+          features["info"] +='<p class="buttons-row">'+
+                               '<a href="#" style="width:100%" class="button button-raised button-fill color-blue" onclick ="calculateAndDisplayRoute'+
+                               '('+endereco[0].latitude+','+endereco[0].longitude+')">Create route</a>'+
+                             '</p>'
+                           '</div>';
+        }
         features["draggable"] = false;
         addMarker(features);
       }
     }
     markerCluster = new MarkerClusterer(map, markers, options); 
   }
+
   else{
     if (localStorage.getItem('idioma') == "eng")
         myApp.alert("We couldn't load the nearest points to you because you haven't added or defined an address as a principal address. Please, do it.");
@@ -1291,9 +1491,30 @@ function traduzir(page)
 {
   if(localStorage.getItem("idioma") == "pt")
   {
+    myApp = new Framework7({
+        material: true,
+        pushState: true,
+        animatePages: true,
+        modalTitle: "DescartesLab",
+        modalButtonCancel: "Cancelar",
+        modalPreloaderTitle: "Carregando...",
+        smartSelectBackText: 'Voltar',
+        smartSelectPopupCloseText: 'Fechar',
+        reload: true,
+        smartSelectPickerCloseText: 'Definir',
+        swipePanel: "left",
+        swipePanelActiveArea: 20,
+        init: false,
+        preloadPreviousPage: false,
+        uniqueHistory: true,
+        fastclick:false,
+        popupCloseByOutside : true,
+        actionsCloseByOutside : true
+    });
+
     if(page == "addendereco")
     {
-      document.getElementById(page+"_nav").innerHTML = "Cadastrar endereço";
+      document.getElementById(page+"_nav").innerHTML = "Adicionar Endereço";
 
       document.getElementById("nome").placeholder = "Nome do endereço";
       document.getElementById("rua").placeholder = "Rua";
@@ -1309,15 +1530,15 @@ function traduzir(page)
     {
       document.getElementById(page+"_nav").innerHTML = "Agendamentos";
 
-      document.getElementById(page+"_espera").innerHTML = "Em espera";
-      document.getElementById(page+"_aceitos").innerHTML = "Aceitos";
-      document.getElementById(page+"_atrasados").innerHTML = "Atrasados";
-      document.getElementById(page+"_realizados").innerHTML = "Realizados";
-      document.getElementById(page+"_cancelados").innerHTML = "Cancelados";
+      document.getElementById(page+"_espera").innerHTML = '<i class="fa fa-hourglass-1" style="margin:20px;"></i>  Em espera';
+      document.getElementById(page+"_aceitos").innerHTML = '<i class="fa fa-hourglass-2" style="margin:20px;"></i>  Aceitos';
+      document.getElementById(page+"_atrasados").innerHTML = '<i class="fa fa-hourglass-3" style="margin:20px;"></i>  Atrasados';
+      document.getElementById(page+"_realizados").innerHTML = '<i class="fa fa-calendar-check-o" style="margin:20px;"></i>  Realizados';
+      document.getElementById(page+"_cancelados").innerHTML = '<i class="fa fa-calendar-times-o" style="margin:20px;"></i>  Cancelados';
     }
     else if(page == "agendar")
     {
-      document.getElementById(page+"_nav").innerHTML = "Agendar coleta";
+      document.getElementById(page+"_nav").innerHTML = "Agendar";
 
       document.getElementById("data_agendamento").placeholder = "Data da coleta";
       document.getElementById("horario_agendamento").placeholder = "Horário da coleta";
@@ -1331,7 +1552,7 @@ function traduzir(page)
     }
     else if(page == "altsenha")
     {
-      document.getElementById(page+"_nav").innerHTML = "Alterar Senha";
+      document.getElementById(page+"_nav").innerHTML = "Alteração de Senha";
 
       document.getElementById("usuario_senha_antiga").placeholder = "Senha atual";
       document.getElementById("usuario_senha1").placeholder = "Nova senha";
@@ -1341,6 +1562,8 @@ function traduzir(page)
     }
     else if(page == "cadastro")
     {
+      document.getElementById(page+"_nav").innerHTML = "Cadastro";
+
       document.getElementById("cadastro_nome").innerHTML = "Nome";
       document.getElementById("cad_nome").placeholder = "Ex: João da Silva";
       document.getElementById("cad_email").placeholder = "Ex: joão@servidor.com";
@@ -1354,22 +1577,15 @@ function traduzir(page)
       document.getElementById("cadastro_cadastrar").innerHTML = "Cadastrar";
       document.getElementById("cadastro_login").innerHTML = "Já possui cadastro? Clique aqui!";
     }
-    else if(page == "enderecos")
-    {
-      document.getElementById(page+"_nav").innerHTML = "Endereços";
-    }
     else if(page == "index")
     {
-      document.getElementById("index_filtros").innerHTML = "Filters";
-    }
-    else if(page == "notificacoes")
-    {
-      document.getElementById(page+"_nav").innerHTML = "Notificações";
+      document.getElementById("pac-input").placeholder = "Localidade";
+      document.getElementById("index_apagar").innerHTML = "Deletar rota";
+      document.getElementById("index_aplicar").innerHTML = "Aplicar";
     }
     else if(page == "perfil")
     {
       document.getElementById(page+"_nav").innerHTML = "Perfil";
-
       document.getElementById("usuario_nome").placeholder = "Seu nome";
       document.getElementById("usuario_telefone").placeholder = "Telefone";
       document.getElementById("perfil_salvar").innerHTML = "Salvar";
@@ -1386,12 +1602,37 @@ function traduzir(page)
       document.getElementById("sobre_solucoes1").innerHTML = "Soluções de softwares para negócios";
       document.getElementById("sobre_gestor").innerHTML = "Gestor do projeto";
     }
+    else if(page == "enderecos")
+    {
+      document.getElementById(page+"_nav").innerHTML = "Endereços";
+    }
   }
   else
   {
+    myApp = new Framework7({
+        material: true,
+        pushState: true,
+        animatePages: true,
+        modalTitle: "DescartesLab",
+        modalButtonCancel: "Cancel",
+        modalPreloaderTitle: "Loading...",
+        smartSelectBackText: 'Back',
+        smartSelectPopupCloseText: 'Close',
+        reload: true,
+        smartSelectPickerCloseText: 'Done',
+        swipePanel: "left",
+        swipePanelActiveArea: 20,
+        init: false,
+        preloadPreviousPage: false,
+        uniqueHistory: true,
+        fastclick:false,
+        popupCloseByOutside : true,
+        actionsCloseByOutside : true
+    });
+
     if(page == "addendereco")
     {
-      document.getElementById(page+"_nav").innerHTML = "Create new address";
+      document.getElementById(page+"_nav").innerHTML = "Add Address";
 
       document.getElementById("nome").placeholder = "Address name";
       document.getElementById("rua").placeholder = "Street";
@@ -1407,21 +1648,21 @@ function traduzir(page)
     {
       document.getElementById(page+"_nav").innerHTML = "Schedulings";
 
-      document.getElementById(page+"_espera").innerHTML = "Waiting";
-      document.getElementById(page+"_aceitos").innerHTML = "Accepted";
-      document.getElementById(page+"_atrasados").innerHTML = "Late";
-      document.getElementById(page+"_realizados").innerHTML = "Accomplished";
-      document.getElementById(page+"_cancelados").innerHTML = "Canceled";
+      document.getElementById(page+"_espera").innerHTML = '<i class="fa fa-hourglass-1" style="margin:20px;"></i>  Waiting';
+      document.getElementById(page+"_aceitos").innerHTML = '<i class="fa fa-hourglass-2" style="margin:20px;"></i>  Accepted';
+      document.getElementById(page+"_atrasados").innerHTML = '<i class="fa fa-hourglass-3" style="margin:20px;"></i>  Late';
+      document.getElementById(page+"_realizados").innerHTML = '<i class="fa fa-calendar-check-o" style="margin:20px;"></i>  Accomplished';
+      document.getElementById(page+"_cancelados").innerHTML = '<i class="fa fa-calendar-times-o" style="margin:20px;"></i>  Canceled';
     }
     else if(page == "agendar")
     {
-      document.getElementById(page+"_nav").innerHTML = "Schedule pickup";
+      document.getElementById(page+"_nav").innerHTML = "Schedule";
 
       document.getElementById("data_agendamento").placeholder = "Pickup date";
       document.getElementById("horario_agendamento").placeholder = "Pickup time";
       document.getElementById("quantidade_agendamento").placeholder = "Amount of trash to be picked (Kg)";
       document.getElementById("agendar_nada_selecionado").innerHTML = "Nothing selected";
-      document.getElementById("agendar_endereco").innerHTML = "Address";
+      document.getElementById("agendar_endereco").innerHTML = "Endereço";
       document.getElementById("agendar_nada_selecionado1").innerHTML = "Nothing selected";
       document.getElementById("agendar_tipo_lixo").innerHTML = "Trash type";
       document.getElementById("agendar_cancelar").innerHTML = "Cancel";
@@ -1429,7 +1670,7 @@ function traduzir(page)
     }
     else if(page == "altsenha")
     {
-      document.getElementById(page+"_nav").innerHTML = "Password update";
+      document.getElementById(page+"_nav").innerHTML = "Change password";
 
       document.getElementById("usuario_senha_antiga").placeholder = "Atual password";
       document.getElementById("usuario_senha1").placeholder = "New password";
@@ -1439,6 +1680,8 @@ function traduzir(page)
     }
     else if(page == "cadastro")
     {
+      document.getElementById(page+"_nav").innerHTML = "Register";
+
       document.getElementById("cadastro_nome").innerHTML = "Name";
       document.getElementById("cad_nome").placeholder = "Ex: Jhon Titor";
       document.getElementById("cad_email").placeholder = "Ex: jhon@server.com";
@@ -1452,22 +1695,15 @@ function traduzir(page)
       document.getElementById("cadastro_cadastrar").innerHTML = "Register";
       document.getElementById("cadastro_login").innerHTML = "Already registered? Click here!";
     }
-    else if(page == "enderecos")
-    {
-      document.getElementById(page+"_nav").innerHTML = "Addresses";
-    }
     else if(page == "index")
     {
-      document.getElementById("index_filtros").innerHTML = "Filters";
-    }
-    else if(page == "notificacoes")
-    {
-      document.getElementById(page+"_nav").innerHTML = "Notifications";
+      document.getElementById("pac-input").placeholder = "Place";
+      document.getElementById("index_apagar").innerHTML = "Delete route";
+      document.getElementById("index_aplicar").innerHTML = "Apply";
     }
     else if(page == "perfil")
     {
       document.getElementById(page+"_nav").innerHTML = "Profile";
-
       document.getElementById("usuario_nome").placeholder = "Your name";
       document.getElementById("usuario_telefone").placeholder = "Telephone";
       document.getElementById("perfil_salvar").innerHTML = "Save";
@@ -1477,12 +1713,16 @@ function traduzir(page)
     {
       document.getElementById(page+"_nav").innerHTML = "About";
 
-      document.getElementById("sobre_descricao").innerHTML = "Developed by the team that represents Santa Catarina in the team challenge, in the area of ​​Information and Communication Technology at the 2016's Olimpíada do Conhecimento.";
+      document.getElementById("sobre_descricao").innerHTML = "Developed by the team that represents Santa Catarina in the team challenge, in the area of ​​Information and Communication Technology at the 2016 Olimpíada do Conhecimento.";
       document.getElementById("sobre_membros").innerHTML = "Team members";
       document.getElementById("sobre_solucoes").innerHTML = "Business Software Solutions";
       document.getElementById("sobre_infra").innerHTML = "Infrastructure and local area networks";
       document.getElementById("sobre_solucoes1").innerHTML = "Business Software Solutions";
       document.getElementById("sobre_gestor").innerHTML = "Project manager";
+    }
+    else if(page == "enderecos")
+    {
+      document.getElementById(page+"_nav").innerHTML = "Addresses";
     }
   }
 }
