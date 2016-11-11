@@ -7,48 +7,48 @@ var markerCluster;
 
 var myApp;
 
-if(localStorage.getItem("idioma") == "eng")
+if(localStorage.getItem("idioma") == "fr")
 {
     myApp = new Framework7({
-        material: true,
-        pushState: true,
-        animatePages: true,
-        modalTitle: "DescartesLab",
-        modalButtonCancel: "Cancel",
-        modalPreloaderTitle: "Loading...",
-        smartSelectBackText: 'Back',
-        smartSelectPopupCloseText: 'Close',
-        reload: true,
-        smartSelectPickerCloseText: 'Done',
-        swipePanel: "left",
-        swipePanelActiveArea: 20,
-        init: false,
-        preloadPreviousPage: false,
-        uniqueHistory: true,
-        fastclick:false,
-        popupCloseByOutside : true,
-        actionsCloseByOutside : true
+      material: true,
+      pushState: true,
+      animatePages: true,
+      modalTitle: "DescartesLab",
+      modalButtonCancel: "Annuler",
+      modalPreloaderTitle: "Chargement...",
+      smartSelectBackText: 'Arrière',
+      smartSelectPopupCloseText: 'Fermer',
+      reload: true,
+      smartSelectPickerCloseText: 'Terminé',
+      swipePanel: "left",
+      swipePanelActiveArea: 20,
+      init: false,
+      preloadPreviousPage: false,
+      uniqueHistory: true,
+      fastclick:false,
+      popupCloseByOutside : true,
+      actionsCloseByOutside : true
     });
 }else{
    myApp = new Framework7({
-        material: true,
-        pushState: true,
-        animatePages: true,
-        modalTitle: "DescartesLab",
-        modalButtonCancel: "Cancelar",
-        modalPreloaderTitle: "Carregando...",
-        smartSelectBackText: 'Voltar',
-        smartSelectPopupCloseText: 'Fechar',
-        reload: true,
-        smartSelectPickerCloseText: 'Definir',
-        swipePanel: "left",
-        swipePanelActiveArea: 20,
-        init: false,
-        preloadPreviousPage: false,
-        uniqueHistory: true,
-        fastclick:false,
-        popupCloseByOutside : true,
-        actionsCloseByOutside : true
+      material: true,
+      pushState: true,
+      animatePages: true,
+      modalTitle: "DescartesLab",
+      modalButtonCancel: "Cancelar",
+      modalPreloaderTitle: "Carregando...",
+      smartSelectBackText: 'Voltar',
+      smartSelectPopupCloseText: 'Fechar',
+      reload: true,
+      smartSelectPickerCloseText: 'Definir',
+      swipePanel: "left",
+      swipePanelActiveArea: 20,
+      init: false,
+      preloadPreviousPage: false,
+      uniqueHistory: true,
+      fastclick:false,
+      popupCloseByOutside : true,
+      actionsCloseByOutside : true
     });
 }
 
@@ -200,6 +200,8 @@ $$(document).on('pageInit', function (e) {
 
 function mapa_refresh()
 {
+  traduzir("index");
+  criar_menu();
   myApp.showPreloader();
   setTimeout(function () {
     document.getElementById("rightpanel").style.height = '0';
@@ -308,8 +310,8 @@ function tutorial()
 
 function criar_agendamento()
 {
-  if (localStorage.getItem('idioma') == "eng")
-    myApp.showPreloader("Scheduling...");
+  if (localStorage.getItem('idioma') == "fr")
+    myApp.showPreloader("Planification...");
   else
     myApp.showPreloader("Agendando coleta...");
   setTimeout(function () {
@@ -327,16 +329,16 @@ function criar_agendamento()
       }
       else
       {
-        if (localStorage.getItem('idioma') == "eng")
-          myApp.alert("Error while registering the scheduling.");
+        if (localStorage.getItem('idioma') == "fr")
+          myApp.alert("Erreur lors de la planification.");
         else
           myApp.alert("Erro ao fazer agendamento.");
       }
     }
     else
     {
-      if (localStorage.getItem('idioma') == "eng")
-        myApp.alert("One or more fields were left in blank.");
+      if (localStorage.getItem('idioma') == "fr")
+        myApp.alert("Un ou plusieurs champs ont été laissés en blanc.");
       else
         myApp.alert("Um ou mais campos foram deixados em branco.");
     }
@@ -382,12 +384,12 @@ function carregar_agendamentos()
       var btn1;
       var btn2;
 
-      if(localStorage.getItem("idioma") == "eng")
+      if(localStorage.getItem("idioma") == "fr")
       {
         justificativa = '<li class="item-content"><div class="item-title">Justification</div><div class="item-after">'+agendamento[i].justificativa+'</div></li>';
-        vaijus = '<li class="item-content" id="liberg_'+agendamento[i].id+'"><div class="item-input"><input type="text" id="just_'+agendamento[i].id+'" placeholder="Enter justification here if you cancel"></div></li>';
-        btn1 = '<p id="btn-cancelar-'+agendamento[i].id+'"><a onclick="cancelar_agendamento('+agendamento[i].id+',`'+empresa[0].nome_fantasia+'`,`'+usuario_has_endereco[0].nome+'`);" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-red swipeout-delete">Cancel schedule</a></p>';
-        btn2 = '<p id="btn-realizar-'+agendamento[i].id+'"><a onclick="realizar_agendamento('+agendamento[i].id+',`'+empresa[0].nome_fantasia+'`,`'+usuario_has_endereco[0].nome+'`);" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Perform scheduling</a></p>';
+        vaijus = '<li class="item-content" id="liberg_'+agendamento[i].id+'"><div class="item-input"><input type="text" id="just_'+agendamento[i].id+'" placeholder="Saisissez ici la justification si vous annulez"></div></li>';
+        btn1 = '<p id="btn-cancelar-'+agendamento[i].id+'"><a onclick="cancelar_agendamento('+agendamento[i].id+',`'+empresa[0].nome_fantasia+'`,`'+usuario_has_endereco[0].nome+'`);" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-red swipeout-delete">Annuler la planification</a></p>';
+        btn2 = '<p id="btn-realizar-'+agendamento[i].id+'"><a onclick="realizar_agendamento('+agendamento[i].id+',`'+empresa[0].nome_fantasia+'`,`'+usuario_has_endereco[0].nome+'`);" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Effectuer la planification</a></p>';
       }
       else
       {
@@ -428,8 +430,8 @@ function carregar_agendamentos()
       var agendamento_has_tipo_lixo = JSON.parse(json_dados);
       var tipos_lixo = "";
       if(agendamento_has_tipo_lixo.length == 0){
-        if(localStorage.getItem("idioma") == "eng")
-            tipos_lixo = "None";
+        if(localStorage.getItem("idioma") == "fr")
+            tipos_lixo = "Aucun";
         else
            tipos_lixo = "Nenhum";
       }
@@ -445,20 +447,20 @@ function carregar_agendamentos()
       var quantidade = "";
       if(agendamento_has_tipo_lixo.length > 0)
       {
-        if(localStorage.getItem("idioma") == "eng")
-          quantidade = '<li class="item-content"><div class="item-title">Average amount (Kg)</div><div class="item-after">'+agendamento_has_tipo_lixo[0].quantidade+'</div></li>';
+        if(localStorage.getItem("idioma") == "fr")
+          quantidade = '<li class="item-content"><div class="item-title">Montant moyen (Kg)</div><div class="item-after">'+agendamento_has_tipo_lixo[0].quantidade+'</div></li>';
         else
           quantidade = '<li class="item-content"><div class="item-title">Quantidade média (Kg)</div><div class="item-after">'+agendamento_has_tipo_lixo[0].quantidade+'</div></li>';
       }
 
-      if(localStorage.getItem("idioma") == "eng")
+      if(localStorage.getItem("idioma") == "fr")
         document.getElementById("popups-agendamentos").innerHTML += '<div class="popup popup-agendamento-'+agendamento[i].id+'">'+
                                                                     '<div class="navbar">'+
                                                                       '<div class="navbar-inner">'+
                                                                         '<div class="left">'+
                                                                           '<a href="#" class="link icon-only close-popup" id="bc"><i class="icon icon-back"></i></a>'+
                                                                           '<div id="hd">'+
-                                                                            'Scheduling details'+
+                                                                            'Détails de planification'+
                                                                           '</div>'+
                                                                         '</div>'+
                                                                       '</div>'+
@@ -466,12 +468,12 @@ function carregar_agendamentos()
                                                                   '<div class="content-block">'+
                                                                     '<div class="list-block">'+
                                                                       '<ul id="ul-agendamento-'+agendamento[i].id+'">'+
-                                                                        '<li class="item-content"><div class="item-title">Trash types</div><div class="item-after">'+tipos_lixo+'</div></li>'+
+                                                                        '<li class="item-content"><div class="item-title">Types de déchets</div><div class="item-after">'+tipos_lixo+'</div></li>'+
                                                                         quantidade+
-                                                                        '<li class="item-content"><div class="item-title">Company</div><div class="item-after">'+empresa[0].nome_fantasia+'</div></li>'+
-                                                                        '<li class="item-content"><div class="item-title">Address</div><div class="item-after">'+usuario_has_endereco[0].nome+'</div></li>'+
-                                                                        '<li class="item-content"><div class="item-title">Scheduled date</div><div class="item-after">'+agendamento[i].data_agendamento+'</div></li>'+
-                                                                        '<li class="item-content"><div class="item-title">Scheduled time</div><div class="item-after">'+agendamento[i].horario+'</div></li>'+vaijus+
+                                                                        '<li class="item-content"><div class="item-title">Compagnie</div><div class="item-after">'+empresa[0].nome_fantasia+'</div></li>'+
+                                                                        '<li class="item-content"><div class="item-title">Adresse</div><div class="item-after">'+usuario_has_endereco[0].nome+'</div></li>'+
+                                                                        '<li class="item-content"><div class="item-title">Date prévue</div><div class="item-after">'+agendamento[i].data_agendamento+'</div></li>'+
+                                                                        '<li class="item-content"><div class="item-title">Heure prévue</div><div class="item-after">'+agendamento[i].horario+'</div></li>'+vaijus+
                                                                         justificativa+
                                                                       '</ul>'+
                                                                       btn2+
@@ -552,7 +554,7 @@ function cancelar_agendamento(id,empresa,endereco)
                    '</li>';
       document.getElementById('li-agendamento-'+id).remove();
       document.getElementById('cancelados').innerHTML += html;
-      if(localStorage.getItem("idioma") == "eng")
+      if(localStorage.getItem("idioma") == "fr")
         document.getElementById("ul-agendamento-"+id).innerHTML += '<li class="item-content"><div class="item-title">Justification</div><div class="item-after">'+document.getElementById('just_'+id).value+'</div></li>';
       else
         document.getElementById("ul-agendamento-"+id).innerHTML += '<li class="item-content"><div class="item-title">Justificativa</div><div class="item-after">'+document.getElementById('just_'+id).value+'</div></li>';
@@ -561,8 +563,8 @@ function cancelar_agendamento(id,empresa,endereco)
       $$("#btn-cancelar-"+id).remove();
       $$("#btn-realizar-"+id).remove();
   }else{
-    if (localStorage.getItem('idioma') == "eng")
-      myApp.alert("Please, report a justification for the cancelling of the scheduling.");
+    if (localStorage.getItem('idioma') == "fr")
+      myApp.alert("Veuillez justifier l'annulation de l'horaire.");
     else
       myApp.alert("Por favor, dê uma justificativa para o cancelamento do agendamento.");
   }
@@ -580,8 +582,8 @@ function adicionar_endereco()
       if(usuario_has_endereco_id == 0)
       {
         var retorno = ajax_method(false,'endereco.delete',retorno);
-        if (localStorage.getItem('idioma') == "eng")
-          myApp.alert("Your address couldn't be created, revise your informations or your network connection please.");
+        if (localStorage.getItem('idioma') == "fr")
+          myApp.alert("Votre adresse n'a pas pu être créée, veuillez consulter vos informations ou votre connexion.");
         else
           myApp.alert("Seu endereco não pôde ser criado, reveja suas informações ou sua conexão por favor.");
       }
@@ -592,8 +594,8 @@ function adicionar_endereco()
       }
     }
     else{
-      if (localStorage.getItem('idioma') == "eng")
-          myApp.alert("Your address couldn't be created, revise your informations or your network connection please.");
+      if (localStorage.getItem('idioma') == "fr")
+          myApp.alert("Votre adresse n'a pas pu être créée, veuillez consulter vos informations ou votre connexion.");
         else
           myApp.alert("Seu endereco não pôde ser criado, reveja suas informações ou sua conexão por favor.");
     }
@@ -630,14 +632,14 @@ function carregar_enderecos()
                  '</li>';
       botaum = "seleciona("+usuario_has_endereco[i].id+","+endereco[0].latitude+","+endereco[0].longitude+");"; 
 
-       if(localStorage.getItem("idioma") == "eng")
+       if(localStorage.getItem("idioma") == "fr")
         document.getElementById("popups-enderecos").innerHTML += '<div class="popup popup-endereco-'+usuario_has_endereco[i].id+'">'+
                                                                   '<div class="navbar">'+
                                                                     '<div class="navbar-inner">'+
                                                                       '<div class="left">'+
                                                                         '<a href="#" class="link icon-only close-popup" id="bc"><i class="icon icon-back"></i></a>'+
                                                                         '<div id="hd">'+
-                                                                          'Address details'+
+                                                                          'Détails de l`adresse'+
                                                                         '</div>'+
                                                                       '</div>'+
                                                                     '</div>'+
@@ -645,18 +647,18 @@ function carregar_enderecos()
                                                                 '<div class="content-block">'+
                                                                   '<div class="list-block">'+
                                                                     '<ul id="ul-endereco-'+usuario_has_endereco[i].id+'">'+
-                                                                      '<li class="item-content"><div class="item-title">Address name</div><div class="item-after">'+usuario_has_endereco[i].nome+'</div></li>'+
-                                                                      '<li class="item-content"><div class="item-title">Street</div><div class="item-after">'+endereco[0].rua+'</div></li>'+
-                                                                      '<li class="item-content"><div class="item-title">Number</div><div class="item-after">'+endereco[0].num+'</div></li>'+
-                                                                      '<li class="item-content"><div class="item-title">Complement</div><div class="item-after">'+endereco[0].complemento+'</div></li>'+
-                                                                      '<li class="item-content"><div class="item-title">State</div><div class="item-after">'+endereco[0].uf+'</div></li>'+
-                                                                      '<li class="item-content"><div class="item-title">City</div><div class="item-after">'+endereco[0].cidade+'</div></li>'+
-                                                                      '<li class="item-content"><div class="item-title">Neighborhood</div><div class="item-after">'+endereco[0].bairro+'</div></li>'+
-                                                                      '<li class="item-content"><div class="item-title">Country</div><div class="item-after">'+endereco[0].pais+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Nom de l`adresse</div><div class="item-after">'+usuario_has_endereco[i].nome+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Rue</div><div class="item-after">'+endereco[0].rua+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Nombre</div><div class="item-after">'+endereco[0].num+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Complément</div><div class="item-after">'+endereco[0].complemento+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Etat</div><div class="item-after">'+endereco[0].uf+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Ville</div><div class="item-after">'+endereco[0].cidade+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Quartier</div><div class="item-after">'+endereco[0].bairro+'</div></li>'+
+                                                                      '<li class="item-content"><div class="item-title">Pays</div><div class="item-after">'+endereco[0].pais+'</div></li>'+
                                                                     '</ul>'+
                                                                     '<div id="bot'+usuario_has_endereco[i].id+'"></div>'+
-                                                                    '<p><a style="width:90%;margin-left:5%;" onclick="myApp.closeModal(`.popup-endereco-'+usuario_has_endereco[i].id+'`);" href="addendereco.html?id='+usuario_has_endereco[i].endereco_id+'&nome='+usuario_has_endereco[i].nome+'" class="button button-raised button-fill color-orange">Edit</a></p>'+
-                                                                    '<p><a style="width:90%;margin-left:5%;" onclick="myApp.closeModal(`.popup-endereco-'+usuario_has_endereco[i].id+'`); excluir_endereco('+usuario_has_endereco[i].endereco_id+')" class="button button-raised button-fill color-red">Delete</a></p>'+
+                                                                    '<p><a style="width:90%;margin-left:5%;" onclick="myApp.closeModal(`.popup-endereco-'+usuario_has_endereco[i].id+'`);" href="addendereco.html?id='+usuario_has_endereco[i].endereco_id+'&nome='+usuario_has_endereco[i].nome+'" class="button button-raised button-fill color-orange">Modifier</a></p>'+
+                                                                    '<p><a style="width:90%;margin-left:5%;" onclick="myApp.closeModal(`.popup-endereco-'+usuario_has_endereco[i].id+'`); excluir_endereco('+usuario_has_endereco[i].endereco_id+')" class="button button-raised button-fill color-red">Effacer</a></p>'+
                                                                   '</div>'+
                                                                 '</div>'+
                                                               '</div>';
@@ -692,8 +694,8 @@ function carregar_enderecos()
                                                               '</div>';
     document.getElementById("ulenderecos").innerHTML += html;
     if (localStorage.getItem("lat_padrao")!=endereco[0].latitude && localStorage.getItem("long_padrao")!=endereco[0].longitude)
-      if(localStorage.getItem("idioma") == "eng")
-        document.getElementById('bot'+usuario_has_endereco[i].id).innerHTML ='<p><a onclick="seleciona('+usuario_has_endereco[i].id+','+endereco[0].latitude+','+endereco[0].longitude+');" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Set as primary</a><p>';
+      if(localStorage.getItem("idioma") == "fr")
+        document.getElementById('bot'+usuario_has_endereco[i].id).innerHTML ='<p><a onclick="seleciona('+usuario_has_endereco[i].id+','+endereco[0].latitude+','+endereco[0].longitude+');" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Définir comme principale/a><p>';
       else
         document.getElementById('bot'+usuario_has_endereco[i].id).innerHTML ='<p><a onclick="seleciona('+usuario_has_endereco[i].id+','+endereco[0].latitude+','+endereco[0].longitude+');" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Definir como principal</a><p>';
     }
@@ -731,14 +733,17 @@ function alterar_perfil()
               break;
           }
       }
-      if (localStorage.getItem('idioma') == "eng")
-        myApp.alert("Profile sucessfully edited.");
+      if (localStorage.getItem('idioma') == "fr")
+      {
+        myApp.alert("Profil modifié avec succès.");
+        traduzir("perfil");
+      }
       else
         myApp.alert("Perfil alterado com sucesso.");
     }
     else{
-      if (localStorage.getItem('idioma') == "eng")
-          myApp.alert("Error while editing your profile.");
+      if (localStorage.getItem('idioma') == "fr")
+          myApp.alert("Erreur lors de la modification de votre profil.");
         else
           myApp.alert("Erro ao editar perfil.");
     }
@@ -757,30 +762,30 @@ function alterar_senha()
       var retorno = JSON.parse(json_dados);
       if(retorno)
       {
-        if (localStorage.getItem('idioma') == "eng")
-          myApp.alert("Password sucessfully edited.");
+        if (localStorage.getItem('idioma') == "fr")
+          myApp.alert("Mot de passe modifié avec succès.");
         else
           myApp.alert("Senha alterada com sucesso.");
         mainView.router.loadPage('perfil.html');
       }
       else{
-        if (localStorage.getItem('idioma') == "eng")
-          myApp.alert("Error while editing your password.");
+        if (localStorage.getItem('idioma') == "fr")
+          myApp.alert("Erreur lors de la modification de votre mot de passe.");
         else
           myApp.alert("Erro ao alterar a senha.");
       }
     }
     else{
-      if (localStorage.getItem('idioma') == "eng")
-          myApp.alert("Passwords are not equal.");
+      if (localStorage.getItem('idioma') == "fr")
+          myApp.alert("Les mots de passe ne sont pas égaux.");
         else
           myApp.alert("As senhas não coincidem.");
     }
   }
   else
   {
-    if (localStorage.getItem('idioma') == "eng")
-        myApp.alert("One or more fields were left in blank.");
+    if (localStorage.getItem('idioma') == "fr")
+        myApp.alert("Un ou plusieurs champs ont été laissés en blanc.");
       else
         myApp.alert("Um ou mais campos foram deixados em branco.");
   }
@@ -793,8 +798,8 @@ function excluir_notificacao(id)
       if (json_dados) {
       }
       else{
-        if (localStorage.getItem('idioma') == "eng")
-        myApp.alert("Your notification couldn't be deleted, please, check your connection.");
+        if (localStorage.getItem('idioma') == "fr")
+        myApp.alert("Votre notification n'a pas pu être supprimée, veuillez vérifier votre connexion.");
       else
         myApp.alert("Sua notificacao não pode ser deletada, por favor, reveja sua conexão.");
       }
@@ -818,22 +823,22 @@ function carregar_notificacoes()
                     '<div class="swipeout-content item-content">';
         if (retorno[i].tipo == 0)
         {
-          if(localStorage.getItem("idioma") == "eng")
-            html += '<div class="item-media"><i class="fa fa-hourglass-2"></i></div><div class="item-inner">'+empresa[0].nome_fantasia+' accepted the schedule.</div>';
+          if(localStorage.getItem("idioma") == "fr")
+            html += '<div class="item-media"><i class="fa fa-hourglass-2"></i></div><div class="item-inner">'+empresa[0].nome_fantasia+' a accepté le calendrier.</div>';
           else
             html += '<div class="item-media"><i class="fa fa-hourglass-2"></i></div><div class="item-inner">'+empresa[0].nome_fantasia+' aceitou o agendamento.</div>';
         }
         if (retorno[i].tipo == 1)
         {
-          if(localStorage.getItem("idioma") == "eng")
-            html += '<div class="item-media"><i class="fa fa-hourglass-2"></i></div><div class="item-inner">'+empresa[0].nome_fantasia+' refused the schedule.</div>';
+          if(localStorage.getItem("idioma") == "fr")
+            html += '<div class="item-media"><i class="fa fa-hourglass-2"></i></div><div class="item-inner">'+empresa[0].nome_fantasia+' a refusé le calendrier.</div>';
           else
             html += '<div class="item-media"><i class="fa fa-calendar-times-o"></i></div><div class="item-inner">'+empresa[0].nome_fantasia+' recusou o agendamento.</div>';
         }
-        if(localStorage.getItem("idioma") == "eng")
-          html += '</div><div class="swipeout-actions-right"><a onclick="excluir_notificacao('+retorno[i].id+');" class="bg-red swipeout-delete">Excluir</a></div></li>';
+        if(localStorage.getItem("idioma") == "fr")
+          html += '</div><div class="swipeout-actions-right"><a onclick="excluir_notificacao('+retorno[i].id+');" class="bg-red swipeout-delete">Effacer</a></div></li>';
         else
-          html += '</div><div class="swipeout-actions-right"><a onclick="excluir_notificacao('+retorno[i].id+');" class="bg-red swipeout-delete">Delete</a></div></li>';
+          html += '</div><div class="swipeout-actions-right"><a onclick="excluir_notificacao('+retorno[i].id+');" class="bg-red swipeout-delete">Exluir</a></div></li>';
       }
     }
     document.getElementById('ulnotificacoes').innerHTML = html;
@@ -850,28 +855,23 @@ function criar_menu()
 {
   var panel_html;
 
-  if(localStorage.getItem("idioma") == "eng")
-    panel_html = '<li><a href="index.html" onclick="myApp.closePanel();" class="item-link">'+
+  if(localStorage.getItem("idioma") == "fr")
+    panel_html = '<li><a href="perfil.html" onclick="myApp.closePanel();" class="item-link">'+
                         '<div class="item-content">' +
                           '<div class="item-inner">'+
-                            '<div class="item-title">Map</div>'+
-                          '</div>'+
-                      '<li><a href="perfil.html" onclick="myApp.closePanel();" class="item-link">'+
-                        '<div class="item-content">' +
-                          '<div class="item-inner">'+
-                            '<div class="item-title">Profile</div>'+
+                            '<div class="item-title">Profil</div>'+
                           '</div>'+
                        ' </div></a></li>'+
                       '<li><a href="agendamentos.html" onclick="myApp.closePanel();" class="item-link">'+
                         '<div class="item-content"> '+
                           '<div class="item-inner">'+
-                            '<div class="item-title">Schedules</div>'+
+                            '<div class="item-title">Ordonnancements</div>'+
                           '</div>'+
                         '</div></a></li>'+
                     '<li><a href="enderecos.html" onclick="myApp.closePanel();" class="item-link">'+
                         '<div class="item-content"> '+
                           '<div class="item-inner">'+
-                            '<div class="item-title">Address</div>'+
+                            '<div class="item-title">Adresse</div>'+
                           '</div>'+
                         '</div></a></li>'+
                     '<li><a href="notificacoes.html" onclick="myApp.closePanel();" class="item-link">'+
@@ -883,13 +883,13 @@ function criar_menu()
                     '<li><a href="sobre.html" class="item-link" onclick="myApp.closePanel();">'+
                       '<div class="item-content">'+
                         '<div class="item-inner"> '+
-                          '<div class="item-title">About</div>'+
+                          '<div class="item-title">Sur</div>'+
                         '</div>'+
                       '</div></a></li>'+
                     '<li><a href="#" class="item-link" onclick="logout();myApp.closePanel();" >'+
                         '<div class="item-content"> '+
                           '<div class="item-inner">'+
-                            '<div class="item-title">Logout</div>'+
+                            '<div class="item-title">Déconnecter</div>'+
                           '</div>'+
                         '</div></a></li>';
   else
@@ -982,41 +982,78 @@ function mostrar_tela_mapa()
 
 function mostrar_tela_login()
 {
-  document.getElementById("index_page").innerHTML = '<div data-page="login-screen" class="page no-navbar no-toolbar no-swipeback">'+
-                                                      '<div class="page-content login-screen-content">'+
-                                                        '<div class="login-screen-title"><img src="img/login.png" width="90%" height="5%"></div>'+
-                                                          '<div class="list-block">'+
-                                                            '<ul>'+
-                                                              '<li class="item-content">'+
-                                                                '<div class="item-inner">'+
-                                                                  '<div class="item-title label">Email</div>'+
-                                                                  '<div class="item-input">'+
-                                                                    '<input type="email" name="login_email" id="login_email" placeholder="ex: joão@servidor.com" required>'+
+  if(localStorage.getItem("idioma") == "fr")
+    document.getElementById("index_page").innerHTML = '<div data-page="login-screen" class="page no-navbar no-toolbar no-swipeback">'+
+                                                        '<div class="page-content login-screen-content">'+
+                                                          '<div class="login-screen-title"><img src="img/login.png" width="90%" height="5%"></div>'+
+                                                            '<div class="list-block">'+
+                                                              '<ul>'+
+                                                                '<li class="item-content">'+
+                                                                  '<div class="item-inner">'+
+                                                                    '<div class="item-title label">Email</div>'+
+                                                                    '<div class="item-input">'+
+                                                                      '<input type="email" name="login_email" id="login_email" placeholder="Ex: jhon@server.com" required>'+
+                                                                    '</div>'+
                                                                   '</div>'+
-                                                                '</div>'+
-                                                              '</li>'+
-                                                              '<li class="item-content">'+
-                                                                '<div class="item-inner">'+
-                                                                  '<div class="item-title label">Senha</div>'+
-                                                                  '<div class="item-input">'+
-                                                                    '<input type="password" name="login_senha" id="login_senha" placeholder="ex: *******" required>'+
+                                                                '</li>'+
+                                                                '<li class="item-content">'+
+                                                                  '<div class="item-inner">'+
+                                                                    '<div class="item-title label">Senha</div>'+
+                                                                    '<div class="item-input">'+
+                                                                      '<input type="password" name="login_senha" id="login_senha" placeholder="Ex: *******" required>'+
+                                                                    '</div>'+
                                                                   '</div>'+
-                                                                '</div>'+
-                                                              '</li>'+
-                                                            '</ul>'+
-                                                          '</div>'+
-                                                          '<div class="list-block">'+
-                                                            '<ul>'+
-                                                              '<li>'+
-                                                                '<center><button onclick="login();" class="item-link button" style="width: 90%;">Entrar</button></center>'+
-                                                              '</li>'+
-                                                            '</ul>'+
-                                                            '<div class="list-block-label">'+
-                                                              '<p><a href="cadastro.html" class="button">Não possui cadastro? Clique aqui!</a></p>'+
+                                                                '</li>'+
+                                                              '</ul>'+
                                                             '</div>'+
-                                                          '</div>'+
-                                                      '</div>'+
-                                                    '</div>';
+                                                            '<div class="list-block">'+
+                                                              '<ul>'+
+                                                                '<li>'+
+                                                                  '<center><button onclick="login();" class="item-link button" style="width: 90%;">Entrer</button></center>'+
+                                                                '</li>'+
+                                                              '</ul>'+
+                                                              '<div class="list-block-label">'+
+                                                                '<p><a href="cadastro.html" class="button">Pas encore inscrit? Cliquez ici!</a></p>'+
+                                                              '</div>'+
+                                                            '</div>'+
+                                                        '</div>'+
+                                                      '</div>';
+  else
+    document.getElementById("index_page").innerHTML = '<div data-page="login-screen" class="page no-navbar no-toolbar no-swipeback">'+
+                                                        '<div class="page-content login-screen-content">'+
+                                                          '<div class="login-screen-title"><img src="img/login.png" width="90%" height="5%"></div>'+
+                                                            '<div class="list-block">'+
+                                                              '<ul>'+
+                                                                '<li class="item-content">'+
+                                                                  '<div class="item-inner">'+
+                                                                    '<div class="item-title label">Email</div>'+
+                                                                    '<div class="item-input">'+
+                                                                      '<input type="email" name="login_email" id="login_email" placeholder="Ex: joão@servidor.com" required>'+
+                                                                    '</div>'+
+                                                                  '</div>'+
+                                                                '</li>'+
+                                                                '<li class="item-content">'+
+                                                                  '<div class="item-inner">'+
+                                                                    '<div class="item-title label">Senha</div>'+
+                                                                    '<div class="item-input">'+
+                                                                      '<input type="password" name="login_senha" id="login_senha" placeholder="Ex: *******" required>'+
+                                                                    '</div>'+
+                                                                  '</div>'+
+                                                                '</li>'+
+                                                              '</ul>'+
+                                                            '</div>'+
+                                                            '<div class="list-block">'+
+                                                              '<ul>'+
+                                                                '<li>'+
+                                                                  '<center><button onclick="login();" class="item-link button" style="width: 90%;">Entrar</button></center>'+
+                                                                '</li>'+
+                                                              '</ul>'+
+                                                              '<div class="list-block-label">'+
+                                                                '<p><a href="cadastro.html" class="button">Não possui cadastro? Clique aqui!</a></p>'+
+                                                              '</div>'+
+                                                            '</div>'+
+                                                        '</div>'+
+                                                      '</div>';
 }
 
 function login()
@@ -1038,8 +1075,8 @@ function login()
     }
     else
     {
-      if (localStorage.getItem('idioma') == "eng")
-        myApp.alert("Email or password are wrong.");
+      if (localStorage.getItem('idioma') == "fr")
+        myApp.alert("Email ou mot de passe sont erronés.");
       else
         myApp.alert("Email ou senha não correspondem.");
     }
@@ -1102,7 +1139,7 @@ function select_pontos()
           for(var h=0;h<tipo_lixo_has_ponto.length;h++)
             if(!add && (tipo_lixo[j].id == tipo_lixo_has_ponto[h].tipo_lixo_id))
             {
-             if(localStorage.getItem("idioma") == "eng")
+             if(localStorage.getItem("idioma") == "fr")
                 tipos_lixo += '<li class="item-content"><div class="item-title">'+tipo_lixo[j].nome_eng+'</div></li>';
               else
                 tipos_lixo += '<li class="item-content"><div class="item-title">'+tipo_lixo[j].nome+'</div></li>';
@@ -1110,14 +1147,14 @@ function select_pontos()
             }
         }
         json_dados = ajax_method(false,'endereco.select_by_id',ponto[i].endereco_id);
-        if(localStorage.getItem("idioma") == "eng")
+        if(localStorage.getItem("idioma") == "fr")
           document.getElementById("popups").innerHTML += '<div class="popup popup-ponto_'+ponto[i].id+'">'+
                                                             '<div class="navbar">'+
                                                               '<div class="navbar-inner">'+
                                                                 '<div class="left">'+
                                                                   '<a href="#" class="link icon-only close-popup" id="bc"><i class="icon icon-back"></i></a>'+
                                                                   '<div id="hd">'+
-                                                                    'Trash types of point'+
+                                                                    'Types de déchets de point'+
                                                                   '</div>'+
                                                                 '</div>'+
                                                               '</div>'+
@@ -1156,7 +1193,7 @@ function select_pontos()
         var features = [];
         features["type"] = "mark1";
         features["position"] = new google.maps.LatLng(endereco[0].latitude,endereco[0].longitude);
-        if(localStorage.getItem("idioma") == "eng")
+        if(localStorage.getItem("idioma") == "fr")
           features["info"] = '<div class="list-block">'+
                              '<ul>'+
                                 '<li><div class="item-content"><div class="item-title">'+empresa[0].nome_fantasia+'</div></div></li>'+
@@ -1164,7 +1201,7 @@ function select_pontos()
                                   '<a href="#" class="item-link open-popup" data-popup=".popup-ponto_'+ponto[i].id+'">'+
                                     '<div class="item-content">' +
                                       '<div class="item-inner">'+
-                                        '<div class="item-title">View trash types</div>'+
+                                        '<div class="item-title">Voir les types de déchets</div>'+
                                       '</div>'+
                                    '</div>'+
                                    '</a>'+
@@ -1188,20 +1225,20 @@ function select_pontos()
                               '</ul>';
         if(empresa[0].agendamento == 1)
         {
-          if(localStorage.getItem("idioma") == "eng")
+          if(localStorage.getItem("idioma") == "fr")
             features["info"] += '<p class="buttons-row">'+
-                                  '<a href="agendar.html" onclick="empresa_id='+ponto[i].empresa_id+';ponto_id='+ponto[i].id+'" style="width:100%" class="button button-raised button-fill color-green">Schedule your collection</a>'+
+                                  '<a href="agendar.html" onclick="empresa_id='+ponto[i].empresa_id+';ponto_id='+ponto[i].id+'" style="width:100%" class="button button-raised button-fill color-green">Planifiez votre collection</a>'+
                               '</p>';
           else
             features["info"] += '<p class="buttons-row">'+
                                     '<a href="agendar.html" onclick="empresa_id='+ponto[i].empresa_id+';ponto_id='+ponto[i].id+'" style="width:100%" class="button button-raised button-fill color-green">Agende sua coleta</a>'+
                                 '</p>';
         }
-        if(localStorage.getItem("idioma") == "eng")
+        if(localStorage.getItem("idioma") == "fr")
         {
           features["info"] +='<p class="buttons-row">'+
                                '<a href="#" style="width:100%" class="button button-raised button-fill color-blue" onclick ="calculateAndDisplayRoute'+
-                               '('+endereco[0].latitude+','+endereco[0].longitude+')">Criar rota</a>'+
+                               '('+endereco[0].latitude+','+endereco[0].longitude+')">Créer itinéraire</a>'+
                              '</p>'
                            '</div>';
         }
@@ -1209,7 +1246,7 @@ function select_pontos()
         {
           features["info"] +='<p class="buttons-row">'+
                                '<a href="#" style="width:100%" class="button button-raised button-fill color-blue" onclick ="calculateAndDisplayRoute'+
-                               '('+endereco[0].latitude+','+endereco[0].longitude+')">Create route</a>'+
+                               '('+endereco[0].latitude+','+endereco[0].longitude+')">Criar rota</a>'+
                              '</p>'
                            '</div>';
         }
@@ -1221,8 +1258,8 @@ function select_pontos()
   }
 
   else{
-    if (localStorage.getItem('idioma') == "eng")
-        myApp.alert("We couldn't load the nearest points to you because you haven't added or defined an address as a principal address. Please, do it.");
+    if (localStorage.getItem('idioma') == "fr")
+        myApp.alert("Nous ne pouvions pas charger les points les plus proches de vous parce que vous avez pas ajouté ou défini une adresse comme adresse principale. S'il vous plaît, faites-le.");
       else
         myApp.alert("Não pudemos carregar os pontos próximos a você pois você ainda não adicionou ou definiu um endereço como principal. Por favor faça-o.");    
   }
@@ -1253,7 +1290,10 @@ function criar_tipos_lixo()
     for(var h=0;h<tipo_lixo_has_ponto.length;h++)
       if(!add && (tipo_lixo[i].id == tipo_lixo_has_ponto[h].tipo_lixo_id))
       {
-        html += '<option value='+tipo_lixo[i].id+'>'+tipo_lixo[i].nome+'</option>';
+        if(localStorage.getItem("idioma") == "fr")
+          html += '<option value='+tipo_lixo[i].id+'>'+tipo_lixo[i].nome_eng+'</option>';
+        else
+          html += '<option value='+tipo_lixo[i].id+'>'+tipo_lixo[i].nome+'</option>';
         add = true;
       }
   }
@@ -1269,7 +1309,21 @@ function criar_popover()
   var tipo_lixo = JSON.parse(json_dados);
 
   for(var i=0;i<tipo_lixo.length;i++)
-    html += '<li>'+
+  {
+    if(localStorage.getItem("idioma") == "fr")
+      html += '<li>'+
+                '<label class="label-checkbox item-content">'+
+                  '<input type="checkbox" id="tipo_lixo_'+tipo_lixo[i].id+'"  name="tipo_lixo_'+tipo_lixo[i].id+'" value="'+tipo_lixo[i].id+'">'+
+                  '<div class="item-media">'+
+                    '<i class="icon icon-form-checkbox"></i>'+
+                  '</div>'+
+                  '<div class="item-inner">'+
+                    '<div class="item-title">'+tipo_lixo[i].nome_eng+'</div>'+
+                  '</div>'+
+                '</label>'+
+              '</li>';
+    else
+      html += '<li>'+
               '<label class="label-checkbox item-content">'+
                 '<input type="checkbox" id="tipo_lixo_'+tipo_lixo[i].id+'"  name="tipo_lixo_'+tipo_lixo[i].id+'" value="'+tipo_lixo[i].id+'">'+
                 '<div class="item-media">'+
@@ -1280,6 +1334,7 @@ function criar_popover()
                 '</div>'+
               '</label>'+
             '</li>';
+  }
   html +=   '</ul>';
   component.innerHTML = html;
 }
@@ -1339,8 +1394,8 @@ function codeAddress() {
             document.getElementById( 'long' ).value = results[0].geometry.location.lng();
             adicionar_endereco();
         } else {
-           if (localStorage.getItem('idioma') == "eng")
-              myApp.alert("We couldn't find your location correctly, please, check your data.");
+           if (localStorage.getItem('idioma') == "fr")
+              myApp.alert("Nous ne pouvions pas trouver votre position correctement, s'il vous plaît, vérifiez vos données.");
             else
               myApp.alert('Não podemos encontrar sua localização corretamente, por favor, reveja os dados.');
         }
@@ -1355,8 +1410,8 @@ function codeAddressa() {
             document.getElementById( 'long' ).value = results[0].geometry.location.lng();
             editar_endereco();
         } else {
-            if (localStorage.getItem('idioma') == "eng")
-              myApp.alert("We couldn't find your location correctly, please, check your data.");
+            if (localStorage.getItem('idioma') == "fr")
+              myApp.alert("Nous ne pouvions pas trouver votre position correctement, s'il vous plaît, vérifiez vos données.");
             else
               myApp.alert('Não podemos encontrar sua localização corretamente, por favor, reveja os dados.');
         }
@@ -1380,8 +1435,8 @@ function cadastro()
         mapa_refresh();
       }
       else{
-        if (localStorage.getItem('idioma') == "eng")
-          myApp.alert("Your profile couldn't be created, check your information or your connection please.");
+        if (localStorage.getItem('idioma') == "fr")
+          myApp.alert("Votre profil ne peut être créé, vérifiez vos informations ou votre connexion s'il vous plaît.");
         else
            myApp.alert("Seu perfil não pôde ser criado, reveja suas informações ou sua conexão por favor.");
       }
@@ -1389,8 +1444,8 @@ function cadastro()
     },500);
   }
   else{
-    if (localStorage.getItem('idioma') == "eng")
-      myApp.alert("The passwords are not equal.");
+    if (localStorage.getItem('idioma') == "fr")
+      myApp.alert("Les mots de passe ne sont pas égaux.");
     else
       myApp.alert("Senhas não correspondem!");
 
@@ -1444,8 +1499,8 @@ function editar_endereco()
       }
       else{
         myApp.hidePreloader();
-        if (localStorage.getItem('idioma') == "eng")
-          myApp.alert("We couldn't edit your profile, please, check your connection or data.");
+        if (localStorage.getItem('idioma') == "fr")
+          myApp.alert("Nous ne pouvions pas modifier votre profil, s'il vous plaît, vérifiez votre connexion ou de données.");
         else
           myApp.alert("Não pudemos alterar seu endereço, por favor, reveja sua conexão ou dados.");
       }
@@ -1459,8 +1514,8 @@ function excluir_endereco(id)
     var json_dados = ajax_method(false,'endereco.delete',id);
     if (!json_dados)
     {
-      if (localStorage.getItem('idioma') == "eng")
-        myApp.alert("We couldn't delete your profile, please, check your connection.");
+      if (localStorage.getItem('idioma') == "fr")
+        myApp.alert("Nous ne pouvions pas supprimer votre profil, s'il vous plaît, vérifiez votre connexion.");
       else
         myApp.alert("Não foi possível excluir seu endereço. Por favor, reveja sua conexão.");
     }
@@ -1511,7 +1566,7 @@ function traduzir(page)
         popupCloseByOutside : true,
         actionsCloseByOutside : true
     });
-
+    criar_menu();
     if(page == "addendereco")
     {
       document.getElementById(page+"_nav").innerHTML = "Adicionar Endereço";
@@ -1582,10 +1637,12 @@ function traduzir(page)
       document.getElementById("pac-input").placeholder = "Localidade";
       document.getElementById("index_apagar").innerHTML = "Deletar rota";
       document.getElementById("index_aplicar").innerHTML = "Aplicar";
+      document.getElementById("index_filtros").innerHTML = "Filtros";
     }
     else if(page == "perfil")
     {
       document.getElementById(page+"_nav").innerHTML = "Perfil";
+
       document.getElementById("usuario_nome").placeholder = "Seu nome";
       document.getElementById("usuario_telefone").placeholder = "Telefone";
       document.getElementById("perfil_salvar").innerHTML = "Salvar";
@@ -1606,123 +1663,133 @@ function traduzir(page)
     {
       document.getElementById(page+"_nav").innerHTML = "Endereços";
     }
+    else if(page == "notificacoes")
+    {
+      document.getElementById(page+"_nav").innerHTML = "Notificações";
+    }
   }
   else
   {
     myApp = new Framework7({
-        material: true,
-        pushState: true,
-        animatePages: true,
-        modalTitle: "DescartesLab",
-        modalButtonCancel: "Cancel",
-        modalPreloaderTitle: "Loading...",
-        smartSelectBackText: 'Back',
-        smartSelectPopupCloseText: 'Close',
-        reload: true,
-        smartSelectPickerCloseText: 'Done',
-        swipePanel: "left",
-        swipePanelActiveArea: 20,
-        init: false,
-        preloadPreviousPage: false,
-        uniqueHistory: true,
-        fastclick:false,
-        popupCloseByOutside : true,
-        actionsCloseByOutside : true
+      material: true,
+      pushState: true,
+      animatePages: true,
+      modalTitle: "DescartesLab",
+      modalButtonCancel: "Annuler",
+      modalPreloaderTitle: "Chargement...",
+      smartSelectBackText: 'Arrière',
+      smartSelectPopupCloseText: 'Fermer',
+      reload: true,
+      smartSelectPickerCloseText: 'Terminé',
+      swipePanel: "left",
+      swipePanelActiveArea: 20,
+      init: false,
+      preloadPreviousPage: false,
+      uniqueHistory: true,
+      fastclick:false,
+      popupCloseByOutside : true,
+      actionsCloseByOutside : true
     });
-
+    criar_menu();
     if(page == "addendereco")
     {
-      document.getElementById(page+"_nav").innerHTML = "Add Address";
+      document.getElementById(page+"_nav").innerHTML = "Ajoutez l'adresse";
 
-      document.getElementById("nome").placeholder = "Address name";
-      document.getElementById("rua").placeholder = "Street";
-      document.getElementById("numero").placeholder = "Number";
-      document.getElementById("complemento").placeholder = "Complement";
-      document.getElementById("cep").placeholder = "Postal Code";
-      document.getElementById("bairro").placeholder = "Neighbourhood";
-      document.getElementById("estado").placeholder = "State";
-      document.getElementById("cidade").placeholder = "City";
-      document.getElementById("pais").placeholder = "Country";
+      document.getElementById("nome").placeholder = "Nom de l'adresse";
+      document.getElementById("rua").placeholder = "Rue";
+      document.getElementById("numero").placeholder = "Nombre";
+      document.getElementById("complemento").placeholder = "Complément";
+      document.getElementById("cep").placeholder = "Code postal";
+      document.getElementById("bairro").placeholder = "Quartier";
+      document.getElementById("estado").placeholder = "Etat";
+      document.getElementById("cidade").placeholder = "Ville";
+      document.getElementById("pais").placeholder = "Pays";
     }
     else if(page == "agendamentos")
     {
-      document.getElementById(page+"_nav").innerHTML = "Schedulings";
+      document.getElementById(page+"_nav").innerHTML = "Ordonnancements";
 
-      document.getElementById(page+"_espera").innerHTML = '<i class="fa fa-hourglass-1" style="margin:20px;"></i>  Waiting';
-      document.getElementById(page+"_aceitos").innerHTML = '<i class="fa fa-hourglass-2" style="margin:20px;"></i>  Accepted';
-      document.getElementById(page+"_atrasados").innerHTML = '<i class="fa fa-hourglass-3" style="margin:20px;"></i>  Late';
-      document.getElementById(page+"_realizados").innerHTML = '<i class="fa fa-calendar-check-o" style="margin:20px;"></i>  Accomplished';
-      document.getElementById(page+"_cancelados").innerHTML = '<i class="fa fa-calendar-times-o" style="margin:20px;"></i>  Canceled';
+      document.getElementById(page+"_espera").innerHTML = '<i class="fa fa-hourglass-1" style="margin:20px;"></i>  Attendre';
+      document.getElementById(page+"_aceitos").innerHTML = '<i class="fa fa-hourglass-2" style="margin:20px;"></i>  Accepté';
+      document.getElementById(page+"_atrasados").innerHTML = '<i class="fa fa-hourglass-3" style="margin:20px;"></i>  En retard';
+      document.getElementById(page+"_realizados").innerHTML = '<i class="fa fa-calendar-check-o" style="margin:20px;"></i>  Accompli';
+      document.getElementById(page+"_cancelados").innerHTML = '<i class="fa fa-calendar-times-o" style="margin:20px;"></i>  Annulé';
     }
     else if(page == "agendar")
     {
-      document.getElementById(page+"_nav").innerHTML = "Schedule";
+      document.getElementById(page+"_nav").innerHTML = "Programme";
 
-      document.getElementById("data_agendamento").placeholder = "Pickup date";
-      document.getElementById("horario_agendamento").placeholder = "Pickup time";
-      document.getElementById("quantidade_agendamento").placeholder = "Amount of trash to be picked (Kg)";
-      document.getElementById("agendar_nada_selecionado").innerHTML = "Nothing selected";
-      document.getElementById("agendar_endereco").innerHTML = "Endereço";
-      document.getElementById("agendar_nada_selecionado1").innerHTML = "Nothing selected";
-      document.getElementById("agendar_tipo_lixo").innerHTML = "Trash type";
-      document.getElementById("agendar_cancelar").innerHTML = "Cancel";
-      document.getElementById("agendar_agendar").innerHTML = "Confirm";
+      document.getElementById("data_agendamento").placeholder = "Date de ramassage";
+      document.getElementById("horario_agendamento").placeholder = "Heure de ramassage";
+      document.getElementById("quantidade_agendamento").placeholder = "Quantité de détritus à cueillir (Kg)";
+      document.getElementById("agendar_nada_selecionado").innerHTML = "Rien sélectionné";
+      document.getElementById("agendar_endereco").innerHTML = "Adresse";
+      document.getElementById("agendar_nada_selecionado1").innerHTML = "Rien sélectionné";
+      document.getElementById("agendar_tipo_lixo").innerHTML = "Types de déchets";
+      document.getElementById("agendar_cancelar").innerHTML = "Annuler";
+      document.getElementById("agendar_agendar").innerHTML = "Confirmer";
     }
     else if(page == "altsenha")
     {
-      document.getElementById(page+"_nav").innerHTML = "Change password";
+      document.getElementById(page+"_nav").innerHTML = "Changer le mot de passe";
 
-      document.getElementById("usuario_senha_antiga").placeholder = "Atual password";
-      document.getElementById("usuario_senha1").placeholder = "New password";
-      document.getElementById("usuario_senha2").placeholder = "Repeat the password";
-      document.getElementById("altsenha_cancelar").innerHTML = "Cancel";
-      document.getElementById("altsenha_salvar").innerHTML = "Save";
+      document.getElementById("usuario_senha_antiga").placeholder = "Mot de passe";
+      document.getElementById("usuario_senha1").placeholder = "Nouveau mot de passe";
+      document.getElementById("usuario_senha2").placeholder = "Répéter le mot de passe";
+      document.getElementById("altsenha_cancelar").innerHTML = "Annuler";
+      document.getElementById("altsenha_salvar").innerHTML = "Sauvegarder";
     }
     else if(page == "cadastro")
     {
-      document.getElementById(page+"_nav").innerHTML = "Register";
+      document.getElementById(page+"_nav").innerHTML = "Registre";
 
-      document.getElementById("cadastro_nome").innerHTML = "Name";
+      document.getElementById("cadastro_nome").innerHTML = "Nom";
       document.getElementById("cad_nome").placeholder = "Ex: Jhon Titor";
       document.getElementById("cad_email").placeholder = "Ex: jhon@server.com";
-      document.getElementById("cadastro_senha").innerHTML = "Password";
+      document.getElementById("cadastro_senha").innerHTML = "Passe";
       document.getElementById("cad_senha").placeholder = "Ex: *******";
-      document.getElementById("cadastro_senha_novamente").innerHTML = "Password again";
+      document.getElementById("cadastro_senha_novamente").innerHTML = "Mot de passe";
       document.getElementById("cad_senha2").placeholder = "Ex: *******";
-      document.getElementById("cad_cpf").placeholder = "ex: 12345678911";document.getElementById("cadastro_nome").innerHTML = "";
-      document.getElementById("cadastro_telefone").innerHTML = "Telephone";
+      document.getElementById("cad_cpf").placeholder = "Ex: 12345678911";document.getElementById("cadastro_nome").innerHTML = "";
+      document.getElementById("cadastro_telefone").innerHTML = "Téléphone";
       document.getElementById("cad_telefone").placeholder = "Ex: 554995965584";
-      document.getElementById("cadastro_cadastrar").innerHTML = "Register";
-      document.getElementById("cadastro_login").innerHTML = "Already registered? Click here!";
+      document.getElementById("cadastro_cadastrar").innerHTML = "Registre";
+      document.getElementById("cadastro_login").innerHTML = "Déjà enregistré? Cliquez ici!";
     }
     else if(page == "index")
     {
-      document.getElementById("pac-input").placeholder = "Place";
-      document.getElementById("index_apagar").innerHTML = "Delete route";
-      document.getElementById("index_aplicar").innerHTML = "Apply";
+      document.getElementById("pac-input").placeholder = "Endroit";
+      document.getElementById("index_apagar").innerHTML = "Supprimer l'itinéraire";
+      document.getElementById("index_filtros").innerHTML = "Filtrer par type de corbeille";
+      document.getElementById("index_aplicar").innerHTML = "Appliquer";
     }
     else if(page == "perfil")
     {
-      document.getElementById(page+"_nav").innerHTML = "Profile";
-      document.getElementById("usuario_nome").placeholder = "Your name";
-      document.getElementById("usuario_telefone").placeholder = "Telephone";
-      document.getElementById("perfil_salvar").innerHTML = "Save";
-      document.getElementById("perfil_alterar_senha").innerHTML = "Password update";
+      document.getElementById(page+"_nav").innerHTML = "Profil";
+
+      document.getElementById("usuario_nome").placeholder = "Votre nom";
+      document.getElementById("usuario_telefone").placeholder = "Téléphone";
+      document.getElementById("perfil_salvar").innerHTML = "Sauvegarder";
+      document.getElementById("perfil_alterar_senha").innerHTML = "Mettre à jour de passe";
     }
     else if(page == "sobre")
     {
-      document.getElementById(page+"_nav").innerHTML = "About";
+      document.getElementById(page+"_nav").innerHTML = "Sur";
 
-      document.getElementById("sobre_descricao").innerHTML = "Developed by the team that represents Santa Catarina in the team challenge, in the area of ​​Information and Communication Technology at the 2016 Olimpíada do Conhecimento.";
-      document.getElementById("sobre_membros").innerHTML = "Team members";
-      document.getElementById("sobre_solucoes").innerHTML = "Business Software Solutions";
-      document.getElementById("sobre_infra").innerHTML = "Infrastructure and local area networks";
-      document.getElementById("sobre_solucoes1").innerHTML = "Business Software Solutions";
-      document.getElementById("sobre_gestor").innerHTML = "Project manager";
+      document.getElementById("sobre_descricao").innerHTML = "Développé par l'équipe qui représente Santa Catarina dans le challenge d'équipe, dans le domaine des Technologies de l'Information et de la Communication à l'Olimpíada do Conhecimento 2016.";
+      document.getElementById("sobre_membros").innerHTML = "Membres de l'équipe";
+      document.getElementById("sobre_solucoes").innerHTML = "Logiciels d'affaires";
+      document.getElementById("sobre_infra").innerHTML = "Infrastructure et réseaux locaux";
+      document.getElementById("sobre_solucoes1").innerHTML = "Logiciels d'affaires";
+      document.getElementById("sobre_gestor").innerHTML = "Chef de projet";
     }
     else if(page == "enderecos")
     {
-      document.getElementById(page+"_nav").innerHTML = "Addresses";
+      document.getElementById(page+"_nav").innerHTML = "Adresses";
+    }
+    else if(page == "notificacoes")
+    {
+      document.getElementById(page+"_nav").innerHTML = "Notifications";
     }
   }
 }
