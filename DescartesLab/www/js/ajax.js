@@ -16,7 +16,7 @@ if(localStorage.getItem("idioma") == "fr")
       modalTitle: "DescartesLab",
       modalButtonCancel: "Annuler",
       modalPreloaderTitle: "Chargement...",
-      smartSelectBackText: 'Arrière',
+      smartSelectBackText: 'Retour',
       smartSelectPopupCloseText: 'Fermer',
       reload: true,
       smartSelectPickerCloseText: 'Terminé',
@@ -893,47 +893,42 @@ function criar_menu()
                           '</div>'+
                         '</div></a></li>';
   else
-    panel_html = '<li><a href="index.html" onclick="myApp.closePanel();" class="item-link">'+
-                        '<div class="item-content">' +
-                          '<div class="item-inner">'+
-                            '<div class="item-title">Mapa</div>'+
-                          '</div>'+
-                    '<li><a href="perfil.html" class="item-link" onclick="myApp.closePanel();">'+
-                        '<div class="item-content">' +
-                          '<div class="item-inner">'+
-                            '<div class="item-title">Perfil</div>'+
-                          '</div>'+
-                       ' </div></a></li>'+
-                      '<li><a href="agendamentos.html" class="item-link" onclick="myApp.closePanel();">'+
-                        '<div class="item-content"> '+
-                          '<div class="item-inner">'+
-                            '<div class="item-title">Agendamentos</div>'+
-                          '</div>'+
-                        '</div></a></li>'+
-                    '<li><a href="enderecos.html" class="item-link" onclick="myApp.closePanel();"> '+
-                        '<div class="item-content"> '+
-                          '<div class="item-inner">'+
-                            '<div class="item-title">Endereços</div>'+
-                          '</div>'+
-                        '</div></a></li>'+
-                    '<li><a href="notificacoes.html" class="item-link" onclick="myApp.closePanel();">'+
-                        '<div class="item-content"> '+
-                          '<div class="item-inner">'+
-                            '<div class="item-title">Notificações</div>'+
-                          '</div>'+
-                        '</div></a></li>'+
-                    '<li><a href="sobre.html" class="item-link" onclick="myApp.closePanel();">'+
-                      '<div class="item-content">'+
-                        '<div class="item-inner"> '+
-                          '<div class="item-title">Sobre</div>'+
-                        '</div>'+
-                      '</div></a></li>'+
-                    '<li><a href="#" class="item-link" onclick="logout(); myApp.closePanel();">'+
-                        '<div class="item-content"> '+
-                          '<div class="item-inner">'+
-                            '<div class="item-title">Logout</div>'+
-                          '</div>'+
-                        '</div></a></li>';
+    panel_html = '<li><a href="perfil.html" class="item-link" onclick="myApp.closePanel();">'+
+                    '<div class="item-content">' +
+                      '<div class="item-inner">'+
+                        '<div class="item-title">Perfil</div>'+
+                      '</div>'+
+                   ' </div></a></li>'+
+                  '<li><a href="agendamentos.html" class="item-link" onclick="myApp.closePanel();">'+
+                    '<div class="item-content"> '+
+                      '<div class="item-inner">'+
+                        '<div class="item-title">Agendamentos</div>'+
+                      '</div>'+
+                    '</div></a></li>'+
+                '<li><a href="enderecos.html" class="item-link" onclick="myApp.closePanel();"> '+
+                    '<div class="item-content"> '+
+                      '<div class="item-inner">'+
+                        '<div class="item-title">Endereços</div>'+
+                      '</div>'+
+                    '</div></a></li>'+
+                '<li><a href="notificacoes.html" class="item-link" onclick="myApp.closePanel();">'+
+                    '<div class="item-content"> '+
+                      '<div class="item-inner">'+
+                        '<div class="item-title">Notificações</div>'+
+                      '</div>'+
+                    '</div></a></li>'+
+                '<li><a href="sobre.html" class="item-link" onclick="myApp.closePanel();">'+
+                  '<div class="item-content">'+
+                    '<div class="item-inner"> '+
+                      '<div class="item-title">Sobre</div>'+
+                    '</div>'+
+                  '</div></a></li>'+
+                '<li><a href="#" class="item-link" onclick="logout(); myApp.closePanel();">'+
+                    '<div class="item-content"> '+
+                      '<div class="item-inner">'+
+                        '<div class="item-title">Logout</div>'+
+                      '</div>'+
+                    '</div></a></li>';
   document.getElementById("local_panel").innerHTML = panel_html;
 }
 
@@ -1015,6 +1010,9 @@ function mostrar_tela_login()
                                                               '<div class="list-block-label">'+
                                                                 '<p><a href="cadastro.html" class="button">Pas encore inscrit? Cliquez ici!</a></p>'+
                                                               '</div>'+
+                                                              '<div class="list-block-label">'+
+                                                                '<p><a href="#" class="button" onclick="trocar()">Mudar para Português</a></p>'+
+                                                              '</div>'+
                                                             '</div>'+
                                                         '</div>'+
                                                       '</div>';
@@ -1040,6 +1038,7 @@ function mostrar_tela_login()
                                                                     '</div>'+
                                                                   '</div>'+
                                                                 '</li>'+
+                                                                
                                                               '</ul>'+
                                                             '</div>'+
                                                             '<div class="list-block">'+
@@ -1051,9 +1050,21 @@ function mostrar_tela_login()
                                                               '<div class="list-block-label">'+
                                                                 '<p><a href="cadastro.html" class="button">Não possui cadastro? Clique aqui!</a></p>'+
                                                               '</div>'+
+                                                              '<div class="list-block-label">'+
+                                                                '<p><a href="#" class="button" onclick="trocar();">Passez en français</a></p>'+
+                                                              '</div>'+
                                                             '</div>'+
                                                         '</div>'+
                                                       '</div>';
+}
+
+function trocar()
+{
+  if(localStorage.getItem("idioma") == "fr")
+    localStorage.setItem("idioma","pt");
+  else
+    localStorage.setItem("idioma","fr");
+  mostrar_tela_login();
 }
 
 function login()
@@ -1677,7 +1688,7 @@ function traduzir(page)
       modalTitle: "DescartesLab",
       modalButtonCancel: "Annuler",
       modalPreloaderTitle: "Chargement...",
-      smartSelectBackText: 'Arrière',
+      smartSelectBackText: 'Retour',
       smartSelectPopupCloseText: 'Fermer',
       reload: true,
       smartSelectPickerCloseText: 'Terminé',
