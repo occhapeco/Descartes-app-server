@@ -858,36 +858,42 @@ function criar_menu()
   if(localStorage.getItem("idioma") == "fr")
     panel_html = '<li><a href="perfil.html" onclick="myApp.closePanel();" class="item-link">'+
                         '<div class="item-content">' +
+                          '<div class="item-media"><i class="fa fa-user"></i></div>'+
                           '<div class="item-inner">'+
                             '<div class="item-title">Profil</div>'+
                           '</div>'+
                        ' </div></a></li>'+
                       '<li><a href="agendamentos.html" onclick="myApp.closePanel();" class="item-link">'+
                         '<div class="item-content"> '+
+                          '<div class="item-media"><i class="fa fa-calendar"></i></div>'+
                           '<div class="item-inner">'+
                             '<div class="item-title">Ordonnancements</div>'+
                           '</div>'+
                         '</div></a></li>'+
                     '<li><a href="enderecos.html" onclick="myApp.closePanel();" class="item-link">'+
                         '<div class="item-content"> '+
+                          '<div class="item-media"><i class="fa fa-road"></i></div>'+
                           '<div class="item-inner">'+
                             '<div class="item-title">Adresse</div>'+
                           '</div>'+
                         '</div></a></li>'+
                     '<li><a href="notificacoes.html" onclick="myApp.closePanel();" class="item-link">'+
                         '<div class="item-content"> '+
+                          '<div class="item-media"><i class="fa fa-envelope"></i></div>'+
                           '<div class="item-inner">'+
                             '<div class="item-title">Notifications</div>'+
                           '</div>'+
                         '</div></a></li>'+
                     '<li><a href="sobre.html" class="item-link" onclick="myApp.closePanel();">'+
                       '<div class="item-content">'+
+                        '<div class="item-media"><i class="fa fa-briefcase"></i></div>'+
                         '<div class="item-inner"> '+
                           '<div class="item-title">Sur</div>'+
                         '</div>'+
                       '</div></a></li>'+
                     '<li><a href="#" class="item-link" onclick="logout();myApp.closePanel();" >'+
                         '<div class="item-content"> '+
+                        '<div class="item-media"><i class="fa fa-sign-out"></i></div>'+
                           '<div class="item-inner">'+
                             '<div class="item-title">Déconnecter</div>'+
                           '</div>'+
@@ -895,36 +901,42 @@ function criar_menu()
   else
     panel_html = '<li><a href="perfil.html" class="item-link" onclick="myApp.closePanel();">'+
                     '<div class="item-content">' +
+                        '<div class="item-media"><i class="fa fa-user"></i></div>'+
                       '<div class="item-inner">'+
                         '<div class="item-title">Perfil</div>'+
                       '</div>'+
                    ' </div></a></li>'+
                   '<li><a href="agendamentos.html" class="item-link" onclick="myApp.closePanel();">'+
                     '<div class="item-content"> '+
+                      '<div class="item-media"><i class="fa fa-calendar"></i></div>'+
                       '<div class="item-inner">'+
                         '<div class="item-title">Agendamentos</div>'+
                       '</div>'+
                     '</div></a></li>'+
                 '<li><a href="enderecos.html" class="item-link" onclick="myApp.closePanel();"> '+
                     '<div class="item-content"> '+
+                      '<div class="item-media"><i class="fa fa-road"></i></div>'+
                       '<div class="item-inner">'+
                         '<div class="item-title">Endereços</div>'+
                       '</div>'+
                     '</div></a></li>'+
                 '<li><a href="notificacoes.html" class="item-link" onclick="myApp.closePanel();">'+
                     '<div class="item-content"> '+
+                      '<div class="item-media"><i class="fa fa-envelope"></i></div>'+
                       '<div class="item-inner">'+
                         '<div class="item-title">Notificações</div>'+
                       '</div>'+
                     '</div></a></li>'+
                 '<li><a href="sobre.html" class="item-link" onclick="myApp.closePanel();">'+
                   '<div class="item-content">'+
+                      '<div class="item-media"><i class="fa fa-briefcase"></i></div>'+
                     '<div class="item-inner"> '+
                       '<div class="item-title">Sobre</div>'+
                     '</div>'+
                   '</div></a></li>'+
                 '<li><a href="#" class="item-link" onclick="logout(); myApp.closePanel();">'+
                     '<div class="item-content"> '+
+                      '<div class="item-media"><i class="fa fa-sign-out"></i></div>'+
                       '<div class="item-inner">'+
                         '<div class="item-title">Logout</div>'+
                       '</div>'+
