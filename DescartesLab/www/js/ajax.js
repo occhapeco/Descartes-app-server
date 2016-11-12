@@ -1,5 +1,5 @@
 var xhrTimeout=1000;
-var url='http://192.168.1.138/descarteslab/service/';
+var url='http://descarteslab.sc.senai.br/service/';
 var urn = 'urn:descartes';
 var empresa_id = 0;
 var ponto_id = 0;
@@ -695,7 +695,7 @@ function carregar_enderecos()
     document.getElementById("ulenderecos").innerHTML += html;
     if (localStorage.getItem("lat_padrao")!=endereco[0].latitude && localStorage.getItem("long_padrao")!=endereco[0].longitude)
       if(localStorage.getItem("idioma") == "fr")
-        document.getElementById('bot'+usuario_has_endereco[i].id).innerHTML ='<p><a onclick="seleciona('+usuario_has_endereco[i].id+','+endereco[0].latitude+','+endereco[0].longitude+');" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Définir comme principale/a><p>';
+        document.getElementById('bot'+usuario_has_endereco[i].id).innerHTML ='<p><a onclick="seleciona('+usuario_has_endereco[i].id+','+endereco[0].latitude+','+endereco[0].longitude+');" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Définir comme principale</a><p>';
       else
         document.getElementById('bot'+usuario_has_endereco[i].id).innerHTML ='<p><a onclick="seleciona('+usuario_has_endereco[i].id+','+endereco[0].latitude+','+endereco[0].longitude+');" style="width:90%;margin-left:5%;" class="button button-raised button-fill color-green">Definir como principal</a><p>';
     }
@@ -1005,7 +1005,7 @@ function mostrar_tela_login()
                                                                 '</li>'+
                                                                 '<li class="item-content">'+
                                                                   '<div class="item-inner">'+
-                                                                    '<div class="item-title label">Senha</div>'+
+                                                                    '<div class="item-title label">Passe</div>'+
                                                                     '<div class="item-input">'+
                                                                       '<input type="password" name="login_senha" id="login_senha" placeholder="Ex: *******" required>'+
                                                                     '</div>'+
@@ -1640,22 +1640,20 @@ function traduzir(page)
     }
     else if(page == "cadastro")
     {
-      document.getElementById(page+"_nav").innerHTML = "Cadastro";
-
       document.getElementById("cadastro_nome").innerHTML = "Nome";
       document.getElementById("cad_nome").placeholder = "Ex: João da Silva";
       document.getElementById("cad_email").placeholder = "Ex: joão@servidor.com";
       document.getElementById("cadastro_senha").innerHTML = "Senha";
       document.getElementById("cad_senha").placeholder = "Ex: *******";
-      document.getElementById("cadastro_senha_novamente").innerHTML = "Senha novamente";
+      document.getElementById("cadastro_senha_novamente").innerHTML = "Repita a senha";
       document.getElementById("cad_senha2").placeholder = "Ex: *******";
-      document.getElementById("cad_cpf").placeholder = "ex: 12345678911";document.getElementById("cadastro_nome").innerHTML = "";
+      document.getElementById("cad_cpf").placeholder = "Ex: 12345678911";
       document.getElementById("cadastro_telefone").innerHTML = "Telefone";
       document.getElementById("cad_telefone").placeholder = "Ex: 554995965584";
       document.getElementById("cadastro_cadastrar").innerHTML = "Cadastrar";
       document.getElementById("cadastro_login").innerHTML = "Já possui cadastro? Clique aqui!";
     }
-    else if(page == "index")
+    else if(page == "index" && localStorage.getItem("login_id") != null)
     {
       document.getElementById("pac-input").placeholder = "Localidade";
       document.getElementById("index_apagar").innerHTML = "Deletar rota";
@@ -1764,8 +1762,6 @@ function traduzir(page)
     }
     else if(page == "cadastro")
     {
-      document.getElementById(page+"_nav").innerHTML = "Registre";
-
       document.getElementById("cadastro_nome").innerHTML = "Nom";
       document.getElementById("cad_nome").placeholder = "Ex: Jhon Titor";
       document.getElementById("cad_email").placeholder = "Ex: jhon@server.com";
@@ -1773,13 +1769,13 @@ function traduzir(page)
       document.getElementById("cad_senha").placeholder = "Ex: *******";
       document.getElementById("cadastro_senha_novamente").innerHTML = "Mot de passe";
       document.getElementById("cad_senha2").placeholder = "Ex: *******";
-      document.getElementById("cad_cpf").placeholder = "Ex: 12345678911";document.getElementById("cadastro_nome").innerHTML = "";
+      document.getElementById("cad_cpf").placeholder = "Ex: 12345678911";
       document.getElementById("cadastro_telefone").innerHTML = "Téléphone";
       document.getElementById("cad_telefone").placeholder = "Ex: 554995965584";
       document.getElementById("cadastro_cadastrar").innerHTML = "Registre";
       document.getElementById("cadastro_login").innerHTML = "Déjà enregistré? Cliquez ici!";
     }
-    else if(page == "index")
+    else if(page == "index" && localStorage.getItem("login_id") != null)
     {
       document.getElementById("pac-input").placeholder = "Endroit";
       document.getElementById("index_apagar").innerHTML = "Supprimer l'itinéraire";
