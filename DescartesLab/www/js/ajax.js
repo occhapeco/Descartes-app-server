@@ -1,5 +1,5 @@
 var xhrTimeout=1000;
-var url='http://descarteslab.sc.senai.br/service/';
+var url='http://192.168.1.138/descarteslab/service/';
 var urn = 'urn:descartes';
 var empresa_id = 0;
 var ponto_id = 0;
@@ -946,6 +946,47 @@ function criar_menu()
 
 function mostrar_tela_mapa()
 {
+  if(localStorage.getItem("idioma") == "fr")
+    document.getElementById("index_page").innerHTML = '<div data-page="mapa" class="page navbar-fixed">'+
+                                                      '<div class="navbar" id="ba">'+
+                                                        '<div class="navbar-inner">'+
+                                                          '<div class="left">'+
+                                                            '<a href="#" class="link icon-only open-panel" id="bc"> <i class="icon icon-bars"></i></a>'+
+                                                            '<div class="hddd">'+
+                                                              'DescartesLab'+
+                                                            '</div>'+
+                                                          '</div>'+
+                                                          '<div id="hc" class="right hi">'+
+                                                            '<form data-search-list=".list-block-search" data-search-in=".item-title" class="searchbar searchbar-init">'+
+                                                              '<div class="searchbar-input">'+
+                                                                '<input id="pac-input" class="controls no-fastclick" type="search" placeholder="Localidade" data-tap-disabled="true">'+
+                                                              '</div>'+
+                                                            '</form>'+
+                                                          '</div>'+
+                                                          '<div class="center" style="margin:0!important">'+
+                                                            '<div id="hb" class="hi" onclick="cancela_rota();">'+
+                                                              '<div id="index_apagar">Supprimer l`itinéraire</div>'+
+                                                            '</div>'+
+                                                          '</div>'+
+                                                          '<div class="right">'+
+                                                            '<a onclick="mapa_refresh();" class="link icon-only" id="refresh" style="color:#FFFFFF !important; width:56px !important;">'+
+                                                              '<i class="fa fa-refresh"></i>'+
+                                                            '</a>'+
+                                                            '<a onclick="inverte();" id="searche" class="link icon-only" style="color:#FFFFFF !important; width:56px !important;">'+
+                                                              '<i class="fa fa-search" id="loc"></i>'+
+                                                            '</a>'+
+                                                          '</div>'+
+                                                        '</div>'+
+                                                      '</div>'+
+                                                      '<div class="page-content">'+
+                                                        '<a href="#" class="floating-button open-popover" id="popover-btn">'+
+                                                          '<i class="fa fa-filter"></i>'+
+                                                        '</a>'+
+                                                        '<div id="map"></div>'+
+                                                        '<div id="rightpanel"></div>'+
+                                                      '</div>'+
+                                                    '</div>';
+  else
   document.getElementById("index_page").innerHTML = '<div data-page="mapa" class="page navbar-fixed">'+
                                                       '<div class="navbar" id="ba">'+
                                                         '<div class="navbar-inner">'+
@@ -964,7 +1005,7 @@ function mostrar_tela_mapa()
                                                           '</div>'+
                                                           '<div class="center" style="margin:0!important">'+
                                                             '<div id="hb" class="hi" onclick="cancela_rota();">'+
-                                                              '<div id="index_apagar">Apagar Rota</div>  <i class="fa fa-remove"></i>'+
+                                                              '<div id="index_apagar">Apagar Rota</div>'+
                                                             '</div>'+
                                                           '</div>'+
                                                           '<div class="right">'+
